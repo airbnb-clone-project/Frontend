@@ -1,0 +1,8 @@
+{
+  "tabWidth": 4,
+  "semi": true,
+  "printWidth": 80,
+  "arrowParens": "always",
+  "singleQuote": true,
+  "rangeStart": 0
+}

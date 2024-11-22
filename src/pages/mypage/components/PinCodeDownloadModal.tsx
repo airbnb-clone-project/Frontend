@@ -1,8 +1,6 @@
-interface PinCodeDownloadModalProps {
-    toggleModal: (message: 'pincode') => void; // modal창 toggle 함수
-}
+import ModalLayout from '../../../components/@Modal/ModalLayout';
 
-const PinCodeDownloadModal = ({ toggleModal }: PinCodeDownloadModalProps) => {
+const PinCodeDownloadModal = () => {
     // line 태그 data 리스트
     const lineData: {
         x1: string;
@@ -415,15 +413,18 @@ const PinCodeDownloadModal = ({ toggleModal }: PinCodeDownloadModalProps) => {
     ];
 
     return (
-        <div
-            onClick={() => {
-                toggleModal('pincode');
-            }}
-            className="hover:cursor-zoom-out bg-[rgba(0,0,0,.8)] z-50 fixed w-[100vw] h-[100vh] top-0 left-0 flex items-center justify-center"
+        <ModalLayout
+            modalName="pincode"
+            isBackgroundColor={true}
+            className="hover:cursor-zoom-out z-50"
+            // onClick={() => {
+            //     toggleModal('pincode');
+            // }}
+            // className="hover:cursor-zoom-out bg-[rgba(0,0,0,.8)] z-50 fixed w-[100vw] h-[100vh] top-0 left-0 flex items-center justify-center"
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="cursor-auto pb-6 rounded-[16px] items-center w-[540px] bg-white flex flex-col"
+                className="z-30 relative cursor-auto pb-6 rounded-[16px] items-center w-[540px] bg-white flex flex-col"
             >
                 <h1 className="p-6 text-[28px] font-semibold text-center">
                     핀코드
@@ -527,7 +528,7 @@ const PinCodeDownloadModal = ({ toggleModal }: PinCodeDownloadModalProps) => {
                     핀코드 다운로드
                 </button>
             </div>
-        </div>
+        </ModalLayout>
     );
 };
 

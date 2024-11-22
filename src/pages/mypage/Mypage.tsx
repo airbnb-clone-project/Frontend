@@ -100,13 +100,15 @@ const Mypage = () => {
                     </div>
                 </div>
 
-                {/* 핀코드 다운로드 Modal */}
-                {isModalOpen.pincode && (
-                    <PinCodeDownloadModal toggleModal={toggleModal} />
-                )}
-
                 {/* 저장됨, 생성됨 Tab 중첩 라우팅 */}
                 <Outlet />
+
+                {/* 핀코드 다운로드 Modal */}
+                {isModalOpen.pincode && (
+                    <>
+                        <PinCodeDownloadModal />
+                    </>
+                )}
             </section>
         </body>
     );

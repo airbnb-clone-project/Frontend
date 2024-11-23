@@ -416,21 +416,17 @@ const PinCodeDownloadModal = () => {
         <ModalLayout
             modalName="pincode"
             isBackgroundColor={true}
-            className="hover:cursor-zoom-out z-50"
-            // onClick={() => {
-            //     toggleModal('pincode');
-            // }}
-            // className="hover:cursor-zoom-out bg-[rgba(0,0,0,.8)] z-50 fixed w-[100vw] h-[100vh] top-0 left-0 flex items-center justify-center"
+            className="hover:cursor-zoom-out z-10"
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="z-30 relative cursor-auto pb-6 rounded-[16px] items-center w-[540px] bg-white flex flex-col"
+                className="z-30 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2  cursor-auto pb-6 rounded-[16px] items-center w-[540px] bg-white flex flex-col"
             >
                 <h1 className="p-6 text-[28px] font-semibold text-center">
                     핀코드
                 </h1>
 
-                <div className="w-[230px] h-[230px]">
+                <div className="w-[230px] h-[230px] -mt-3">
                     <svg
                         version="1.1"
                         xmlns="http://www.w3.org/2000/svg"

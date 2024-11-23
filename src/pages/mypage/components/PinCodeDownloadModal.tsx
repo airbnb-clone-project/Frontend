@@ -416,7 +416,7 @@ const PinCodeDownloadModal = () => {
         <ModalLayout
             modalName="pincode"
             isBackgroundColor={true}
-            className="hover:cursor-zoom-out z-10"
+            className="hover:cursor-zoom-out"
         >
             <div
                 onClick={(e) => e.stopPropagation()}

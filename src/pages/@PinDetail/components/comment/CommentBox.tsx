@@ -1,11 +1,10 @@
 import Comment from './Comment';
-import CommentInput from './CommentInput';
 
 import { COMMENTS } from '@/constants/helperText';
 
 const CommentBox = () => {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col h-full">
             <div className="pl-4 mb-5 min-h-[130px]">
                 <div className="my-3">
                     <h2 className="text-black font-semibold">
@@ -21,8 +20,6 @@ const CommentBox = () => {
                     <Comment />
                 </div>
             </div>
-            <div className="flex-1"></div>
-            <CommentInput />
         </div>
     );
 };

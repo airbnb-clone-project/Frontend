@@ -4,7 +4,7 @@ import SendBtn from '../buttons/SendBtn';
 
 const CommentInput = () => {
     return (
-        <div className="flex items-center">
+        <div className="flex items-center py-3 px-8">
             <div id="user_icon" className="w-12 h-12 rounded-full mr-2">
                 <img
                     src="https://i.pinimg.com/75x75_RS/58/f3/34/58f334fd79efbff4c67fe8e508e67c40.jpg"

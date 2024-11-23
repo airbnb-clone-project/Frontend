@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import useModalStore from '../../stores/useModalStore';
+import { twMerge } from 'tailwind-merge';
 
 interface ModalLayoutProps {
     modalName: 'filter' | 'pincode' | 'create';
@@ -19,11 +20,12 @@ const ModalLayout = ({
     return (
         <div
             onClick={() => toggleModal(modalName)}
-            className={
+            className={twMerge(
                 `z-[1] fixed top-0 left-0 w-[100vw] h-[100vh] ${
-                    isBackgroundColor ? 'bg-[rgba(0,0,0,0.1)]' : ''
-                } ` + (className ? ` ${className} !important` : '') // `className`을 마지막에 배치
-            }
+                    isBackgroundColor ? 'bg-[rgba(0,0,0,0.8)]' : ''
+                }`,
+                className // 추가 className 병합
+            )}
         >
             {children}
         </div>

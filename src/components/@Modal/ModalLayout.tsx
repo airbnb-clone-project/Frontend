@@ -4,10 +4,12 @@ import { twMerge } from 'tailwind-merge';
 
 interface ModalLayoutProps {
     modalName:
-        | 'bordCleanup'
+        | 'boardDelete'
+        | 'boardCoverChange'
+        | 'boardCleanup'
         | 'share'
         | 'pinEdit'
-        | 'bordEdit'
+        | 'boardEdit'
         | 'filter'
         | 'pincode'
         | 'create'; // modalName추가시 useModalStore.tsx에도 추가해야함

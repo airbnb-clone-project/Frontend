@@ -2,20 +2,24 @@ import { create } from 'zustand';
 
 interface ModalState {
     isModalOpen: {
-        bordCleanup: boolean;
+        boardDelete: boolean;
+        boardCoverChange: boolean;
+        boardCleanup: boolean;
         share: boolean;
         pinEdit: boolean;
-        bordEdit: boolean;
+        boardEdit: boolean;
         pincode: boolean;
         filter: boolean;
         create: boolean;
     }; // 각 모달에 대한 boolean 상태 관리
     toggleModal: (
         modalName:
-            | 'bordCleanup'
+            | 'boardDelete'
+            | 'boardCoverChange'
+            | 'boardCleanup'
             | 'share'
             | 'pinEdit'
-            | 'bordEdit'
+            | 'boardEdit'
             | 'pincode'
             | 'filter'
             | 'create'
@@ -25,10 +29,12 @@ interface ModalState {
 // Modal창 활성화 여부 store
 const useModalStore = create<ModalState>((set) => ({
     isModalOpen: {
-        bordCleanup: false,
+        boardDelete: false,
+        boardCoverChange: false,
+        boardCleanup: false,
         share: false,
         pinEdit: false,
-        bordEdit: false,
+        boardEdit: false,
         pincode: false, // 기본적으로 모든 모달은 닫힘
         filter: false,
         create: false,

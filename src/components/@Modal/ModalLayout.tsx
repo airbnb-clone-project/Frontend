@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import useModalStore from '../../stores/useModalStore';
 import { twMerge } from 'tailwind-merge';
 
@@ -26,11 +26,23 @@ const ModalLayout = ({
 }: ModalLayoutProps) => {
     const { toggleModal } = useModalStore();
 
+    useEffect(() => {
+        // isBackgroundColor가 true일 경우 scroll이동 불가
+        if (isBackgroundColor) {
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 언마운트될 때 다시 scroll로 변경
+        return () => {
+            document.body.style.overflowY = 'scroll';
+        };
+    }, []);
+
     return (
         <div
             onClick={() => toggleModal(modalName)}
             className={twMerge(
-                `z-[1] fixed top-0 left-0 w-[100vw] h-[100vh] ${
+                `z-[1] fixed top-0 left-0 w-full h-full ${
                     isBackgroundColor ? 'bg-[rgba(0,0,0,0.8)] z-50' : ''
                 }`,
                 className // 추가 className 병합

@@ -1,7 +1,15 @@
+import { Outlet } from 'react-router-dom';
+import SideBar from '../components/@Bar/sidebar/SideBar';
+
 const App = () => {
-  return (
-    <h1 className="text-3xl text-red-400 font-bold underline">Hello world!</h1>
-  );
+    return (
+        <div>
+            <SideBar />
+            <div className="relative pt-20 pl-[72px] w-screen h-screen z-10">
+                <Outlet />
+            </div>
+        </div>
+    );
 };
 
 export default App;

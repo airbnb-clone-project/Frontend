@@ -1,18 +1,10 @@
 import { ReactElement, useEffect } from 'react';
 import useModalStore from '../../stores/useModalStore';
 import { twMerge } from 'tailwind-merge';
+import modalName from '@/types/modalName';
 
 interface ModalLayoutProps {
-    modalName:
-        | 'boardDelete'
-        | 'boardCoverChange'
-        | 'boardCleanup'
-        | 'share'
-        | 'pinEdit'
-        | 'boardEdit'
-        | 'filter'
-        | 'pincode'
-        | 'create'; // modalName추가시 useModalStore.tsx에도 추가해야함
+    modalName: modalName; // modalName추가시 useModalStore.tsx에도 추가해야함
     children?: ReactElement; // 자식 element
     isBackgroundColor?: boolean; // 배경색 여부
     className?: string;

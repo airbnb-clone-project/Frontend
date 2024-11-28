@@ -91,7 +91,7 @@ const Mypage = () => {
                     className="sticky top-[-1px] bg-white z-20 gap-[24px] flex items-center text-[#111111] font-semibold h-[61px] w-full justify-center"
                 >
                     <div
-                        className={`rounded-[8px] px-[8px] py-[8px] ${
+                        className={`active:scale-95 rounded-[8px] px-[8px] py-[8px] ${
                             isActive('/mypage/created')
                                 ? ''
                                 : 'hover:bg-[#ebebeb]'
@@ -109,7 +109,7 @@ const Mypage = () => {
                         </Link>
                     </div>
                     <div
-                        className={`sticky z-10 rounded-[8px] px-[8px] py-[8px] ${
+                        className={`active:scale-95 sticky z-10 rounded-[8px] px-[8px] py-[8px] ${
                             isActive('/mypage') ? '' : 'hover:bg-[#ebebeb]'
                         }`}
                     >

@@ -35,7 +35,9 @@ const ModalLayout = ({
             onClick={() => toggleModal(modalName)}
             className={twMerge(
                 `z-[1] fixed top-0 left-0 w-full h-full ${
-                    isBackgroundColor ? 'bg-[rgba(0,0,0,0.8)] z-50' : ''
+                    isBackgroundColor
+                        ? 'bg-[rgba(0,0,0,0.8)] z-50 cursor-zoom-out'
+                        : ''
                 }`,
                 className // 추가 className 병합
             )}

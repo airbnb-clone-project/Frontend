@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import Masonry from 'react-masonry-css';
 import PencilIcon from '@/components/icons/PencilIcon';
 import ShareIcon from '@/components/icons/ShareIcon';
+import useModalStore from '@/stores/useModalStore';
+import BoardMoveModal from './BoardMoveModal';
+import MasonryList from '@/components/common/MasonryList';
 
 const UnorganizedIdea = () => {
     const sample: string[] = [
@@ -20,28 +22,25 @@ const UnorganizedIdea = () => {
         'https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg',
     ];
 
-    const breakpoints = {
-        default: 7, // 기본 4열
-        1746: 6,
-        1500: 5,
-        1272: 4,
-        1035: 3, // 화면 너비가 1135px 이하일 때 3열
-        799: 2, // 화면 너비가 799px 이하일 때 2열
-    };
+    const { isModalOpen, toggleModal } = useModalStore();
     return (
         <section className="px-2">
             <div className="px-3 flex justify-between items-center">
                 <h3 className="text-[20px] font-semibold">
                     정리되지 않은 아이디어
                 </h3>
-                <button className="hover:bg-[#d8d8d8] py-2 px-3 bg-[#e9e9e9] rounded-3xl font-semibold">
+                <button
+                    onClick={() => toggleModal('boardCleanup')}
+                    className="hover:bg-[#d8d8d8] py-2 px-3 bg-[#e9e9e9] rounded-3xl font-semibold"
+                >
                     정리하기
                 </button>
             </div>
 
-            {/* <div className="px-2 [column-width:350px] column-count-4 gap-4"> */}
-            <Masonry
-                breakpointCols={breakpoints}
+            <MasonryList
+                minCol={2}
+                minWidth={200}
+                sideWidth={32}
                 className="masonry-containe list flex gap-4 px-2"
                 columnClassName="masonry-column"
             >
@@ -49,12 +48,12 @@ const UnorganizedIdea = () => {
                     <Link
                         to={''}
                         key={i}
-                        className="mb-2 relative group inline-block"
+                        className="w-full mb-2 relative group inline-block"
                     >
                         <img
                             src={v}
                             alt={`Sample ${i}`}
-                            className="rounded-2xl"
+                            className="w-full rounded-2xl"
                         />
                         {/* Hover 효과 */}
                         <div className="rounded-2xl z-10 inset-0 top-0 left-0 absolute bg-[rgba(0,0,0,0.4)] hidden group-hover:block">
@@ -79,7 +78,9 @@ const UnorganizedIdea = () => {
                         </div>
                     </Link>
                 ))}
-            </Masonry>
+            </MasonryList>
+
+            {isModalOpen.boardMove && <BoardMoveModal />}
         </section>
     );
 };

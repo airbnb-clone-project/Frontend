@@ -1,4 +1,7 @@
 type modalName =
+    | 'boardMove'
+    | 'boardCreate'
+    | 'boardImgResize'
     | 'boardDelete'
     | 'boardCoverChange'
     | 'boardCleanup'

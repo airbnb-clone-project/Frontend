@@ -1,17 +1,28 @@
 import { useState } from 'react';
 import Overlay from './overlay/Overlay';
+import useModalStore from '../../../../stores/useModalStore';
 
 const ImageBox = ({
     image,
     itemWidth,
+    index,
 }: {
     image: string;
     itemWidth: number;
+    index: number;
 }) => {
     const [hoverBox, setHoverBox] = useState(false);
-
+    const { id, isActiveButton } = useModalStore();
     const handelHoverBox = (bol: boolean) => {
         setHoverBox(bol);
+    };
+
+    const isActive = () => {
+        return (
+            isActiveButton['profile'] ||
+            isActiveButton['recommendPin'] ||
+            isActiveButton['share']
+        );
     };
 
     return (
@@ -22,7 +33,9 @@ const ImageBox = ({
                 onMouseEnter={() => handelHoverBox(true)}
                 onMouseLeave={() => handelHoverBox(false)}
             >
-                {hoverBox && <Overlay handelHoverBox={handelHoverBox} />}
+                {(hoverBox || (id === index && isActive())) && (
+                    <Overlay handelHoverBox={handelHoverBox} index={index} />
+                )}
                 <img
                     src={image}
                     alt="이미지"

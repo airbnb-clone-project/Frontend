@@ -53,18 +53,18 @@ const ShowImages = () => {
 
     return (
         <div ref={gridRef} className="ml-4">
-            <ImageBox image={image1} itemWidth={itemWidth} />
-            <ImageBox image={image2} itemWidth={itemWidth} />
-            <ImageBox image={image3} itemWidth={itemWidth} />
-            <ImageBox image={image1} itemWidth={itemWidth} />
-            <ImageBox image={image2} itemWidth={itemWidth} />
-            <ImageBox image={image3} itemWidth={itemWidth} />
-            <ImageBox image={image1} itemWidth={itemWidth} />
-            <ImageBox image={image2} itemWidth={itemWidth} />
-            <ImageBox image={image3} itemWidth={itemWidth} />
-            <ImageBox image={image1} itemWidth={itemWidth} />
-            <ImageBox image={image2} itemWidth={itemWidth} />
-            <ImageBox image={image3} itemWidth={itemWidth} />
+            <ImageBox image={image1} itemWidth={itemWidth} index={1} />
+            <ImageBox image={image2} itemWidth={itemWidth} index={2} />
+            <ImageBox image={image3} itemWidth={itemWidth} index={3} />
+            <ImageBox image={image1} itemWidth={itemWidth} index={4} />
+            <ImageBox image={image2} itemWidth={itemWidth} index={5} />
+            <ImageBox image={image3} itemWidth={itemWidth} index={6} />
+            <ImageBox image={image1} itemWidth={itemWidth} index={7} />
+            <ImageBox image={image2} itemWidth={itemWidth} index={8} />
+            <ImageBox image={image3} itemWidth={itemWidth} index={9} />
+            <ImageBox image={image1} itemWidth={itemWidth} index={10} />
+            <ImageBox image={image2} itemWidth={itemWidth} index={11} />
+            <ImageBox image={image3} itemWidth={itemWidth} index={12} />
         </div>
     );
 };

@@ -1,58 +1,62 @@
-import { FaAngleDown } from 'react-icons/fa';
-import { LuUpload } from 'react-icons/lu';
-import { IoIosMore } from 'react-icons/io';
-import Button from '../../common/Button';
+import { useRef, useState } from 'react';
+import OverlayBottom from './overlaybottom/OverlayBottom';
+import OverlayHeader from './overlayheader/OverlayHeader';
+import useModalStore from '../../../../../stores/useModalStore';
+import overlayName from '../../../../../types/overlayName';
+
+export interface IOverlay {
+    activeId: {
+        key: overlayName | null;
+        bol: boolean;
+    };
+    handleClick: (key: overlayName) => void;
+    handleRef: (node: HTMLDivElement | null) => void;
+}
 
 const Overlay = ({
     handelHoverBox,
+    index,
 }: {
     handelHoverBox: (bol: boolean) => void;
+    index: number;
 }) => {
+    const [activeId, setActiveId] = useState<{
+        key: overlayName | null;
+        bol: boolean;
+    }>({
+        key: null,
+        bol: false,
+    });
+    const activeRef = useRef<HTMLDivElement | null>(null);
+    const { activeButton, setId } = useModalStore();
+
+    const handleClick = (key: overlayName) => {
+        if (activeId.key === key) {
+            setActiveId({ key, bol: !activeId.bol });
+            activeButton(key, !activeId.bol);
+        } else {
+            setActiveId({ key, bol: true });
+            activeButton(key, true);
+        }
+        setId(index);
+    };
+
+    const handleRef = (node: HTMLDivElement | null) => {
+        activeRef.current = node;
+    };
+
     return (
         <div onMouseEnter={() => handelHoverBox(true)}>
-            <div className="absolute top-0 text-white w-full p-3 z-10">
-                <div className="flex flex-row gap-1">
-                    <div className="flex-auto box-border h-12 w-full">
-                        <Button>
-                            <div className="min-w-[60px] px-4 py-3">
-                                <div className="flex flex-row items-center">
-                                    <div className="mx-1">프로필</div>
-                                    <FaAngleDown
-                                        className="mx-1"
-                                        color="white"
-                                    />
-                                </div>
-                            </div>
-                        </Button>
-                    </div>
-                    <Button
-                        className="flex justify-center items-center min-w-[60px] h-12 px-4 py-3 flex-grow-0 flex-shrink-0 basis-auto"
-                        bgColor="bg-red-500"
-                    >
-                        <div className="text-center">저장</div>
-                    </Button>
-                </div>
-            </div>
-            <div className="absolute bottom-0 w-full z-10">
-                <div className="flex-grow-0 flex-shrink-0 basis-auto p-3">
-                    <div className="flex flex-row items-center justify-end">
-                        <div className="mx-1">
-                            <Button bgColor="bg-white">
-                                <div className="flex justify-center items-center w-8 h-8">
-                                    <LuUpload />
-                                </div>
-                            </Button>
-                        </div>
-                        <div className="mx-1">
-                            <Button bgColor="bg-white">
-                                <div className="flex justify-center items-center w-8 h-8">
-                                    <IoIosMore />
-                                </div>
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <OverlayHeader
+                activeId={activeId}
+                handleRef={handleRef}
+                handleClick={handleClick}
+            />
+            <OverlayBottom
+                activeId={activeId}
+                handleRef={handleRef}
+                handleClick={handleClick}
+            />
         </div>
     );
 };

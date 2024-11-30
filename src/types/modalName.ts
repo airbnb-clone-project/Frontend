@@ -1,4 +1,5 @@
 type modalName =
+    | 'addParticipants'
     | 'boardMove'
     | 'boardCreate'
     | 'boardImgResize'

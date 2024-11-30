@@ -9,6 +9,10 @@ interface ModalState {
 }
 
 const initialModalState: isModalOpen = {
+    addParticipants: false,
+    boardMove: false,
+    boardCreate: false,
+    boardImgResize: false,
     boardDelete: false,
     boardCoverChange: false,
     boardCleanup: false,

@@ -1,4 +1,6 @@
+import { useIntersectionWithTopCheck } from '@/hooks/useIntersectionWithTopCheck';
 import ModalLayout from '../../../components/@Modal/ModalLayout';
+import { useRef } from 'react';
 
 interface FilterModalProps {
     // 필터 변경 함수
@@ -11,10 +13,20 @@ const FilterModal = ({
     filterItemOnClick,
     currentFilter,
 }: FilterModalProps) => {
+    const filterModalRef = useRef<HTMLDivElement>(null);
+
+    // Hook 사용
+    useIntersectionWithTopCheck({
+        modalRef: filterModalRef,
+        threshold: 1.0,
+        modalName: 'filter',
+    });
+
     return (
         <>
             <ModalLayout modalName={'filter'}></ModalLayout>
             <div
+                ref={filterModalRef}
                 style={{
                     boxShadow: '0px 0px 8px 0px rgba(0, 0, 0, 0.1)',
                 }}

@@ -1,36 +1,20 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import useModalStore from '../../stores/useModalStore';
 import PinCodeDownloadModal from './components/PinCodeDownloadModal';
-import { useEffect } from 'react';
+import { useRef } from 'react';
+import useStickyShadow from '@/hooks/useStickyShadow';
 // import { useEffect, useRef, useState } from 'react';
 
 const Mypage = () => {
     const location = useLocation();
 
+    const downShadow = useRef<HTMLDivElement | null>(null);
+
     const { isModalOpen, toggleModal } = useModalStore();
 
     const isActive = (path: string) => location.pathname === path;
 
-    useEffect(() => {
-        // 1. 'sticky-ui'라는 ID를 가진 DOM 요소를 선택하여 el 변수에 저장
-        const el = document.querySelector('#sticky-ui');
-
-        // 2. IntersectionObserver를 생성
-        const observer = new IntersectionObserver(
-            ([e]) =>
-                // 3. 요소의 교차 상태에 따라 클래스를 토글 (요소가 화면에 완전히 보이지 않으면 그림자를 추가)
-                e.target.classList.toggle(
-                    'shadow-[0_4px_5px_rgba(0,0,0,0.1)]', // 그림자 스타일을 클래스에 추가
-                    e.intersectionRatio < 1 // intersectionRatio가 1보다 작은 경우 그림자를 추가
-                ),
-            { threshold: [1] } // threshold를 1로 설정, 요소가 100% 보일 때만 'isIntersecting'이 true
-        );
-
-        // 4. el이 존재하는 경우에만 observer.observe(el)를 호출하여 해당 요소를 감지하도록 설정
-        if (el) {
-            observer.observe(el); // el이 null이 아닌 경우, 해당 요소에 대해 IntersectionObserver를 적용
-        }
-    }, []);
+    useStickyShadow(downShadow, 'down');
 
     return (
         <body className="flex">
@@ -87,7 +71,7 @@ const Mypage = () => {
 
                 {/* 생성됨, 저장됨 Tab Button*/}
                 <div
-                    id="sticky-ui"
+                    ref={downShadow}
                     className="sticky top-[-1px] bg-white z-20 gap-[24px] flex items-center text-[#111111] font-semibold h-[61px] w-full justify-center"
                 >
                     <div

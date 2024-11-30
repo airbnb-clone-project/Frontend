@@ -14,7 +14,7 @@ const Mypage = () => {
 
     const isActive = (path: string) => location.pathname === path;
 
-    useStickyShadow(downShadow, 'down');
+    useStickyShadow(downShadow);
 
     return (
         <body className="flex">

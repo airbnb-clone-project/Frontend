@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 
-const useStickyShadow = (
-    ref: React.RefObject<HTMLElement>,
-    direction: 'up' | 'down'
-) => {
+const useStickyShadow = (ref: React.RefObject<HTMLElement>) => {
     useEffect(() => {
         const element = ref.current;
 
@@ -11,11 +8,8 @@ const useStickyShadow = (
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                console.log('실행');
                 element.classList.toggle(
-                    direction === 'up'
-                        ? 'shadow-[0_-4px_5px_rgba(0,0,0,0.1)]'
-                        : 'shadow-[0_4px_5px_rgba(0,0,0,0.1)]',
+                    'shadow-[0_4px_5px_rgba(0,0,0,0.1)]',
                     entry.intersectionRatio < 1
                 );
             },

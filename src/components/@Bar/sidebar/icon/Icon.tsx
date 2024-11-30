@@ -18,8 +18,6 @@ const Icon = ({
 
     const handleClickIcon = () => {
         setActiveIcon(index);
-        if (!item.main) {
-        }
     };
 
     const handleHoverIcon = (bol: boolean) => {

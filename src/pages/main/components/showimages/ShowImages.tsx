@@ -5,16 +5,13 @@ import image1 from '../김마야님_배경투명화.png';
 import image2 from '../윙푸님_투명배경.png';
 import image3 from '../73_20200831140305.png';
 
-// 844 1096 1348 1600
-//756 1008 1260 1512
-
 const ShowImages = () => {
     const gridRef = useRef<HTMLDivElement>(null);
     const [itemWidth, setItemWidth] = useState<number>(236);
     const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
     const calcItemWidth = () => {
-        const windowWidth = window.innerWidth - 88;
+        const windowWidth = window.innerWidth - 104;
         const col = Math.floor(windowWidth / 252);
         const boxWidth = windowWidth / col - 16;
 
@@ -52,7 +49,7 @@ const ShowImages = () => {
     }, [itemWidth]);
 
     return (
-        <div ref={gridRef} className="ml-4">
+        <div ref={gridRef} className="mx-4">
             <ImageBox image={image1} itemWidth={itemWidth} index={1} />
             <ImageBox image={image2} itemWidth={itemWidth} index={2} />
             <ImageBox image={image3} itemWidth={itemWidth} index={3} />

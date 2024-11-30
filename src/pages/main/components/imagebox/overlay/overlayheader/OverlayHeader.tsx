@@ -1,4 +1,4 @@
-import { FaAngleDown } from 'react-icons/fa';
+import { FaAngleDown } from 'react-icons/fa6';
 import Button from '../../../common/Button';
 import { IOverlay } from '../Overlay';
 

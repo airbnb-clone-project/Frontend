@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react';
 import OverlayBottom from './overlaybottom/OverlayBottom';
 import OverlayHeader from './overlayheader/OverlayHeader';
-import useModalStore from '../../../../../stores/useModalStore';
 import overlayName from '../../../../../types/overlayName';
+import useOverlayHook from '@/hooks/useOverlayHook';
 
 export interface IOverlay {
     activeId: {
@@ -20,31 +19,7 @@ const Overlay = ({
     handelHoverBox: (bol: boolean) => void;
     index: number;
 }) => {
-    const [activeId, setActiveId] = useState<{
-        key: overlayName | null;
-        bol: boolean;
-    }>({
-        key: null,
-        bol: false,
-    });
-    const activeRef = useRef<HTMLDivElement | null>(null);
-    const { activeButton, setId } = useModalStore();
-
-    const handleClick = (key: overlayName) => {
-        if (activeId.key === key) {
-            setActiveId({ key, bol: !activeId.bol });
-            activeButton(key, !activeId.bol);
-        } else {
-            setActiveId({ key, bol: true });
-            activeButton(key, true);
-        }
-        setId(index);
-    };
-
-    const handleRef = (node: HTMLDivElement | null) => {
-        activeRef.current = node;
-    };
-
+    const { activeId, handleRef, handleClick } = useOverlayHook(index);
     return (
         <div onMouseEnter={() => handelHoverBox(true)}>
             <OverlayHeader

@@ -1,6 +1,6 @@
 import useModalStore from '@/stores/useModalStore';
 import overlayName from '@/types/overlayName';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const useOverlayHook = (index: number) => {
     const [activeId, setActiveId] = useState<{
@@ -11,7 +11,7 @@ const useOverlayHook = (index: number) => {
         bol: false,
     });
     const activeRef = useRef<HTMLDivElement | null>(null);
-    const { activeButton, setId } = useModalStore();
+    const { activeButton, initActiveButton, setId } = useModalStore();
 
     const handleClick = (key: overlayName) => {
         if (activeId.key === key) {
@@ -27,6 +27,27 @@ const useOverlayHook = (index: number) => {
     const handleRef = (node: HTMLDivElement | null) => {
         activeRef.current = node;
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const clickedElement = event.target as HTMLElement;
+            if (
+                activeRef.current &&
+                !activeRef.current.contains(clickedElement) &&
+                clickedElement.dataset.ignore
+            ) {
+                console.log(clickedElement.dataset.ignore);
+                initActiveButton();
+            }
+        };
+
+        document.addEventListener('mouseup', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mouseup', handleClickOutside);
+        };
+    }, [initActiveButton]);
+
     return { activeId, handleClick, handleRef };
 };
 

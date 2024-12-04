@@ -1,7 +1,14 @@
-const FocusModal = () => {
+const FocusModal = ({
+    handleFocus,
+}: {
+    handleFocus: (bol: boolean) => void;
+}) => {
     return (
         <>
-            <div className="fixed left-0 w-full h-full bg-black z-[59] opacity-20"></div>
+            <div
+                className="fixed left-0 w-full h-full bg-black z-[59] opacity-20"
+                onClick={() => handleFocus(false)}
+            ></div>
             <div
                 className="fixed left-[72px] pt-8 pb-6 w-[calc(100%-144px)] max-h-[calc(100%-90px)] top-[68px] bg-white z-[59] rounded-b-xl overflow-y-auto"
                 style={{ scrollbarWidth: 'none' }}

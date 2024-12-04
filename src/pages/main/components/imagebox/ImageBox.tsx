@@ -28,7 +28,7 @@ const ImageBox = ({
     return (
         <>
             <div
-                className="relative grid-item flex justify-center items-center rounded-xl bg-white overflow-hidden mb-4 cursor-pointer font-bold"
+                className="relative grid-item flex justify-center items-center rounded-xl bg-white mb-4 cursor-pointer font-bold"
                 style={{ width: `${itemWidth}px` }}
                 onMouseEnter={() => handelHoverBox(true)}
                 onMouseLeave={() => handelHoverBox(false)}
@@ -39,8 +39,8 @@ const ImageBox = ({
                 <img
                     src={image}
                     alt="이미지"
-                    className={`w-full bg-[#F5F5F5] ${
-                        hoverBox && 'brightness-[.70]'
+                    className={`w-full bg-[#F5F5F5] z-0 rounded-xl ${
+                        hoverBox ? 'brightness-[.70]' : ''
                     }`}
                 />
             </div>

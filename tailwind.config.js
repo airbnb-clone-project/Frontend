@@ -4,10 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        black: "#111",
+        black: '#111',
       },
       fontFamily: {
-        Pretendard: ["Pretendard"],
+        Pretendard: ['Pretendard'],
+      },
+      boxShadow: {
+        'custom-modal': '0 0 3px 1px rgba(0,0,0,0.2)',
       },
     },
   },

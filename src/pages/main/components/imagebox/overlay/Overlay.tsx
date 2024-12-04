@@ -21,7 +21,7 @@ const Overlay = ({
 }) => {
     const { activeId, handleRef, handleClick } = useOverlayHook(index);
     return (
-        <div onMouseEnter={() => handelHoverBox(true)}>
+        <div onMouseEnter={() => handelHoverBox(true)} className="z-10">
             <OverlayHeader
                 activeId={activeId}
                 handleRef={handleRef}

@@ -10,6 +10,7 @@ interface ModalState {
     toggleModal: (modalName: modalName) => void; // 모달을 토글하는 함수
     isActiveButton: isActiveButton;
     activeButton: (overlayName: overlayName, bol: boolean) => void;
+    initActiveButton: () => void;
     id: number;
     setId: (id: number) => void;
 }
@@ -50,6 +51,12 @@ const useModalStore = create<ModalState>((set) => ({
             isActiveButton: {
                 ...initialAcitveButton,
                 [overlayName]: bol,
+            },
+        }),
+    initActiveButton: () =>
+        set({
+            isActiveButton: {
+                ...initialAcitveButton,
             },
         }),
     id: 0,

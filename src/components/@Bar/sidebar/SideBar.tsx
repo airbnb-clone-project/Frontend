@@ -54,7 +54,7 @@ const settingItems: MenuItem = {
 
 const SideBar = () => {
     return (
-        <div className="fixed w-[72px] h-full left-0 flex items-center flex-col border-r-[1px] z-50">
+        <div className="fixed w-[72px] h-full left-0 flex items-center flex-col border-r-[1px] z-50 bg-white">
             <div className="h-full py-4 flex flex-col justify-between">
                 <div className="flex flex-col gap-6">
                     {menuItems.map((item, index) => (

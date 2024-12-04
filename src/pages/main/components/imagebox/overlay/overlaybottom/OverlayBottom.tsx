@@ -5,7 +5,7 @@ import { IOverlay } from '../Overlay';
 
 const OverlayBottom = ({ activeId, handleRef, handleClick }: IOverlay) => {
     return (
-        <div className="absolute bottom-0 w-full z-10">
+        <div className="absolute bottom-0 w-full">
             <div className="flex-grow-0 flex-shrink-0 basis-auto p-3">
                 <div className="flex flex-row items-center justify-end">
                     <OverlayBottomIcon
@@ -13,6 +13,7 @@ const OverlayBottom = ({ activeId, handleRef, handleClick }: IOverlay) => {
                         handleRef={handleRef}
                         handleClick={handleClick}
                         overlayName={'share'}
+                        className="w-[411px] h-[434px]"
                     >
                         <LuUpload />
                     </OverlayBottomIcon>
@@ -21,6 +22,7 @@ const OverlayBottom = ({ activeId, handleRef, handleClick }: IOverlay) => {
                         handleRef={handleRef}
                         handleClick={handleClick}
                         overlayName={'recommendPin'}
+                        className="w-[336px] h-[164px]"
                     >
                         <IoIosMore />
                     </OverlayBottomIcon>

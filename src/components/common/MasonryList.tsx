@@ -1,10 +1,10 @@
-import { ReactElement, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-css';
 
 interface MasonryListPops {
     minWidth: number;
     sideWidth: number;
-    children?: ReactElement[]; // 자식 element
+    children?: ReactNode; // 자식 element
     minCol: number;
     className?: string;
     columnClassName?: string;
@@ -32,8 +32,6 @@ const MasonryList = ({
         if (containerRef.current) {
             const windowWidth =
                 containerRef.current.getBoundingClientRect().width - sideWidth;
-            // const windowWidth = window.innerWidth - sideWidth;
-            console.log(containerRef.current.getBoundingClientRect().width);
             return Math.floor(windowWidth / minWidth);
         }
         return 0;
@@ -55,12 +53,7 @@ const MasonryList = ({
 
     const containerRef = useRef<HTMLDivElement | null>(null); // 부모 div에 대한 ref
     return (
-        <div
-            ref={containerRef}
-            className="w-auto"
-            // style={{ width: `calc(100% - ${sideWidth})` }}
-        >
-            {/* 부모 div에 ref 할당 */}
+        <div ref={containerRef} className="w-auto">
             <Masonry
                 breakpointCols={breakpoints}
                 style={style}

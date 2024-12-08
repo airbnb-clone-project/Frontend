@@ -9,6 +9,9 @@ interface ModalState {
 }
 
 const initialModalState: isModalOpen = {
+    thisPinEdit: false,
+    boardSelect: false,
+    createPinEdit: false,
     addParticipants: false,
     boardMove: false,
     boardCreate: false,

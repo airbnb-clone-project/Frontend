@@ -1,4 +1,7 @@
 type modalName =
+    | 'thisPinEdit'
+    | 'boardSelect'
+    | 'createPinEdit'
     | 'addParticipants'
     | 'boardMove'
     | 'boardCreate'

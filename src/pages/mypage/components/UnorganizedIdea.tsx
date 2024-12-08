@@ -4,6 +4,7 @@ import ShareIcon from '@/components/icons/ShareIcon';
 import useModalStore from '@/stores/useModalStore';
 import BoardMoveModal from './BoardMoveModal';
 import MasonryList from '@/components/common/MasonryList';
+import ThisPinEditModal from './ThisPinEditModal';
 
 const UnorganizedIdea = () => {
     const sample: string[] = [
@@ -39,7 +40,7 @@ const UnorganizedIdea = () => {
 
             <MasonryList
                 minCol={2}
-                minWidth={200}
+                minWidth={240}
                 sideWidth={32}
                 className="masonry-containe list flex gap-4 px-2"
                 columnClassName="masonry-column"
@@ -56,13 +57,14 @@ const UnorganizedIdea = () => {
                             className="w-full rounded-2xl"
                         />
                         {/* Hover 효과 */}
-                        <div className="rounded-2xl z-10 inset-0 top-0 left-0 absolute bg-[rgba(0,0,0,0.4)] hidden group-hover:block">
+                        <div className="pointer-events-none rounded-2xl z-10 inset-0 top-0 left-0 absolute bg-[rgba(0,0,0,0.4)] hidden group-hover:block">
                             <div
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     e.preventDefault();
+                                    toggleModal('thisPinEdit');
                                 }}
-                                className="pointer-events-auto hover:bg-[#e2e2e2] items-center flex z-20 absolute right-12 bottom-3 justify-center flex w-8 h-8 rounded-full bg-white"
+                                className="pointer-events-auto hover:bg-[#e2e2e2] items-center z-20 absolute right-12 bottom-3 justify-center flex w-8 h-8 rounded-full bg-white"
                             >
                                 <PencilIcon />
                             </div>
@@ -71,7 +73,7 @@ const UnorganizedIdea = () => {
                                     e.stopPropagation();
                                     e.preventDefault();
                                 }}
-                                className="pointer-events-auto hover:bg-[#e2e2e2] items-center flex z-20 absolute right-2 bottom-3 justify-center flex w-8 h-8 rounded-full bg-white"
+                                className="pointer-events-auto hover:bg-[#e2e2e2] items-center z-20 absolute right-2 bottom-3 justify-center flex w-8 h-8 rounded-full bg-white"
                             >
                                 <ShareIcon />
                             </div>
@@ -81,6 +83,7 @@ const UnorganizedIdea = () => {
             </MasonryList>
 
             {isModalOpen.boardMove && <BoardMoveModal />}
+            {isModalOpen.thisPinEdit && <ThisPinEditModal />}
         </section>
     );
 };

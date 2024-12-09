@@ -1,10 +1,11 @@
 import ModalLayout from '@/components/@Modal/ModalLayout';
 import LeftArrowIcon from '@/components/icons/LeftArrowIcon';
-import LockIcon from '@/components/icons/LockIcon';
 import PlusIcon from '@/components/icons/PlusIcon';
 import XIcon from '@/components/icons/XIcon';
 import useModalStore from '@/stores/useModalStore';
 import { useState } from 'react';
+import AllBoardList from './AllBoardList';
+import SuggestionBoardList from './SuggestionBoardList';
 
 const BoardMoveModal = () => {
     const { toggleModal } = useModalStore();
@@ -45,7 +46,7 @@ const BoardMoveModal = () => {
         <ModalLayout modalName="boardMove" isBackgroundColor={true}>
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="max-h-[90vh] w-[90vw] max-w-[720px] cursor-auto bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl"
+                className="max-h-[90vh] w-[95vw] max-w-[720px] cursor-auto bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl"
             >
                 {/* Modal header 영역 */}
                 <div className="px-10 py-10 flex mb-2">
@@ -75,66 +76,10 @@ const BoardMoveModal = () => {
                     style={{ maxHeight: 'calc(90vh - 122px - 80px)' }}
                 >
                     {/* my 모든 board */}
-                    <div className="">
-                        <p className="text-xs mb-1 px-2">모든 보드</p>
-                        {myBoard.map((v, i) => (
-                            <div
-                                className="group flex items-center justify-between cursor-pointer p-2 rounded-xl hover:bg-[#e9e9e9]"
-                                key={i}
-                            >
-                                <div className="flex items-center">
-                                    <img
-                                        src={v.img}
-                                        className="rounded-lg w-12 h-12 mr-2"
-                                    />
-                                    <span className="font-semibold">
-                                        {v.name}
-                                    </span>
-                                </div>
-
-                                {/* 버튼: 부모 요소 hover 시 보이도록 설정 */}
-                                <button
-                                    onClick={() => toggleModal('boardMove')}
-                                    className="hidden group-hover:inline-block rounded-3xl w-[60px] h-[40px] font-semibold text-white bg-[#e60023] hover:bg-[#b60000]"
-                                >
-                                    다음
-                                </button>
-
-                                {/* 비밀 board는 자물쇠 아이콘 */}
-                                {v.isSecret && (
-                                    <div className="group-hover:hidden">
-                                        <LockIcon />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
+                    <AllBoardList list={myBoard} />
 
                     {/* 추천 board 목록 */}
-                    <div>
-                        <p className="text-xs mb-1 mt-3 px-2">추천</p>
-                        {suggestionBoard.map((v, i) => (
-                            <div
-                                className="group flex items-center justify-between cursor-pointer p-2 rounded-xl hover:bg-[#e9e9e9]"
-                                key={i}
-                            >
-                                <div className="flex items-center">
-                                    <div className="flex items-center justify-center rounded-lg w-12 h-12 mr-2 bg-[#e9e9e9]">
-                                        <PlusIcon />
-                                    </div>
-                                    <span className="font-semibold">{v}</span>
-                                </div>
-
-                                {/* 버튼: 부모 요소 hover 시 보이도록 설정 */}
-                                <button
-                                    onClick={() => toggleModal('boardMove')}
-                                    className="hidden group-hover:inline-block rounded-3xl px-3 py-2 font-semibold text-white bg-[#e60023] hover:bg-[#b60000]"
-                                >
-                                    만들기
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                    <SuggestionBoardList list={suggestionBoard} />
                 </div>
 
                 {/* 보드 만들기 button 영역 */}

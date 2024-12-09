@@ -11,7 +11,7 @@ const BoardSetting = () => {
                     <input
                         id="secretBoard"
                         type="checkbox"
-                        className="checked:bg-[#111] checked:border-[#111] cursor-pointer appearance-none border not-checked:hover:border-[#a5a5a5] border-[#767676] border-2 w-6 h-6 rounded-lg"
+                        className="checked:bg-[#111] checked:border-[#111] cursor-pointer appearance-none not-checked:hover:border-[#a5a5a5] border-[#767676] border-2 w-6 h-6 rounded-lg"
                     />
 
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -34,7 +34,7 @@ const BoardSetting = () => {
                     <input
                         id="personal-setting"
                         type="checkbox"
-                        className="checked:bg-[#111] checked:border-[#111] cursor-pointer appearance-none border not-checked:hover:border-[#a5a5a5] border-[#767676] border-2 w-6 h-6 rounded-lg"
+                        className="checked:bg-[#111] checked:border-[#111] cursor-pointer appearance-none not-checked:hover:border-[#a5a5a5] border-[#767676] border-2 w-6 h-6 rounded-lg"
                     />
 
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

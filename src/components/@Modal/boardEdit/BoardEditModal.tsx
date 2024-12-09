@@ -27,7 +27,7 @@ const BoardEditModal = () => {
                     </h2>
                     <div
                         onClick={() => toggleModal('boardEdit')}
-                        className="active:scale-90 rounded-full hover:bg-[rgba(0,0,0,0.06)] active:bg-[rgba(0,0,0,0.1)] flex items-center justify-center mr-10 w-10 h-10 cursor-pointer flex items-center"
+                        className="active:scale-90 rounded-full hover:bg-[rgba(0,0,0,0.06)] active:bg-[rgba(0,0,0,0.1)] justify-center mr-10 w-10 h-10 cursor-pointer flex items-center"
                     >
                         <XIcon />
                     </div>

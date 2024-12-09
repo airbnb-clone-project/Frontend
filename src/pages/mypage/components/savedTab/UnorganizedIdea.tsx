@@ -3,8 +3,8 @@ import PencilIcon from '@/components/icons/PencilIcon';
 import ShareIcon from '@/components/icons/ShareIcon';
 import useModalStore from '@/stores/useModalStore';
 import MasonryList from '@/components/common/MasonryList';
-import BoardMoveModal from '../BoardMoveModal';
 import ThisPinEditModal from '@/components/@Modal/thisPinEdit/ThisPinEditModal';
+import BoardMoveModal from '@/components/@Modal/boardMove/BoardMoveModal';
 
 const UnorganizedIdea = () => {
     const sample: string[] = [

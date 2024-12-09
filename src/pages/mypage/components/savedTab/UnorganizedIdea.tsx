@@ -4,7 +4,7 @@ import ShareIcon from '@/components/icons/ShareIcon';
 import useModalStore from '@/stores/useModalStore';
 import MasonryList from '@/components/common/MasonryList';
 import BoardMoveModal from '../BoardMoveModal';
-import ThisPinEditModal from '../ThisPinEditModal';
+import ThisPinEditModal from '@/components/@Modal/thisPinEdit/ThisPinEditModal';
 
 const UnorganizedIdea = () => {
     const sample: string[] = [

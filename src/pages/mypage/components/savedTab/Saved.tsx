@@ -5,7 +5,6 @@ import FilterIcon from '../../../../components/icons/FilterIcon';
 import PlusIcon from '../../../../components/icons/PlusIcon';
 import useModalStore from '../../../../stores/useModalStore';
 import BoardEditModal from '../../../../components/@Modal/boardEdit/BoardEditModal';
-import BoardCreate from '../BoardCreateModal';
 import BoardCleanupModal from '../BoardCleanupModal';
 import SaveBoardList from './SaveBoardList';
 import UnorganizedIdea from './UnorganizedIdea';
@@ -13,6 +12,7 @@ import BoardCoverChangeModal from '../BoardCoverChangeModal';
 import BoardImgResizeModal from '../BoardImgResizeModal';
 import BoardDeleteModal from '../BoardDeleteModal';
 import AddParticipantsModal from '@/components/@Modal/inviteParticipants/AddParticipantsModal';
+import BoardCreateModal from '@/components/@Modal/boardCreate/BoardCreateModal';
 
 const Saved = () => {
     // 현재 필터 state
@@ -104,7 +104,7 @@ const Saved = () => {
             {isModalOpen.boardDelete && <BoardDeleteModal />}
             {isModalOpen.addParticipants && <AddParticipantsModal />}
             {/* board 만들기 Modal */}
-            {isModalOpen.boardCreate && <BoardCreate />}
+            {isModalOpen.boardCreate && <BoardCreateModal />}
 
             {/* board 정리하기 Modal */}
             {isModalOpen.boardCleanup && <BoardCleanupModal />}

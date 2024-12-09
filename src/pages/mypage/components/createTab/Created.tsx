@@ -3,7 +3,7 @@ import PencilIcon from '@/components/icons/PencilIcon';
 import ShareIcon from '@/components/icons/ShareIcon';
 import useModalStore from '@/stores/useModalStore';
 import { Link } from 'react-router-dom';
-import CreatePinEditModal from '../../../components/@Modal/createPinEdit/CreatePinEditModal';
+import CreatePinEditModal from '../../../../components/@Modal/createPinEdit/CreatePinEditModal';
 
 const Created = () => {
     const sample: string[] = [

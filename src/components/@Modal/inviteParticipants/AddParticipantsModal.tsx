@@ -1,19 +1,15 @@
 import ModalLayout from '@/components/@Modal/ModalLayout';
 import LeftArrowIcon from '@/components/icons/LeftArrowIcon';
 import RightArrowIcon from '@/components/icons/RightArrowIcon';
-import SearchIcon from '@/components/icons/SearchIcon';
-import XIcon from '@/components/icons/XIcon';
 import { useState } from 'react';
+import SearchResultList from './SearchResultList';
+import SearchInput from '@/components/common/SearchInput';
 
 const AddParticipantsModal = () => {
     const [searchText, setSearchText] = useState<string>('');
     // 검색어 최신 상태 업데이트 함수
     const searchTextOnChange = (text: string) => {
         setSearchText(text);
-    };
-    // 현재 검색어 ''로 reset
-    const searchTextReset = () => {
-        setSearchText('');
     };
 
     const sample: string[] = [
@@ -80,61 +76,14 @@ const AddParticipantsModal = () => {
                             링크 복사
                         </button>
                     </div>
-                    <div className="relative">
-                        {/* `peer` 클래스를 추가 */}
-                        <input
-                            value={searchText}
-                            onChange={(v) => searchTextOnChange(v.target.value)}
-                            placeholder="이름 또는 이메일 검색"
-                            className="w-full peer focus:pl-4 cursor-pointer border-[#cdcdcd] hover:border-[#a5a5a5] focus:outline-none focus:ring-4 focus:ring-[rgba(68, 132, 192, 0.5)] border-2 px-10 py-2 rounded-[999px] focus:outline-[rgba(0, 132, 255, .5)]"
-                        />
-                        {/* 검색 아이콘 */}
-                        <label
-                            htmlFor="add-participants-input"
-                            className="peer-focus:hidden cursor-pointer absolute top-1/2 -translate-y-1/2 left-4"
-                        >
-                            <SearchIcon />
-                        </label>
-                        {/* X 아이콘 */}
-                        {searchText.length > 0 && (
-                            <button
-                                onClick={() => searchTextReset()}
-                                // `peer-focus`를 사용해 `input`의 focus 상태 감지
-                                className="hover:bg-[rgba(0,0,0,0.06)] active:text-white active:bg-[#111] top-1/2 -translate-y-1/2 right-4 active:scale-75 cursor-pointer flex items-center justify-center w-6 h-6 absolute rounded-full 
-                peer-focus:bg-[#111] peer-focus:text-white"
-                            >
-                                <XIcon size={11} color="currentColor" />
-                            </button>
-                        )}
-                    </div>
+                    <SearchInput
+                        onChangeFC={searchTextOnChange}
+                        value={searchText}
+                    />
                 </div>
 
-                <div className="overflow-y-scroll -mr-4 max-h-[414px]">
-                    {sample.map((v, i) => (
-                        <div
-                            key={i}
-                            className="gap-2 flex justify-between py-2"
-                        >
-                            <div className="flex items-center w-full">
-                                <img
-                                    src={v}
-                                    className="min-w-12 w-12 h-12 rounded-full mr-2"
-                                />
-                                <div className="w-full flex flex-col">
-                                    <p className="font-semibold hover:underline cursor-pointer">
-                                        K
-                                    </p>
-                                    <span className="text-xs text-[#767676]">
-                                        k
-                                    </span>
-                                </div>
-                            </div>
-                            <button className="transition-transform duration-200 active:scale-95 hover:bg-[#b60000] min-w-[64px] bg-[#e60023] rounded-3xl font-semibold text-white py-3 px-4">
-                                초대
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                {/* 검색 결과 사용자 list 컴포넌트 */}
+                <SearchResultList list={sample} />
             </div>
         </ModalLayout>
     );

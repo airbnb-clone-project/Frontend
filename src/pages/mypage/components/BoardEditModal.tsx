@@ -8,7 +8,7 @@ import useModalStore from '@/stores/useModalStore';
 import BoardCoverChangeModal from './BoardCoverChangeModal';
 import BoardImgResizeModal from './BoardImgResizeModal';
 import BoardDeleteModal from './BoardDeleteModal';
-import AddParticipantsModal from './AddParticipantsModal';
+import AddParticipantsModal from '../../../components/@Modal/inviteParticipants/AddParticipantsModal';
 
 const BoardEditModal = () => {
     // const sample: string[] = [

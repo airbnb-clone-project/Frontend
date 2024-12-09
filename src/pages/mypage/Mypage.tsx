@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import useModalStore from '../../stores/useModalStore';
-import PinCodeDownloadModal from './components/PinCodeDownloadModal';
+import PinCodeDownloadModal from '../../components/@Modal/pinCodeDownload/PinCodeDownloadModal';
 import { useRef } from 'react';
 import useStickyShadow from '@/hooks/useStickyShadow';
 // import { useEffect, useRef, useState } from 'react';

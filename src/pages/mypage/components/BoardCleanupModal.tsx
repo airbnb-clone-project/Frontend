@@ -72,7 +72,7 @@ const BoardCleanupModal = () => {
                         <div
                             onClick={() => v && imgItemOnClick(v)}
                             key={i}
-                            className="w-full relative rounded-2xl cursor-pointer hover:brightness-75 min-w-[152px] mb-2 relative group inline-block grid-item"
+                            className="w-full rounded-2xl cursor-pointer hover:brightness-75 min-w-[152px] mb-2 relative group inline-block grid-item"
                         >
                             <img
                                 src={v}

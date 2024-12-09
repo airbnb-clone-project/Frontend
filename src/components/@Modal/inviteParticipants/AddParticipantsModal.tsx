@@ -28,7 +28,7 @@ const AddParticipantsModal = () => {
         'https://cdn.pixabay.com/photo/2020/06/15/01/06/sunset-5299957__340.jpg',
     ];
     return (
-        <ModalLayout modalName="addParticipants" isBackgroundColor={true}>
+        <ModalLayout modalName="boardEdit" isBackgroundColor={true}>
             <div
                 onClick={(e) => e.stopPropagation()}
                 className="pb-9 px-6 cursor-auto w-[95vw] max-w-[540px] max-h-[90vh] bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl"

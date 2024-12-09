@@ -4,11 +4,15 @@ import CreatedModal from '../CreatedModal';
 import FilterIcon from '../../../../components/icons/FilterIcon';
 import PlusIcon from '../../../../components/icons/PlusIcon';
 import useModalStore from '../../../../stores/useModalStore';
-import BoardEditModal from '../BoardEditModal';
+import BoardEditModal from '../../../../components/@Modal/boardEdit/BoardEditModal';
 import BoardCreate from '../BoardCreateModal';
 import BoardCleanupModal from '../BoardCleanupModal';
 import SaveBoardList from './SaveBoardList';
 import UnorganizedIdea from './UnorganizedIdea';
+import BoardCoverChangeModal from '../BoardCoverChangeModal';
+import BoardImgResizeModal from '../BoardImgResizeModal';
+import BoardDeleteModal from '../BoardDeleteModal';
+import AddParticipantsModal from '@/components/@Modal/inviteParticipants/AddParticipantsModal';
 
 const Saved = () => {
     // 현재 필터 state
@@ -94,12 +98,11 @@ const Saved = () => {
             <UnorganizedIdea />
 
             {/* 보드 수정 Modal */}
-            {(isModalOpen.boardEdit ||
-                isModalOpen.boardCoverChange ||
-                isModalOpen.boardDelete ||
-                isModalOpen.boardImgResize ||
-                isModalOpen.addParticipants) && <BoardEditModal />}
-
+            {isModalOpen.boardEdit && <BoardEditModal />}
+            {isModalOpen.boardCoverChange && <BoardCoverChangeModal />}
+            {isModalOpen.boardImgResize && <BoardImgResizeModal />}
+            {isModalOpen.boardDelete && <BoardDeleteModal />}
+            {isModalOpen.addParticipants && <AddParticipantsModal />}
             {/* board 만들기 Modal */}
             {isModalOpen.boardCreate && <BoardCreate />}
 

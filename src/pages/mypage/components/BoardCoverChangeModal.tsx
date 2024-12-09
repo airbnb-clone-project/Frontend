@@ -1,3 +1,4 @@
+import ModalLayout from '@/components/@Modal/ModalLayout';
 import MasonryList from '@/components/common/MasonryList';
 import XIcon from '@/components/icons/XIcon';
 import useModalStore from '@/stores/useModalStore';
@@ -22,52 +23,56 @@ const BoardCoverChangeModal = () => {
     const { toggleModal } = useModalStore();
 
     return (
-        <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-[95vw] max-w-[900px] max-h-[749px] min-w-[319px] cursor-auto"
-        >
-            {/* Modal header 영역 */}
-            <div className="px-12 py-[56px] flex mb-2">
-                <div className="w-20"></div>
-                <h2 className="flex text-nowrap font-semibold grow justify-center text-[28px]">
-                    보드 커버 변경
-                </h2>
-                <div className="flex justify-end items-center w-20">
-                    <button
-                        onClick={() => toggleModal('boardEdit')}
-                        className="active:scale-90 flex items-center justify-center w-10 h-10 rounded-full hover:bg-[rgba(0,0,0,.06)]"
+        <ModalLayout modalName="boardCoverChange" isBackgroundColor={true}>
+            <div className="bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl">
+                <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-[95vw] max-w-[900px] max-h-[749px] min-w-[319px] cursor-auto"
+                >
+                    {/* Modal header 영역 */}
+                    <div className="px-12 py-[56px] flex mb-2">
+                        <div className="w-20"></div>
+                        <h2 className="flex text-nowrap font-semibold grow justify-center text-[28px]">
+                            보드 커버 변경
+                        </h2>
+                        <div className="flex justify-end items-center w-20">
+                            <button
+                                onClick={() => toggleModal('boardEdit')}
+                                className="active:scale-90 flex items-center justify-center w-10 h-10 rounded-full hover:bg-[rgba(0,0,0,.06)]"
+                            >
+                                <XIcon size={16.99} />
+                            </button>
+                        </div>
+                    </div>
+
+                    <MasonryList
+                        minCol={3}
+                        minWidth={152}
+                        sideWidth={32}
+                        style={{ height: 'calc(749px - 154px)' }}
+                        className="flex gap-4 px-2 overflow-scroll"
+                        columnClassName="masonry-column min-w-[152px]"
                     >
-                        <XIcon size={16.99} />
-                    </button>
+                        {sample.map((v, i) => (
+                            <div
+                                onClick={() => {
+                                    toggleModal('boardImgResize');
+                                }}
+                                key={i}
+                                className="cursor-pointer hover:brightness-75 min-w-[152px] mb-2 relative group inline-block grid-item"
+                            >
+                                <img
+                                    src={v}
+                                    draggable="true"
+                                    alt={`Sample ${i}`}
+                                    className="rounded-2xl"
+                                />
+                            </div>
+                        ))}
+                    </MasonryList>
                 </div>
             </div>
-
-            <MasonryList
-                minCol={3}
-                minWidth={152}
-                sideWidth={32}
-                style={{ height: 'calc(749px - 154px)' }}
-                className="flex gap-4 px-2 overflow-scroll"
-                columnClassName="masonry-column min-w-[152px]"
-            >
-                {sample.map((v, i) => (
-                    <div
-                        onClick={() => {
-                            toggleModal('boardImgResize');
-                        }}
-                        key={i}
-                        className="cursor-pointer hover:brightness-75 min-w-[152px] mb-2 relative group inline-block grid-item"
-                    >
-                        <img
-                            src={v}
-                            draggable="true"
-                            alt={`Sample ${i}`}
-                            className="rounded-2xl"
-                        />
-                    </div>
-                ))}
-            </MasonryList>
-        </div>
+        </ModalLayout>
     );
 };
 

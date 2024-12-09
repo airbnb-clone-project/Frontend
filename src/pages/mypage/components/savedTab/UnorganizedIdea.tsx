@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 import PencilIcon from '@/components/icons/PencilIcon';
 import ShareIcon from '@/components/icons/ShareIcon';
 import useModalStore from '@/stores/useModalStore';
-import BoardMoveModal from './BoardMoveModal';
 import MasonryList from '@/components/common/MasonryList';
-import ThisPinEditModal from './ThisPinEditModal';
+import BoardMoveModal from '../BoardMoveModal';
+import ThisPinEditModal from '../ThisPinEditModal';
 
 const UnorganizedIdea = () => {
     const sample: string[] = [

@@ -5,6 +5,7 @@ import useModalStore from '@/stores/useModalStore';
 import NameInput from './NameInput';
 import ExplainInput from './ExplainInput';
 import BoardSetting from './BoardSetting';
+import Button from '@/components/common/Button';
 
 const BoardEditModal = () => {
     const { toggleModal } = useModalStore();
@@ -110,9 +111,7 @@ const BoardEditModal = () => {
 
                 {/* 하단 완료 button영역 */}
                 <div className="p-6 flex-row-reverse min-h-[96px] flex items-center">
-                    <button className="hover:brightness-90 rounded-3xl bg-[#e60023] text-white py-3 px-4 font-semibold">
-                        완료
-                    </button>
+                    <Button color="red" text="완료" />
                 </div>
             </div>
         </ModalLayout>

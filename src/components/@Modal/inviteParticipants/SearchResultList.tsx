@@ -1,3 +1,5 @@
+import Button from '@/components/common/Button';
+
 interface SearchResultListProps {
     list: string[];
 }
@@ -19,9 +21,7 @@ const SearchResultList = ({ list }: SearchResultListProps) => {
                             <span className="text-xs text-[#767676]">k</span>
                         </div>
                     </div>
-                    <button className="transition-transform duration-200 active:scale-95 hover:bg-[#b60000] min-w-[64px] bg-[#e60023] rounded-3xl font-semibold text-white py-3 px-4">
-                        초대
-                    </button>
+                    <Button text="초대" color="red" className="min-w-[64px]" />
                 </div>
             ))}
         </div>

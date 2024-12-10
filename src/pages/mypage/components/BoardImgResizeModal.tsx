@@ -3,6 +3,7 @@ import XIcon from '@/components/icons/XIcon';
 import useModalStore from '@/stores/useModalStore';
 import ImageCropper from './ImageCropper';
 import ModalLayout from '@/components/@Modal/ModalLayout';
+import Button from '@/components/common/Button';
 
 const BoardImgResizeModal = () => {
     const { toggleModal } = useModalStore();
@@ -45,12 +46,12 @@ const BoardImgResizeModal = () => {
 
                 {/* 완료 버튼 */}
                 <div className="flex p-6 justify-end">
-                    <button
+                    <Button
+                        color="gray"
+                        text="완료"
                         onClick={() => toggleModal('boardEdit')}
-                        className="hover:brightness-95 active:scale-95 py-2 px-3 bg-[#e9e9e9] rounded-3xl font-semibold"
-                    >
-                        완료
-                    </button>
+                        className="py-2 px-4"
+                    />
                 </div>
             </div>
         </ModalLayout>

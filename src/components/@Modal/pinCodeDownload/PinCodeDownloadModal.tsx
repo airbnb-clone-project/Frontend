@@ -1,3 +1,4 @@
+import Button from '@/components/common/Button';
 import ModalLayout from '../ModalLayout';
 import Explain from './Explain';
 import ProfileImg from './ProfileImg';
@@ -24,9 +25,12 @@ const PinCodeDownloadModal = () => {
                 <Explain />
 
                 {/* 핀코드 다운로드 버튼 */}
-                <button className="hover:bg-[#b60000] font-semibold py-2 px-3 w-[310px] bg-[#e60023] rounded-[24px] text-[16px] text-white">
-                    핀코드 다운로드
-                </button>
+                <Button
+                    color="red"
+                    text="핀코드 다운로드"
+                    onClick={() => console.log('')}
+                    className="w-[310px] py-2 px-3"
+                />
             </div>
         </ModalLayout>
     );

@@ -4,6 +4,7 @@ import RightArrowIcon from '@/components/icons/RightArrowIcon';
 import { useState } from 'react';
 import SearchResultList from './SearchResultList';
 import SearchInput from '@/components/common/SearchInput';
+import LinkCopy from './LinkCopy';
 
 const AddParticipantsModal = () => {
     const [searchText, setSearchText] = useState<string>('');
@@ -65,17 +66,9 @@ const AddParticipantsModal = () => {
                 </div>
 
                 <div className="flex flex-col gap-4 box-border mb-4">
-                    <div className="flex gap-2 relative">
-                        <input
-                            value={'https://pin.it/3jMgpeSAd'}
-                            className={
-                                'h-full w-full border-[#cdcdcd] hover:border-[#a5a5a5] focus:outline-none focus:ring-4 focus:ring-[rgba(68, 132, 192, 0.5)] border-2 px-4 py-3 rounded-2xl focus:outline-[rgba(0, 132, 255, .5)]'
-                            }
-                        />
-                        <button className="active:scale-95 hover:bg-[#e2e2e2] bg-[#e9e9e9] rounded-3xl text-nowrap h-12 py-3 px-4 font-semibold">
-                            링크 복사
-                        </button>
-                    </div>
+                    {/* 링크 복사 컴포넌트 */}
+                    <LinkCopy />
+
                     <SearchInput
                         onChangeFC={searchTextOnChange}
                         value={searchText}

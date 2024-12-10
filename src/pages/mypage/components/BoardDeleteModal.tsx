@@ -1,4 +1,5 @@
 import ModalLayout from '@/components/@Modal/ModalLayout';
+import Button from '@/components/common/Button';
 import XIcon from '@/components/icons/XIcon';
 import useModalStore from '@/stores/useModalStore';
 
@@ -43,18 +44,16 @@ const BoardDeleteModal = () => {
 
                 {/* 하단 button영역 */}
                 <div className="gap-2 p-6 flex-row-reverse min-h-[96px] flex items-center">
-                    <button
+                    <Button
+                        color="red"
+                        text="삭제"
                         onClick={() => toggleModal('boardEdit')}
-                        className="active:scale-95 hover:brightness-90 rounded-3xl bg-[#e60023] text-white py-3 px-4 font-semibold"
-                    >
-                        삭제
-                    </button>
-                    <button
+                    />
+                    <Button
+                        color="gray"
+                        text="취소"
                         onClick={() => toggleModal('boardEdit')}
-                        className="hover:brightness-95 active:scale-95 py-3 px-4 bg-[#e9e9e9] rounded-3xl font-semibold"
-                    >
-                        취소
-                    </button>
+                    />
                 </div>
             </div>
         </ModalLayout>

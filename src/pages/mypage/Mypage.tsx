@@ -17,7 +17,7 @@ const Mypage = () => {
     useStickyShadow(downShadow);
 
     return (
-        <body className="flex">
+        <main className="flex">
             {/* 임시 사이드바 */}
             <div className="sticky top-0 left-0 w-[71px] h-[100vh] border-r border-gray-300">
                 SIDE
@@ -116,7 +116,7 @@ const Mypage = () => {
                 {/* 핀코드 다운로드 Modal */}
                 {isModalOpen.pincode && <PinCodeDownloadModal />}
             </section>
-        </body>
+        </main>
     );
 };
 

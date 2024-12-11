@@ -33,7 +33,7 @@ const Button = ({
             aria-label={ariaLabel}
             onClick={onClick}
             className={twMerge(
-                'inline-flex min-w-12 min-h-12 w-auto h-12 rounded-full bg-white hover:bg-[#F0F0F0] justify-center items-center focus:outline-4 focus:outline focus:outline-[#92C1FF]',
+                'inline-flex min-w-12 min-h-12 w-auto h-12 rounded-full bg-white hover:bg-[#F0F0F0] justify-center items-center',
                 className
             )}
             {...props}

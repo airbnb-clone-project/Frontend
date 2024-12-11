@@ -1,12 +1,11 @@
 import Comment from './Comment';
-
 import { COMMENTS } from '@/constants/helperText';
 
-const CommentBox = () => {
+const NoComment = () => {
     return (
         <div className="flex flex-col h-full">
             <div className="pl-4 mb-5 min-h-[130px]">
-                <div className="my-3">
+                <div className="my-3 cursor-pointer flex justify-between">
                     <h2 className="text-black font-semibold">
                         {COMMENTS.NO_COMMENTS}
                     </h2>
@@ -24,4 +23,4 @@ const CommentBox = () => {
     );
 };
 
-export default CommentBox;
+export default NoComment;

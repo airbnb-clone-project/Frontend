@@ -16,7 +16,10 @@ const Input = ({
         <input
             type={type}
             placeholder={placeholder}
-            className={twMerge('', className)}
+            className={twMerge(
+                'focus:outline-none flex-1 focus:placeholder:text-opacity-70',
+                className
+            )}
             {...props}
         />
     );

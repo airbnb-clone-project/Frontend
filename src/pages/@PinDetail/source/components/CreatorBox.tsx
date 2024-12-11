@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import FollowBtn from './buttons/FollowBtn';
 
 const CreatorBox = () => {

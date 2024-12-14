@@ -27,7 +27,7 @@ const BoardSelectModal = ({
         <div
             onClick={(e) => e.stopPropagation()}
             className={twMerge(
-                'bg-white border border-gray-input-default rounded-2xl absolute w-[357px] top-full translate-y-1 left-[-2px] z-50',
+                'bg-white border border-gray-input-default rounded-2xl absolute w-full top-full translate-y-1 left-[-2px] z-50',
                 className
             )}
         >

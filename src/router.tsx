@@ -3,6 +3,7 @@ import App from './pages/App';
 import Mypage from './pages/mypage/Mypage';
 import Created from './pages/mypage/components/Created';
 import Saved from './pages/mypage/components/savedTab/Saved';
+import PinCreate from './pages/pinCreate/PinCreate';
 
 export const router = createBrowserRouter([
     { path: '/', element: <App /> },
@@ -13,5 +14,9 @@ export const router = createBrowserRouter([
             { path: 'created', element: <Created /> },
             { path: '', element: <Saved /> },
         ],
+    },
+    {
+        path: '/pincreate',
+        element: <PinCreate />,
     },
 ]);

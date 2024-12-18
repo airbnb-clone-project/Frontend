@@ -1,6 +1,7 @@
 import DownArrowIcon from '@/components/icons/DownArrowIcon';
-import BoardSelectModal from '@/pages/mypage/components/BoardSelectModal';
+import BoardSelectModal from '@/components/@Modal/BoardSelectModal';
 import SectionSelectModal from '@/pages/mypage/components/SectionSelectModal';
+import { twMerge } from 'tailwind-merge';
 
 interface BoardSectionSelectProps {
     /** 현재 선택중인 보드 state */
@@ -21,6 +22,8 @@ interface BoardSectionSelectProps {
     sectionSelectModalClose: () => void;
     boardItemOnClick: (board: string) => void;
     sectionItemOnClick: (section: string) => void;
+    className?: string;
+    childrenClassName?: string;
 }
 
 const BoardSectionSelect = ({
@@ -34,11 +37,13 @@ const BoardSectionSelect = ({
     sectionSelectModalClose,
     boardItemOnClick,
     sectionItemOnClick,
+    className,
+    childrenClassName,
 }: BoardSectionSelectProps) => {
     return (
-        <div className="flex py-5 justify-between">
+        <div className={twMerge('flex py-5 justify-between', className)}>
             {/* 보드 선택 select div */}
-            <div className="w-[234px]">
+            <div className={twMerge('w-[234px]', childrenClassName)}>
                 <label className="cursor-pointer text-xs mb-2">보드</label>
                 <div
                     onClick={(e) => {
@@ -64,7 +69,7 @@ const BoardSectionSelect = ({
 
             {/* 보드 섹션 select div */}
             {currentBoard && (
-                <div className="w-[234px]">
+                <div className={twMerge('w-[234px]', childrenClassName)}>
                     <label className="cursor-pointer text-xs mb-2">섹션</label>
                     <div
                         onClick={(e) => {

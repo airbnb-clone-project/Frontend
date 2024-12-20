@@ -12,6 +12,8 @@ import { useTagSearch } from '@/hooks/pinCreate/useTagSearch';
 import { useBoardSelect } from '@/hooks/pinCreate/useBoardSelect';
 import { usePinList } from '@/hooks/pinCreate/usePinList';
 import { useOptionSettings } from '@/hooks/pinCreate/useOptionSettings';
+import useModalStore from '@/stores/useModalStore';
+import DraftDeleteModal from './components/DraftDeleteModal';
 
 const PinCreate = () => {
   const {
@@ -53,6 +55,8 @@ const PinCreate = () => {
   } = usePinList();
 
   const { isOption, isOptionToggle } = useOptionSettings();
+
+  const { isModalOpen } = useModalStore();
 
   return (
     <main className="flex w-full h-full">
@@ -173,6 +177,9 @@ const PinCreate = () => {
         pinOnClick={pinOnClick}
         allPinReset={allPinReset}
       />
+
+      {/* 핀 초안 삭제 modal */}
+      {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
     </main>
   );
 };

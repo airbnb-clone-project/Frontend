@@ -60,7 +60,11 @@ const PinCreate = () => {
 
   return (
     <main className="flex w-full h-full">
-      <div className="flex-grow pb-8 overflow-y-scroll max-h-[100vh]">
+      <div
+        className={`${
+          selectPinList.length > 0 && 'opacity-25 pointer-events-none'
+        } flex-grow pb-8 overflow-y-scroll max-h-[100vh]`}
+      >
         <h1 className="flex items-center h-[74.31px] border-b-[1px] pl-4 text-xl font-semibold">
           핀 만들기
         </h1>
@@ -142,10 +146,10 @@ const PinCreate = () => {
                   </p>
 
                   {/* 주제 검색결과 컴포넌트 */}
-                  <SearchResult
+                  {/* <SearchResult
                     list={['1', '2', '3', '4', '5']}
                     tagItemOnClick={tagItemOnClick}
-                  />
+                  /> */}
                 </div>
 
                 {/* 선택된 태그 주제 list 컴포넌트*/}

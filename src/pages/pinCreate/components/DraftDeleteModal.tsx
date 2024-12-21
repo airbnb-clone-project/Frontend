@@ -25,6 +25,7 @@ const DraftDeleteModal = () => {
               color="gray"
               text="계속 수정"
               className="py-2 px-3 flex-1"
+              onClick={() => toggleModal('pinDraftDelete')}
             />
             <Button color="red" text="삭제" className="py-2 px-3 flex-1" />
           </div>

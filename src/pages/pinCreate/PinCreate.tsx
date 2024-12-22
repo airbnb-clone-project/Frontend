@@ -27,6 +27,7 @@ const PinCreate = () => {
     explainOnChange,
     linkOnChange,
     handleImageUpload,
+    pinFormReset,
   } = usePinForm();
 
   const {
@@ -35,6 +36,7 @@ const PinCreate = () => {
     tagSearchOnChange,
     // tagItemOnClick,
     selectTagDelet,
+    tagReset,
   } = useTagSearch();
 
   const {
@@ -43,6 +45,7 @@ const PinCreate = () => {
     boardSelectModalOpen,
     boardSelectModalClose,
     boardItemOnClick,
+    boardReset,
   } = useBoardSelect();
 
   const {
@@ -55,7 +58,15 @@ const PinCreate = () => {
     allPinReset,
   } = usePinList();
 
-  const { isOption, isOptionToggle } = useOptionSettings();
+  const {
+    isOption,
+    isComment,
+    isSimilarProductsVisible,
+    isOptionToggle,
+    isCommentToggle,
+    isSimilarProductsVisibleToggle,
+    optionReset,
+  } = useOptionSettings();
 
   const { isModalOpen } = useModalStore();
 
@@ -165,6 +176,10 @@ const PinCreate = () => {
               <OptionSetting
                 isOption={isOption}
                 isOptionToggle={isOptionToggle}
+                isComment={isComment}
+                isSimilarProductsVisible={isSimilarProductsVisible}
+                isCommentToggle={isCommentToggle}
+                isSimilarProductsVisibleToggle={isSimilarProductsVisibleToggle}
               />
               <p className="text-sm text-gray-input-hover">
                 불법 촬영 콘텐츠 등을 게시하는 경우 Pinterest는 한국
@@ -186,6 +201,10 @@ const PinCreate = () => {
         currentPin={currentPin}
         pinOnClick={pinOnClick}
         allPinReset={allPinReset}
+        pinFormReset={pinFormReset}
+        boardReset={boardReset}
+        tagReset={tagReset}
+        optionReset={optionReset}
       />
 
       {/* 핀 초안 삭제 modal */}

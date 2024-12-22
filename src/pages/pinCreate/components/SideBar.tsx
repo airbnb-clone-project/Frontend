@@ -19,6 +19,10 @@ interface SideBarProps {
   currentPin: number;
   pinOnClick: (index: number) => void;
   allPinReset: () => void;
+  pinFormReset: () => void;
+  boardReset: () => void;
+  tagReset: () => void;
+  optionReset: () => void;
 }
 
 const SideBar = ({
@@ -29,6 +33,10 @@ const SideBar = ({
   pinOnClick,
   togglePinSelection,
   allPinReset,
+  pinFormReset,
+  boardReset,
+  tagReset,
+  optionReset,
 }: SideBarProps) => {
   const { toggleModal } = useModalStore();
 
@@ -57,6 +65,14 @@ const SideBar = ({
   /** 쓰레기통 icon 클릭 실행 함수 */
   const trashIconOnClick = () => {
     toggleModal('pinDraftDelete');
+  };
+
+  /** +button 클릭 시 새문서 상태로 reset */
+  const resetBtnOnClick = () => {
+    pinFormReset();
+    boardReset();
+    tagReset();
+    optionReset();
   };
 
   return (
@@ -160,7 +176,10 @@ const SideBar = ({
           >
             <DoubleLeftArrowIcon />
           </TransparentButton>
-          <TransparentButton className="w-12 h-12 rounded-full">
+          <TransparentButton
+            onClick={resetBtnOnClick}
+            className="w-12 h-12 rounded-full"
+          >
             <PlusIcon />
           </TransparentButton>
         </div>

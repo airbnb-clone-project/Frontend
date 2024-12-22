@@ -12,6 +12,7 @@ import { useRef, useState } from 'react';
  * @returns linkOnChange: 핀 링크를 변경하는 함수
  * @returns handleResizeHeight: textarea태그에 들어가는 text 길이에 따른 height증가 함수
  * @returns handleImageUpload: img 업로드시 실행 함수
+ * @returns pinFormReset: 모든 pin input data를 reset하는 함수
  */
 export const usePinForm = () => {
   const [title, setTitle] = useState<string>('');
@@ -19,6 +20,14 @@ export const usePinForm = () => {
   const [link, setLink] = useState<string>('');
   const [image, setImage] = useState<string | null>(null);
   const [imgPreview, setImgPreview] = useState<string | null>(null);
+
+  const pinFormReset = () => {
+    setTitle('');
+    setExplain('');
+    setLink('');
+    setImage('');
+    setImgPreview('');
+  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -62,5 +71,6 @@ export const usePinForm = () => {
     linkOnChange,
     handleResizeHeight,
     handleImageUpload,
+    pinFormReset,
   };
 };

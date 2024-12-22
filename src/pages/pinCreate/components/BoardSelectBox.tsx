@@ -2,6 +2,8 @@ import SearchInput from '@/components/common/SearchInput';
 import DownArrowIcon from '@/components/icons/DownArrowIcon';
 import LockIcon from '@/components/icons/LockIcon';
 import PlusBGIcon from '@/components/icons/PlusBGIcon';
+import useDynamicPosition from '@/hooks/useDynamicPosition';
+import { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface BoardSelectBoxProps {
@@ -18,6 +20,7 @@ interface BoardSelectBoxProps {
   searchTextOnChange: (text: string) => void;
   className?: string;
   childrenClassName?: string;
+  scrollRef: React.RefObject<HTMLDivElement>;
 }
 const BoardSelectBox = ({
   boardItemOnClick,
@@ -29,13 +32,20 @@ const BoardSelectBox = ({
   searchTextOnChange,
   childrenClassName,
   className,
+  scrollRef,
 }: BoardSelectBoxProps) => {
+  const parentRef = useRef<HTMLDivElement | null>(null);
+  const childRef = useRef<HTMLDivElement | null>(null);
+
+  const positionClass = useDynamicPosition({ parentRef, childRef, scrollRef });
+
   return (
     <div className={twMerge('flex py-5 justify-between', className)}>
       {/* 보드 선택 select div */}
       <div className={twMerge('w-[234px]', childrenClassName)}>
         <label className="cursor-pointer text-xs mb-2">보드</label>
         <div
+          ref={parentRef}
           onClick={(e) => {
             e.stopPropagation();
             if (isBoardSelectModal) {
@@ -53,9 +63,10 @@ const BoardSelectBox = ({
 
           {isBoardSelectModal && (
             <div
+              ref={childRef}
               onClick={(e) => e.stopPropagation()}
               className={twMerge(
-                'shadow-[0_0_8px_0_rgba(0,0,0,0.1)] bg-white border border-gray-input-default rounded-2xl absolute w-[420px] -translate-x-1/2 top-full translate-y-1 left-1/2 z-50',
+                `${positionClass} h-auto shadow-[0_0_8px_0_rgba(0,0,0,0.1)] bg-white border border-gray-input-default rounded-2xl absolute w-[420px] -translate-x-1/2 left-1/2 z-50`,
                 className
               )}
             >

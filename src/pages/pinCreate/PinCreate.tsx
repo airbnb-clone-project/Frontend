@@ -6,7 +6,7 @@ import LabelInput from '@/components/common/LabelInput';
 import TagList from './components/TagList';
 import BoardSelectBox from './components/BoardSelectBox';
 import OptionSetting from '@/components/@Modal/createPinEdit/OptionSetting';
-import SearchResult from './components/SearchResult';
+// import SearchResult from './components/SearchResult';
 import { usePinForm } from '@/hooks/pinCreate/usePinForm';
 import { useTagSearch } from '@/hooks/pinCreate/useTagSearch';
 import { useBoardSelect } from '@/hooks/pinCreate/useBoardSelect';
@@ -14,6 +14,7 @@ import { usePinList } from '@/hooks/pinCreate/usePinList';
 import { useOptionSettings } from '@/hooks/pinCreate/useOptionSettings';
 import useModalStore from '@/stores/useModalStore';
 import DraftDeleteModal from './components/DraftDeleteModal';
+import { useRef } from 'react';
 
 const PinCreate = () => {
   const {
@@ -32,7 +33,7 @@ const PinCreate = () => {
     tagSearch,
     tagList,
     tagSearchOnChange,
-    tagItemOnClick,
+    // tagItemOnClick,
     selectTagDelet,
   } = useTagSearch();
 
@@ -58,9 +59,13 @@ const PinCreate = () => {
 
   const { isModalOpen } = useModalStore();
 
+  const scrollRef = useRef<HTMLDivElement | null>(null); // scrollRef의 타입은 HTMLElement | null
+
   return (
     <main className="flex w-full h-full">
       <div
+        id="pin-create-scroll"
+        ref={scrollRef}
         className={`${
           selectPinList.length > 0 && 'opacity-25 pointer-events-none'
         } flex-grow pb-8 overflow-y-scroll max-h-[100vh]`}
@@ -131,6 +136,7 @@ const PinCreate = () => {
                 searchTextOnChange={tagSearchOnChange}
                 className="p-0"
                 childrenClassName="w-full"
+                scrollRef={scrollRef}
               />
               {/* 태그 주제 영역 */}
               <div>

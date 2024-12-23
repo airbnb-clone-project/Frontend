@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { path: '/main', element: <Main /> },
+      { path: '/', element: <Main /> },
       { path: 'pin/:id', element: <PinDetail /> },
     ],
   },

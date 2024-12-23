@@ -1,12 +1,4 @@
 type modalName =
-  | 'pinDraftDelete'
-  | 'thisPinEdit'
-  | 'boardSelect'
-  | 'createPinEdit'
-  | 'addParticipants'
-  | 'boardMove'
-  | 'boardCreate'
-  | 'boardImgResize'
   | 'boardDelete'
   | 'boardCoverChange'
   | 'boardCleanup'

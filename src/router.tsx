@@ -4,24 +4,23 @@ import PinDetail from './pages/pinDetail/PinDetail';
 import Mypage from './pages/mypage/Mypage';
 import Created from './pages/mypage/components/Created';
 import Saved from './pages/mypage/components/savedTab/Saved';
-import PinCreate from './pages/pinCreate/PinCreate';
+import Main from './pages/main/Main';
 
 export const router = createBrowserRouter([
-    { path: '/', element: <App /> },
-    {
-        path: 'pin/:id',
-        element: <PinDetail />,
-    },
-    {
-        path: '/mypage',
-        element: <Mypage />,
-        children: [
-            { path: 'created', element: <Created /> },
-            { path: '', element: <Saved /> },
-        ],
-    },
-    {
-        path: '/pincreate',
-        element: <PinCreate />,
-    },
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      { path: '/', element: <Main /> },
+      { path: 'pin/:id', element: <PinDetail /> },
+    ],
+  },
+  {
+    path: '/mypage',
+    element: <Mypage />,
+    children: [
+      { path: 'created', element: <Created /> },
+      { path: '', element: <Saved /> },
+    ],
+  },
 ]);

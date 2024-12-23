@@ -1,5 +1,5 @@
 import DownArrowIcon from '@/components/icons/DownArrowIcon';
-import BoardSelectModal from '@/pages/mypage/components/BoardSelectModal';
+import BoardSelectModal from '@/components/@Modal/BoardSelectModal';
 
 interface BoardSelectorProps {
     /** 보드 선택 모달을 닫는 함수 */

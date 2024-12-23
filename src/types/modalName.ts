@@ -1,5 +1,6 @@
 type modalName =
   | 'pinDraftDelete'
+  | 'pinDraftDelete'
   | 'thisPinEdit'
   | 'boardSelect'
   | 'createPinEdit'

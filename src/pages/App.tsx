@@ -1,26 +1,19 @@
-import { user } from '@/services/getUser';
-import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import SideBar from '../components/@Bar/sidebar/SideBar';
+import HeaderBar from '@/components/@Bar/headerbar/HeaderBar';
+import HelpBar from '@/components/@Bar/helpbar/HelpBar';
 
 const App = () => {
-    useEffect(() => {
-        const creat = async () => {
-            const loginData = await user.login({
-                username: 'hori',
-                password: 'qwe123',
-            });
-
-            console.log(loginData);
-        };
-
-        creat();
-    }, []);
-    return (
-        <>
-            <h1 className="text-3xl text-red-400 font-bold underline">
-                Hello world!
-            </h1>
-        </>
-    );
+  return (
+    <div>
+      <HeaderBar />
+      <SideBar />
+      <HelpBar />
+      <div className="relative pt-20 pl-[72px] w-full h-full">
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
 export default App;

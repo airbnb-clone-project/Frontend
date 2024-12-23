@@ -5,11 +5,12 @@ import DoubleLeftArrowIcon from '@/components/icons/DoubleLeftArrowIcon';
 import DoubleRightArrowIcon from '@/components/icons/DoubleRightArrowIcon';
 import MinusIcon from '@/components/icons/MinusIcon';
 import PlusIcon from '@/components/icons/PlusIcon';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import PinDraftList from './PinDraftList';
 import TrashIcon from '@/components/icons/TrashIcon';
 import PencilIcon from '@/components/icons/PencilIcon';
 import useModalStore from '@/stores/useModalStore';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 interface SideBarProps {
   pinList: number[];
@@ -74,6 +75,18 @@ const SideBar = ({
     tagReset();
     optionReset();
   };
+
+  const ref = useRef<HTMLDivElement>(null); // 감지할 요소의 ref 정의
+
+  const handleOutsideClick = () => {
+    console.log('외부 클릭 감지됨!');
+  };
+
+  // useOutsideClick 훅 사용
+  useOutsideClick({
+    ref, // 감지할 ref 전달
+    callback: handleOutsideClick, // 외부 클릭 시 실행할 함수 전달
+  });
 
   return (
     <div

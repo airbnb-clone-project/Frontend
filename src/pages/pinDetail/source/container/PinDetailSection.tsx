@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
 import { handleImageLoad } from '../utils';
-import { registerGSAPPlugins } from '../animations';
+import { registerGSAPPlugins } from '@/utils';
 import { usePinDetailEffect, usePinDetailGSAP } from '../hooks';
 
 import CreatorBox from '../components/CreatorBox';

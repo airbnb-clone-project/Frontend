@@ -14,18 +14,15 @@ export const router = createBrowserRouter([
     children: [
       { path: '/', element: <Main /> },
       { path: 'pin/:id', element: <PinDetail /> },
+      {
+        path: 'mypage',
+        element: <Mypage />,
+        children: [
+          { path: 'created', element: <Created /> },
+          { path: '', element: <Saved /> },
+        ],
+      },
+      { path: 'pincreate', element: <PinCreate /> },
     ],
-  },
-  {
-    path: '/mypage',
-    element: <Mypage />,
-    children: [
-      { path: 'created', element: <Created /> },
-      { path: '', element: <Saved /> },
-    ],
-  },
-  {
-    path: '/pincreate',
-    element: <PinCreate />,
   },
 ]);

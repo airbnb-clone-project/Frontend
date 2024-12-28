@@ -1,19 +1,16 @@
 import { useEffect } from 'react';
 
-interface useOutsideClickProps {
-  // 감지할 요소의 ref
-  ref: React.RefObject<HTMLElement>;
-  // 요소 외부 클릭 시 호출할 함수
-  callback: () => void;
+interface UseOutsideClickOptions {
+  ref: React.RefObject<HTMLElement>; // 감지할 요소의 ref
+  callback: (event?: Event) => void; // 요소 외부 클릭 시 호출할 함수
 }
 
-// 특정 요소 외부의 클릭을 감지하여 콜백 함수를 실행하는 React Hook
-const useOutsideClick = ({ ref, callback }: useOutsideClickProps) => {
+const useOutsideClick = ({ ref, callback }: UseOutsideClickOptions) => {
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+    const handleClickOutside = (event: Event) => {
       // ref.current가 유효하고, 이벤트 대상이 ref.current에 포함되지 않을 때
       if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback(); // 외부 클릭으로 간주하고 콜백 함수 실행
+        callback(event); // 외부 클릭으로 간주하고 콜백 함수 실행
       }
     };
 

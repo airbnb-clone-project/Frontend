@@ -2,6 +2,7 @@ import TransparentButton from '@/components/common/TransparentButton';
 import CheckIcon from '@/components/icons/CheckIcon';
 import ThreeDotIcon from '@/components/icons/ThreeDotIcon';
 import useModalStore from '@/stores/useModalStore';
+import { useEffect, useRef } from 'react';
 
 interface PinDraftListProps {
   pinList: number[];
@@ -9,8 +10,8 @@ interface PinDraftListProps {
   togglePinSelection: (index: number) => void;
   currentPin: number;
   pinOnClick: (index: number) => void;
-  activeItem: number | undefined;
-  pinOptionOnClick: (
+  activeItem: number | null;
+  pinOptionToggle: (
     index: number,
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
@@ -23,9 +24,33 @@ const PinDraftList = ({
   selectPinList,
   togglePinSelection,
   activeItem,
-  pinOptionOnClick,
+  pinOptionToggle,
 }: PinDraftListProps) => {
   const { toggleModal } = useModalStore();
+
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      pinList.forEach((_, index) => {
+        const pinRef = refs.current[index];
+        if (pinRef && !pinRef.contains(event.target as Node)) {
+          if (activeItem === index) {
+            pinOptionToggle(
+              index,
+              event as unknown as React.MouseEvent<HTMLButtonElement>
+            );
+          }
+        }
+      });
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [pinList, activeItem, pinOptionToggle]);
 
   /** 핀 초안 item의 삭제 버튼 클릭 함수 */
   const deleteBtnOnClick = () => {
@@ -74,18 +99,19 @@ const PinDraftList = ({
             </span>
 
             <TransparentButton
-              onClick={(e) => pinOptionOnClick(i, e)}
+              onClick={(e) => pinOptionToggle(i, e)}
               className={`${
                 activeItem === i ? 'flex' : 'hidden'
-              } group-hover:flex ml-auto w-8 h-8`}
+              } a relative group-hover:flex ml-auto w-8 h-8`}
             >
               <ThreeDotIcon />
             </TransparentButton>
 
             {activeItem === i && (
               <div
+                ref={(el) => (refs.current[i] = el)} // 각 항목에 ref 할당
                 onClick={(e) => e.stopPropagation()}
-                className="z-50 shadow-custom-light flex flex-col absolute right-0 top-3/4 bg-white p-2 rounded-2xl"
+                className="shadow-custom-modal z-50 shadow-custom-light flex flex-col absolute right-0 top-3/4 bg-white p-2 rounded-2xl"
               >
                 <span className="font-semibold p-2 rounded-lg hover:bg-gray-filled-hover">
                   복제

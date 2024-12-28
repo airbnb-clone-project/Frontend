@@ -3,6 +3,7 @@ import DownArrowIcon from '@/components/icons/DownArrowIcon';
 import LockIcon from '@/components/icons/LockIcon';
 import PlusBGIcon from '@/components/icons/PlusBGIcon';
 import useDynamicPosition from '@/hooks/useDynamicPosition';
+import useOutsideClick from '@/hooks/useOutsideClick';
 import { useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -37,7 +38,27 @@ const BoardSelectBox = ({
   const parentRef = useRef<HTMLDivElement | null>(null);
   const childRef = useRef<HTMLDivElement | null>(null);
 
-  const positionClass = useDynamicPosition({ parentRef, childRef, scrollRef });
+  // useDynamicPosition: 보드 선택 modal 남은 공간에 따른 포지션
+  const positionClass = useDynamicPosition({
+    parentRef,
+    childRef,
+    scrollRef,
+  });
+
+  // useOutsideClick: 모달 외부 클릭 시 닫기
+  useOutsideClick({
+    ref: childRef,
+    callback: (event) => {
+      // 모달이 열려 있고, parentRef와 childRef 모두 외부에서 클릭된 경우에만 실행
+      if (
+        isBoardSelectModal &&
+        parentRef.current &&
+        !parentRef.current.contains(event?.target as Node)
+      ) {
+        boardSelectModalClose();
+      }
+    },
+  });
 
   return (
     <div className={twMerge('flex py-5 justify-between', className)}>
@@ -76,7 +97,7 @@ const BoardSelectBox = ({
                   onChangeFC={searchTextOnChange}
                   value={searchText}
                   placeholder="검색"
-                  className="md:w-[75%] justify-center"
+                  className="md:w-full justify-center"
                 />
               </div>
 

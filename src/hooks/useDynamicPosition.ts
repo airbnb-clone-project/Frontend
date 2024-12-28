@@ -11,7 +11,9 @@ const useDynamicPosition = ({
   childRef,
   scrollRef,
 }: useDynamicPositionProps) => {
-  const [positionStyle, setPositionStyle] = useState<string>('bottom-0');
+  const [positionStyle, setPositionStyle] = useState<string>(
+    'bottom-full -translate-y-[5px]'
+  );
 
   useEffect(() => {
     const updatePosition = () => {

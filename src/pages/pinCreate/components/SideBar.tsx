@@ -5,12 +5,11 @@ import DoubleLeftArrowIcon from '@/components/icons/DoubleLeftArrowIcon';
 import DoubleRightArrowIcon from '@/components/icons/DoubleRightArrowIcon';
 import MinusIcon from '@/components/icons/MinusIcon';
 import PlusIcon from '@/components/icons/PlusIcon';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import PinDraftList from './PinDraftList';
 import TrashIcon from '@/components/icons/TrashIcon';
 import PencilIcon from '@/components/icons/PencilIcon';
 import useModalStore from '@/stores/useModalStore';
-import useOutsideClick from '@/hooks/useOutsideClick';
 
 interface SideBarProps {
   pinList: number[];
@@ -44,18 +43,19 @@ const SideBar = ({
   // 사이드바 활성화 상태를 관리하는 state
   const [isSideBar, setIsSideBar] = useState<boolean>(false);
   // 활성화된 핀 항목의 ID를 저장하는 state
-  const [activeItem, setActiveItem] = useState<number>();
+  const [activeItem, setActiveItem] = useState<number | null>(null);
 
   /** 사이드바 활성화 여부 toggle 함수 */
   const handleToggleSideBar = () => setIsSideBar((prev) => !prev);
 
-  /** pin 초안 item의 ...옵션 버튼 클릭시 실행 함수 */
-  const pinOptionOnClick = (
+  /** pin 초안 item의 ...옵션 버튼 클릭시 삭제,복제 modal toggle 함수 */
+  const pinOptionToggle = (
     index: number,
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.stopPropagation();
-    setActiveItem(index);
+    if (activeItem === index) setActiveItem(null);
+    else setActiveItem(index);
   };
 
   /** 모두 선택 text 혹은 checkbox 클릭시 실행 함수 */
@@ -76,18 +76,6 @@ const SideBar = ({
     optionReset();
   };
 
-  const ref = useRef<HTMLDivElement>(null); // 감지할 요소의 ref 정의
-
-  const handleOutsideClick = () => {
-    console.log('외부 클릭 감지됨!');
-  };
-
-  // useOutsideClick 훅 사용
-  useOutsideClick({
-    ref, // 감지할 ref 전달
-    callback: handleOutsideClick, // 외부 클릭 시 실행할 함수 전달
-  });
-
   return (
     <div
       className={`${
@@ -104,15 +92,24 @@ const SideBar = ({
               </p>
               <TransparentButton
                 onClick={handleToggleSideBar}
-                className="w-12 h-12 rounded-full"
+                className={`${
+                  selectPinList.length > 0 && 'pointer-events-none'
+                } w-12 h-12 rounded-full`}
               >
-                <DoubleRightArrowIcon />
+                <DoubleRightArrowIcon
+                  className={`${
+                    selectPinList.length > 0 && 'fill-gray-input-hover'
+                  }`}
+                />
               </TransparentButton>
             </div>
             <Button
               color="gray"
               text="새로 만들기"
-              className="py-2 px-3 w-full"
+              className={`${
+                selectPinList.length > 0 &&
+                'text-gray-input-default hover:bg-gray-filled-default'
+              } py-2 px-3 w-full`}
             />
           </div>
 
@@ -153,8 +150,9 @@ const SideBar = ({
               togglePinSelection={togglePinSelection}
               activeItem={activeItem}
               pinList={pinList}
-              pinOptionOnClick={pinOptionOnClick}
+              pinOptionToggle={pinOptionToggle}
               selectPinList={selectPinList}
+              // ref={ref}
             />
           </div>
 

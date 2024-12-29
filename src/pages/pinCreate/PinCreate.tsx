@@ -14,7 +14,7 @@ import { usePinList } from '@/hooks/pinCreate/usePinList';
 import { useOptionSettings } from '@/hooks/pinCreate/useOptionSettings';
 import useModalStore from '@/stores/useModalStore';
 import DraftDeleteModal from './components/DraftDeleteModal';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const PinCreate = () => {
   const {
@@ -72,6 +72,15 @@ const PinCreate = () => {
 
   const scrollRef = useRef<HTMLDivElement | null>(null); // scrollRef의 타입은 HTMLElement | null
 
+  useEffect(() => {
+    // 스크롤 숨기기
+    document.documentElement.style.overflow = 'hidden';
+
+    // 컴포넌트가 언마운트될 때 복원
+    return () => {
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
   return (
     <main className="flex w-full h-full">
       <div

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-
 import { pin } from '@/services/getPins';
-
 import ShowImages from './components/showimages/ShowImages';
 
 const Main = () => {

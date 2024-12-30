@@ -4,6 +4,7 @@ import HeaderBar from '@/components/@Bar/headerbar/HeaderBar';
 import HelpBar from '@/components/@Bar/helpbar/HelpBar';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/authStore';
+import { loginUser } from '@/services/getUser';
 
 const App = () => {
   const navigate = useNavigate();
@@ -18,6 +19,25 @@ const App = () => {
       console.log('로그인이 필요합니다');
     }
   }, [isLoggedIn, navigate, checkLoginStatus]);
+
+  const handleLogin = () => {
+    if (isLoggedIn) {
+      const id = prompt('ID를 입력하세요:');
+      const pw = prompt('PW를 입력하세요:');
+
+      alert(`입력한 ID: ${id}, PW: ${pw}`);
+      if (id && pw) {
+        loginUser({
+          username: id,
+          password: pw,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleLogin();
+  }, []);
 
   return (
     <div>

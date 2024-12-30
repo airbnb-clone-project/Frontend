@@ -1,56 +1,47 @@
-import axios from 'axios';
-import { URL } from './client';
-
+import Cookies from 'universal-cookie';
+import { api } from '.';
 interface UserData {
-    username: string;
-    password: string;
-    birthday?: string; // Optional, ISO 8601 형식의 문자열로 전달 (예: "2023-12-04")
+  username: string;
+  password: string;
+  birthday?: string; // Optional, ISO 8601 형식의 문자열로 전달 (예: "2023-12-04")
 }
 
-export class UserAPI {
-    private baseUrl: string;
+/**
+ * 유저 생성 함수
+ * @param baseUrl - API 기본 URL
+ * @param userData - 유저 데이터
+ */
+export const createUser = async (userData: UserData) => {
+  try {
+    const response = await api.post(`/api/auth/register`, userData);
 
-    constructor(baseUrl: string) {
-        this.baseUrl = baseUrl;
-    }
+    return response;
+  } catch (error) {
+    console.error('Create user failed:', error);
+    throw error;
+  }
+};
 
-    async create(userData: UserData) {
-        try {
-            const response = await axios.post(
-                `${this.baseUrl}/api/auth/register`,
-                userData,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+/**
+ * 유저 로그인 함수
+ * @param baseUrl - API 기본 URL
+ * @param userData - 유저 데이터
+ */
+const cookies = new Cookies();
+export const loginUser = async (userData: UserData) => {
+  try {
+    const res = await api.post(`/api/auth/login`, userData, {
+      withCredentials: true, // 쿠키를 포함한 요청을 허용
+    });
 
-            return response;
-        } catch (error) {
-            console.error('Create user failed:', error);
-            throw error;
-        }
-    }
+    const { authorization } = res.headers;
+    const accessToken: string = authorization.split(' ')[1];
 
-    async login(userData: UserData) {
-        try {
-            const response = await axios.post(
-                `${this.baseUrl}/api/auth/login`,
-                userData,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            );
+    cookies.set('accessToken', accessToken);
 
-            return response;
-        } catch (error) {
-            console.error('User login failed', error);
-            throw error;
-        }
-    }
-}
-
-export const user = new UserAPI(URL);
+    return res;
+  } catch (error) {
+    console.error('User login failed', error);
+    throw error;
+  }
+};

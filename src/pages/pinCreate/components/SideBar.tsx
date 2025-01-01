@@ -80,7 +80,7 @@ const SideBar = ({
     <div
       className={`${
         isSideBar ? 'min-w-[349px]' : 'w-[80px]'
-      } h-[100vh] border-l-[1px]`}
+      } sticky top-20 h-[100vh] border-l-[1px]`}
     >
       {isSideBar ? (
         <div className="h-full flex flex-col">

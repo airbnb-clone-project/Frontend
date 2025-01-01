@@ -1,3 +1,4 @@
+import { postPinCreate } from '@/services/postPinCreate';
 import { useRef, useState } from 'react';
 
 /**
@@ -18,14 +19,14 @@ export const usePinForm = () => {
   const [title, setTitle] = useState<string>('');
   const [explain, setExplain] = useState<string>('');
   const [link, setLink] = useState<string>('');
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [imgPreview, setImgPreview] = useState<string | null>(null);
 
   const pinFormReset = () => {
     setTitle('');
     setExplain('');
     setLink('');
-    setImage('');
+    setImage(null);
     setImgPreview('');
   };
 
@@ -34,10 +35,17 @@ export const usePinForm = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImage(reader.result as string);
         setImgPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+
+      postPinCreate(file)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 

@@ -5,6 +5,7 @@ import HelpBar from '@/components/@Bar/helpbar/HelpBar';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/authStore';
 import { loginUser } from '@/services/getUser';
+// import { api } from '@/services';
 
 const App = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const App = () => {
   }, [isLoggedIn, navigate, checkLoginStatus]);
 
   const handleLogin = () => {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       const id = prompt('ID를 입력하세요:');
       const pw = prompt('PW를 입력하세요:');
 
@@ -37,6 +38,14 @@ const App = () => {
 
   useEffect(() => {
     handleLogin();
+    // api
+    //   .post(`/api/auth/reissue`, {})
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
 
   return (

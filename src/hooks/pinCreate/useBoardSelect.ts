@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * @returns isBoardSelectModal: 보드 선택 모달 활성화 여부 상태
@@ -12,12 +12,18 @@ export const useBoardSelect = () => {
   const [isBoardSelectModal, setIsBoardSelectModal] = useState<boolean>(false);
   const [currentBoard, setCurrentBoard] = useState<string>('');
 
-  const boardSelectModalOpen = () => setIsBoardSelectModal(true);
-  const boardSelectModalClose = () => setIsBoardSelectModal(false);
-  const boardItemOnClick = (value: string) => {
+  const boardSelectModalOpen = useCallback(
+    () => setIsBoardSelectModal(true),
+    []
+  );
+  const boardSelectModalClose = useCallback(
+    () => setIsBoardSelectModal(false),
+    []
+  );
+  const boardItemOnClick = useCallback((value: string) => {
     setCurrentBoard(value);
     boardSelectModalClose();
-  };
+  }, []);
 
   const boardReset = () => {
     setCurrentBoard('');

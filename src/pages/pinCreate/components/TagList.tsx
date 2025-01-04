@@ -1,11 +1,12 @@
 import XIcon from '@/components/icons/XIcon';
+import React from 'react';
 
 interface TagListProps {
   list: { color: string; value: string }[];
   /** 선택된 주제 삭제 함수 */
   selectTagDelet: (tagText: string) => void;
 }
-const TagList = ({ list, selectTagDelet }: TagListProps) => {
+const TagList = React.memo(({ list, selectTagDelet }: TagListProps) => {
   return (
     <div className="flex flex-wrap">
       {list.map((v, i) => (
@@ -25,6 +26,6 @@ const TagList = ({ list, selectTagDelet }: TagListProps) => {
       ))}
     </div>
   );
-};
+});
 
 export default TagList;

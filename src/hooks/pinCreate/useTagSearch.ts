@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * @returns tagSearch: 현재 입력 중인 태그 검색어
@@ -23,9 +23,12 @@ export const useTagSearch = () => {
     setTagList([]);
   };
 
-  const tagSearchOnChange = (text: string) => setTagSearch(text);
+  const tagSearchOnChange = useCallback(
+    (text: string) => setTagSearch(text),
+    []
+  );
 
-  const tagItemOnClick = (tagStr: string) => {
+  const tagItemOnClick = useCallback((tagStr: string) => {
     const colors = [
       '#111111',
       '#370052',
@@ -44,13 +47,13 @@ export const useTagSearch = () => {
         { value: tagStr, color: colors[tagList.length] },
       ]);
     }
-  };
+  }, []);
 
-  const selectTagDelet = (tagText: string) => {
+  const selectTagDelet = useCallback((tagText: string) => {
     setTagList((prevTagList) =>
       prevTagList.filter((tag) => tag.value !== tagText)
     );
-  };
+  }, []);
 
   return {
     tagSearch,

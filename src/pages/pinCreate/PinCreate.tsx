@@ -7,7 +7,6 @@ import TagList from './components/TagList';
 import BoardSelectBox from './components/BoardSelectBox';
 import OptionSetting from '@/components/@Modal/createPinEdit/OptionSetting';
 // import SearchResult from './components/SearchResult';
-import { usePinForm } from '@/hooks/pinCreate/usePinForm';
 import { useTagSearch } from '@/hooks/pinCreate/useTagSearch';
 import { useBoardSelect } from '@/hooks/pinCreate/useBoardSelect';
 import { usePinList } from '@/hooks/pinCreate/usePinList';
@@ -15,20 +14,24 @@ import { useOptionSettings } from '@/hooks/pinCreate/useOptionSettings';
 import useModalStore from '@/stores/useModalStore';
 import DraftDeleteModal from './components/DraftDeleteModal';
 import { useEffect, useRef } from 'react';
+import { useTitle } from '@/hooks/pin/useTitle';
+import { useImageUpload } from '@/hooks/pin/useImageUpload';
+import { useLink } from '@/hooks/pin/useLink';
+import { useExplain } from '@/hooks/pin/useExplain';
 
 const PinCreate = () => {
-  const {
-    title,
-    explain,
-    link,
-    textareaRef,
-    imgPreview,
-    titleOnChange,
-    explainOnChange,
-    linkOnChange,
-    handleImageUpload,
-    pinFormReset,
-  } = usePinForm();
+  const { title, titleOnChange, titleReset } = useTitle();
+  const { handleImageUpload, imgPreview, imgReset } = useImageUpload();
+  const { link, linkOnChange, linkReset } = useLink();
+  const { explain, explainOnChange, explainReset, textareaRef } = useExplain();
+
+  /** 핀의 input 내용을 모두 reset하는 함수 */
+  const pinFormReset = () => {
+    titleReset();
+    imgReset();
+    linkReset();
+    explainReset();
+  };
 
   const {
     tagSearch,
@@ -81,6 +84,7 @@ const PinCreate = () => {
       document.documentElement.style.overflow = '';
     };
   }, []);
+
   return (
     <main className="flex w-full h-full">
       <div

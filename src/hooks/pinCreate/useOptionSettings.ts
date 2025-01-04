@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * @returns isOption : 추가 옵션 설정 활성화 여부 상태
@@ -21,10 +21,12 @@ export const useOptionSettings = () => {
     setsSimilarProductsVisible(true);
   };
 
-  const isOptionToggle = () => setIsOption((prev) => !prev);
-  const isCommentToggle = () => setIsComment((prev) => !prev);
-  const isSimilarProductsVisibleToggle = () =>
-    setsSimilarProductsVisible((prev) => !prev);
+  const isOptionToggle = useCallback(() => setIsOption((prev) => !prev), []);
+  const isCommentToggle = useCallback(() => setIsComment((prev) => !prev), []);
+  const isSimilarProductsVisibleToggle = useCallback(
+    () => setsSimilarProductsVisible((prev) => !prev),
+    []
+  );
 
   return {
     isOption,

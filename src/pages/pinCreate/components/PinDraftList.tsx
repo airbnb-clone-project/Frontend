@@ -1,15 +1,16 @@
 import TransparentButton from '@/components/common/TransparentButton';
 import CheckIcon from '@/components/icons/CheckIcon';
 import ThreeDotIcon from '@/components/icons/ThreeDotIcon';
+import { tempPin } from '@/services/getTempsPinCheck';
 import useModalStore from '@/stores/useModalStore';
 import { useEffect, useRef } from 'react';
 
 interface PinDraftListProps {
-  pinList: number[];
-  selectPinList: number[];
-  togglePinSelection: (index: number) => void;
-  currentPin: number;
-  pinOnClick: (index: number) => void;
+  pinList: tempPin[];
+  selectPinList: string[];
+  togglePinSelection: (tempPinNo: string) => void;
+  currentPin: tempPin | undefined;
+  pinOnClick: (v: tempPin) => void;
   activeItem: number | null;
   pinOptionToggle: (
     index: number,
@@ -30,6 +31,7 @@ const PinDraftList = ({
 
   const refs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // 원하는 요소 외의 클릭을 감지하는 함수
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       pinList.forEach((_, index) => {
@@ -57,17 +59,36 @@ const PinDraftList = ({
     toggleModal('pinDraftDelete');
   };
 
+  /** 날짜를 입력받아 한달 후까지 남은 기간 계산 */
+  const calculateRemainingDays = (createAt: string): number => {
+    const createdDate = new Date(createAt);
+
+    if (isNaN(createdDate.getTime())) {
+      throw new Error('Invalid date format');
+    }
+
+    const expirationDate = new Date(createdDate);
+    expirationDate.setMonth(createdDate.getMonth() + 1); // 1개월 추가
+
+    const today = new Date();
+
+    // 날짜 차이를 밀리초 단위로 계산 후 일수로 변환
+    const remainingTime = expirationDate.getTime() - today.getTime();
+    const remainingDays = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+
+    return remainingDays > 0 ? remainingDays : 0;
+  };
   return (
     <div className="flex flex-col gap-1">
       {pinList.map((v, i) => {
-        const isSelected = selectPinList.includes(i);
+        const isSelected = selectPinList.includes(v.tempPinNo);
 
         return (
           <div
-            key={v}
-            onClick={() => pinOnClick(i)}
+            key={i}
+            onClick={() => pinOnClick(v)}
             className={`${
-              currentPin === i
+              currentPin?.tempPinNo === v.tempPinNo
                 ? 'py-[7px] px-[7px] box-border border border-black bg-gray-filled-hover'
                 : ''
             } relative group cursor-pointer rounded-lg hover:bg-gray-filled-hover p-2 flex items-center ${
@@ -79,12 +100,12 @@ const PinDraftList = ({
               id={`pin-${v}`}
               className="peer hidden"
               checked={isSelected}
-              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => e.stopPropagation()}
             />
             <label
               htmlFor={`pin-${v}`}
               onClick={(e) => {
-                togglePinSelection(i);
+                togglePinSelection(v.tempPinNo);
                 e.stopPropagation();
               }}
               className="flex items-center justify-center cursor-pointer m-1 border-2 w-4 h-4 rounded-[4px] peer-checked:bg-[#111] peer-checked:border-[#111] border-gray-input-hover"
@@ -92,10 +113,10 @@ const PinDraftList = ({
               <CheckIcon size={8} />
             </label>
 
-            <img className="m-1 rounded-xl w-[72px] h-[72px]" />
+            <img src={v.imgUrl} className="m-1 rounded-xl w-[72px] h-[72px]" />
 
             <span className="text-sm text-gray-input-hover">
-              만료되기까지 27일 남음
+              만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음
             </span>
 
             <TransparentButton

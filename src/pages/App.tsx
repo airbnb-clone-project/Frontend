@@ -54,7 +54,7 @@ const App = () => {
       <SideBar />
       <HelpBar />
       <div className="relative pt-20 pl-[72px] w-full h-full">
-        {isLoggedIn ? (
+        {/* {isLoggedIn ? (
           <h1 className="text-3xl text-red-400 font-bold underline">
             로그인 되었습니다.
           </h1>
@@ -62,7 +62,7 @@ const App = () => {
           <h1 className="text-3xl text-red-400 font-bold underline">
             Please Log In!
           </h1>
-        )}
+        )} */}
         <Outlet />
       </div>
     </div>

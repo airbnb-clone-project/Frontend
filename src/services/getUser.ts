@@ -1,5 +1,6 @@
 import Cookies from 'universal-cookie';
 import { api } from '.';
+import { getUserProfile } from './getUserProfile';
 interface UserData {
   username: string;
   password: string;
@@ -38,6 +39,10 @@ export const loginUser = async (userData: UserData) => {
     const accessToken: string = authorization.split(' ')[1];
 
     cookies.set('accessToken', accessToken);
+
+    getUserProfile().then((res) => {
+      localStorage.setItem('userName', res.firstame);
+    });
 
     return res;
   } catch (error) {

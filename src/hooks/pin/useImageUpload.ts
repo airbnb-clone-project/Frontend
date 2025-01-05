@@ -7,7 +7,11 @@ import { postPinCreate } from '@/services/postPinCreate';
  * @returns handleImageUpload: 이미지 업로드 핸들링 함수
  * @returns imgReset: 이미지 관련 state 초기화 함수
  */
-export const useImageUpload = () => {
+interface useImageUploadProps {
+  /** 임시핀 목록 get query refetch 함수 */
+  tempPinListReFetch: () => void;
+}
+export const useImageUpload = ({ tempPinListReFetch }: useImageUploadProps) => {
   const [image, setImage] = useState<File | null>(null);
   const [imgPreview, setImgPreview] = useState<string | null>(null);
 
@@ -21,7 +25,7 @@ export const useImageUpload = () => {
       reader.readAsDataURL(file);
 
       postPinCreate(file)
-        .then((res) => console.log(res))
+        .then(() => tempPinListReFetch())
         .catch((err) => console.log(err));
     }
   };

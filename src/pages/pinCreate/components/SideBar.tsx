@@ -10,14 +10,15 @@ import PinDraftList from './PinDraftList';
 import TrashIcon from '@/components/icons/TrashIcon';
 import PencilIcon from '@/components/icons/PencilIcon';
 import useModalStore from '@/stores/useModalStore';
+import { tempPin } from '@/services/getTempsPinCheck';
 
 interface SideBarProps {
-  pinList: number[];
-  selectPinList: number[];
+  pinList: tempPin[] | undefined;
+  selectPinList: string[];
   allPinSelect: () => void;
-  togglePinSelection: (index: number) => void;
-  currentPin: number;
-  pinOnClick: (index: number) => void;
+  togglePinSelection: (tempPinNo: string) => void;
+  currentPin: tempPin | undefined;
+  pinOnClick: (tempPinNo: tempPin) => void;
   allPinReset: () => void;
   pinFormReset: () => void;
   boardReset: () => void;
@@ -26,7 +27,7 @@ interface SideBarProps {
 }
 
 const SideBar = ({
-  pinList,
+  pinList = [],
   selectPinList,
   allPinSelect,
   currentPin,
@@ -80,15 +81,16 @@ const SideBar = ({
     <div
       className={`${
         isSideBar ? 'min-w-[349px]' : 'w-[80px]'
-      } sticky top-20 h-[100vh] border-l-[1px]`}
+      } sticky top-20 h-[calc(100vh-80px)] border-l-[1px]`}
     >
       {isSideBar ? (
         <div className="h-full flex flex-col">
           {/* Header */}
-          <div className="p-4 border-b">
+          <div className="h-[137px] p-4 border-b">
             <div className="flex justify-between items-center mb-4">
               <p className="text-xl">
-                <span className="font-semibold">핀 초안</span> (4)
+                <span className="font-semibold">핀 초안</span> ({pinList.length}
+                )
               </p>
               <TransparentButton
                 onClick={handleToggleSideBar}
@@ -114,14 +116,14 @@ const SideBar = ({
           </div>
 
           {/* Pin List */}
-          <div className="pt-6 px-2 flex flex-col">
+          <div className="flex-grow pt-6 px-2 flex flex-col overflow-y-scroll">
             <div className="flex items-center mb-5 px-2">
               <input
                 type="checkbox"
                 id="all-select"
                 className="peer hidden"
                 checked={selectPinList.length !== 0}
-                onClick={handleAllSelect}
+                onChange={handleAllSelect}
               />
               <label
                 htmlFor="all-select"
@@ -156,8 +158,12 @@ const SideBar = ({
             />
           </div>
 
-          {selectPinList.length > 0 && (
-            <div className="flex gap-2 mt-auto p-4">
+          <div className={`min-h-[72px]`}>
+            <div
+              className={`flex gap-2 p-4 ${
+                selectPinList.length <= 0 && 'hidden'
+              }`}
+            >
               {/* 선택한 핀 초안 모두 삭제 button */}
               <TransparentButton
                 className="w-10 h-10"
@@ -177,7 +183,7 @@ const SideBar = ({
               {/* 선택한 핀 초안 모두 게시 */}
               <Button color="red" text="게시" className="py-2 px-3" />
             </div>
-          )}
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-8 items-center justify-center pt-4">

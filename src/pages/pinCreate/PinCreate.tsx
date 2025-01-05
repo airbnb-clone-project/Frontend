@@ -7,10 +7,10 @@ import TagList from './components/TagList';
 import BoardSelectBox from './components/BoardSelectBox';
 import OptionSetting from '@/components/@Modal/createPinEdit/OptionSetting';
 // import SearchResult from './components/SearchResult';
-import { useTagSearch } from '@/hooks/pinCreate/useTagSearch';
-import { useBoardSelect } from '@/hooks/pinCreate/useBoardSelect';
-import { usePinList } from '@/hooks/pinCreate/usePinList';
-import { useOptionSettings } from '@/hooks/pinCreate/useOptionSettings';
+import { useTagSearch } from '@/hooks/pin/useTagSearch';
+import { useBoardSelect } from '@/hooks/pin/useBoardSelect';
+import { useTempPinList } from '@/hooks/pin/useTempPinList';
+import { useOptionSettings } from '@/hooks/pin/useOptionSettings';
 import useModalStore from '@/stores/useModalStore';
 import DraftDeleteModal from './components/DraftDeleteModal';
 import { useEffect, useRef } from 'react';
@@ -18,10 +18,34 @@ import { useTitle } from '@/hooks/pin/useTitle';
 import { useImageUpload } from '@/hooks/pin/useImageUpload';
 import { useLink } from '@/hooks/pin/useLink';
 import { useExplain } from '@/hooks/pin/useExplain';
+import { useQuery } from '@tanstack/react-query';
+import { getTempsPinCheck } from '@/services/getTempsPinCheck';
 
 const PinCreate = () => {
+  const {
+    selectPinList,
+    currentPin,
+    pinOnClick,
+    togglePinSelection,
+    allPinReset,
+    setSelectPinList,
+  } = useTempPinList();
+
+  const { data: pinList, refetch: tempPinListReFetch } = useQuery({
+    queryKey: ['tempPinList'],
+    queryFn: () => getTempsPinCheck('ttaewok'),
+  });
+
+  /** 모든 임시핀을 선택 함수 */
+  const allPinSelect = () => {
+    if (!pinList) return; // pinList가 undefined인 경우 아무 작업도 하지 않음
+    setSelectPinList(pinList.map((v) => v.tempPinNo)); // pinList를 그대로 설정
+  };
+
   const { title, titleOnChange, titleReset } = useTitle();
-  const { handleImageUpload, imgPreview, imgReset } = useImageUpload();
+  const { handleImageUpload, imgPreview, imgReset } = useImageUpload({
+    tempPinListReFetch,
+  });
   const { link, linkOnChange, linkReset } = useLink();
   const { explain, explainOnChange, explainReset, textareaRef } = useExplain();
 
@@ -33,14 +57,8 @@ const PinCreate = () => {
     explainReset();
   };
 
-  const {
-    tagSearch,
-    tagList,
-    tagSearchOnChange,
-    // tagItemOnClick,
-    selectTagDelet,
-    tagReset,
-  } = useTagSearch();
+  const { tagSearch, tagList, tagSearchOnChange, selectTagDelet, tagReset } =
+    useTagSearch();
 
   const {
     isBoardSelectModal,
@@ -50,16 +68,6 @@ const PinCreate = () => {
     boardItemOnClick,
     boardReset,
   } = useBoardSelect();
-
-  const {
-    pinList,
-    selectPinList,
-    currentPin,
-    pinOnClick,
-    allPinSelect,
-    togglePinSelection,
-    allPinReset,
-  } = usePinList();
 
   const {
     isOption,
@@ -92,7 +100,7 @@ const PinCreate = () => {
         ref={scrollRef}
         className={`${
           selectPinList.length > 0 && 'opacity-25 pointer-events-none'
-        } flex-grow pb-8 overflow-y-scroll max-h-[100vh]`}
+        } flex-grow pb-8 overflow-scroll max-h-[100vh]`}
       >
         <h1 className="flex items-center h-[74.31px] border-b-[1px] pl-4 text-xl font-semibold">
           핀 만들기

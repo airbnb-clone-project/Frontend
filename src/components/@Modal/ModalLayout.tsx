@@ -4,17 +4,17 @@ import { twMerge } from 'tailwind-merge';
 import modalName from '@/types/modalName';
 import overlayName from '@/types/overlayName';
 
-const modalNames: modalName[] = [
-  'boardDelete',
-  'boardCoverChange',
-  'boardCleanup',
-  'share',
-  'pinEdit',
-  'boardEdit',
-  'pincode',
-  'filter',
-  'create',
-];
+// const modalNames: modalName[] = [
+//   'boardDelete',
+//   'boardCoverChange',
+//   'boardCleanup',
+//   'share',
+//   'pinEdit',
+//   'boardEdit',
+//   'pincode',
+//   'filter',
+//   'create',
+// ];
 
 interface ModalLayoutProps {
   name: modalName | overlayName; // modalName추가시 useModalStore.tsx에도 추가해야함
@@ -46,9 +46,7 @@ const ModalLayout = ({
   return (
     <div
       onClick={() => {
-        if (modalNames.includes(name as modalName)) {
-          toggleModal(name as modalName);
-        }
+        toggleModal(name);
       }}
       className={twMerge(
         `z-[1] fixed top-0 left-0 w-full h-full ${

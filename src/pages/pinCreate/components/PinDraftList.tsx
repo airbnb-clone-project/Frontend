@@ -113,7 +113,12 @@ const PinDraftList = ({
               <CheckIcon size={8} />
             </label>
 
-            <img src={v.imgUrl} className="m-1 rounded-xl w-[72px] h-[72px]" />
+            <div className="bg-[#f5f5f5] rounded-xl">
+              <img
+                src={v.imgUrl}
+                className="m-1 rounded-xl w-[72px] h-[72px]"
+              />
+            </div>
 
             <span className="text-sm text-gray-input-hover">
               만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음

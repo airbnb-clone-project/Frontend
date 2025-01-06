@@ -1,4 +1,6 @@
 type modalName =
+  | 'recommendPin'
+  | 'profile'
   | 'pinDraftDelete'
   | 'thisPinEdit'
   | 'boardSelect'

@@ -31,10 +31,15 @@ const PinCreate = () => {
     setSelectPinList,
   } = useTempPinList();
 
+  const userName = localStorage.getItem('userName') || ''; // 기본값 지정
+
   const { data: pinList, refetch: tempPinListReFetch } = useQuery({
     queryKey: ['tempPinList'],
-    queryFn: () => getTempsPinCheck('ttaewok'),
+    queryFn: () => {
+      return getTempsPinCheck(userName);
+    },
   });
+  console.log(pinList);
 
   /** 모든 임시핀을 선택 함수 */
   const allPinSelect = () => {
@@ -229,7 +234,7 @@ const PinCreate = () => {
       />
 
       {/* 핀 초안 삭제 modal */}
-      {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
+      {isModalOpen.pinDraftDelete && <DraftDeleteModal pinNo={selectPinList} />}
     </main>
   );
 };

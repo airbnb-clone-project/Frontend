@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { postPinCreate } from '@/services/postPinCreate';
+import { postTempPinCreate } from '@/services/postTempPinCreate';
+import { useTempPinStore } from '@/stores/useTempPinStore';
 
 /**
  * @returns image: 업로드할 이미지 state
@@ -12,8 +12,8 @@ interface useImageUploadProps {
   tempPinListReFetch: () => void;
 }
 export const useImageUpload = ({ tempPinListReFetch }: useImageUploadProps) => {
-  const [image, setImage] = useState<File | null>(null);
-  const [imgPreview, setImgPreview] = useState<string | null>(null);
+  const { image, setImage, imgPreview, setImgPreview, imageReset } =
+    useTempPinStore();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -24,16 +24,13 @@ export const useImageUpload = ({ tempPinListReFetch }: useImageUploadProps) => {
       };
       reader.readAsDataURL(file);
 
-      postPinCreate(file)
-        .then(() => tempPinListReFetch())
+      postTempPinCreate(file)
+        .then(() => {
+          tempPinListReFetch();
+        })
         .catch((err) => console.log(err));
     }
   };
 
-  const imgReset = () => {
-    setImage(null);
-    setImgPreview(null);
-  };
-
-  return { image, imgPreview, handleImageUpload, imgReset };
+  return { image, imgPreview, handleImageUpload, imageReset };
 };

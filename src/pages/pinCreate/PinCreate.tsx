@@ -18,8 +18,12 @@ import { useTitle } from '@/hooks/pin/useTitle';
 import { useImageUpload } from '@/hooks/pin/useImageUpload';
 import { useLink } from '@/hooks/pin/useLink';
 import { useExplain } from '@/hooks/pin/useExplain';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getTempsPinCheck } from '@/services/getTempsPinCheck';
+import {
+  putTempPinEdit,
+  PutTempPinEditParams,
+} from '@/services/putTempPinEdit';
 
 const PinCreate = () => {
   const {
@@ -33,7 +37,21 @@ const PinCreate = () => {
 
   const { data: pinList, refetch: tempPinListReFetch } = useQuery({
     queryKey: ['tempPinList'],
-    queryFn: () => getTempsPinCheck('ttaewok'),
+    queryFn: () => getTempsPinCheck('taewoktest'),
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate: tempPinUpdate } = useMutation({
+    mutationFn: ({ editData, pinNo }: PutTempPinEditParams) =>
+      putTempPinEdit({ editData, pinNo }),
+    onSuccess: () => {
+      // 성공시 임시핀 목록 useQuery 업데이트
+      queryClient.invalidateQueries({ queryKey: ['tempPinList'] });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
   });
 
   /** 모든 임시핀을 선택 함수 */
@@ -43,7 +61,7 @@ const PinCreate = () => {
   };
 
   const { title, titleOnChange, titleReset } = useTitle();
-  const { handleImageUpload, imgPreview, imgReset } = useImageUpload({
+  const { handleImageUpload, imgPreview, imageReset } = useImageUpload({
     tempPinListReFetch,
   });
   const { link, linkOnChange, linkReset } = useLink();
@@ -52,9 +70,10 @@ const PinCreate = () => {
   /** 핀의 input 내용을 모두 reset하는 함수 */
   const pinFormReset = () => {
     titleReset();
-    imgReset();
+    imageReset();
     linkReset();
     explainReset();
+    optionReset();
   };
 
   const { tagSearch, tagList, tagSearchOnChange, selectTagDelet, tagReset } =
@@ -78,6 +97,18 @@ const PinCreate = () => {
     isSimilarProductsVisibleToggle,
     optionReset,
   } = useOptionSettings();
+
+  // 임시핀 내용 수정 useEffect
+  useEffect(() => {
+    const editData = {
+      boardNo: null,
+      description: explain,
+      title: title,
+      link: link,
+      commentAllowed: isComment,
+    };
+    if (currentPin) tempPinUpdate({ editData, pinNo: currentPin.tempPinNo });
+  }, [explain, title, link, isComment, currentPin, tempPinUpdate]);
 
   const { isModalOpen } = useModalStore();
 
@@ -142,20 +173,20 @@ const PinCreate = () => {
                 onChangeFC={titleOnChange}
                 title="제목"
                 placeholder="제목 추가"
-                value={title}
+                value={title || ''}
               />
               {/* 설명 input */}
               <PinExplainInput
                 textareaRef={textareaRef}
                 onChangeFC={explainOnChange}
-                value={explain}
+                value={explain || ''}
               />
               {/* 링크 input */}
               <LabelInput
                 title="링크"
                 placeholder="링크 추가"
                 onChangeFC={linkOnChange}
-                value={link}
+                value={link || ''}
               />
               {/* 보드 선택 컴포넌트 */}
               <BoardSelectBox

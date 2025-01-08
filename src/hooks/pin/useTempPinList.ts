@@ -1,4 +1,5 @@
 import { tempPin } from '@/services/getTempsPinCheck';
+import { useTempPinStore } from '@/stores/useTempPinStore';
 import { useState } from 'react';
 
 /**
@@ -22,7 +23,24 @@ export const useTempPinList = () => {
     );
   };
 
+  const {
+    setBoardNo,
+    setIsComment,
+    setExplain,
+    setLink,
+    setImgPreview,
+    setPinNo,
+    setTitle,
+  } = useTempPinStore();
+
   const pinOnClick = (v: tempPin) => {
+    setBoardNo(v.boardNo);
+    setIsComment(v.commentAllowed);
+    setExplain(v.description);
+    setLink(v.link);
+    setImgPreview(v.imgUrl);
+    setPinNo(v.tempPinNo);
+    setTitle(v.title);
     setCurrentPin(v);
   };
 

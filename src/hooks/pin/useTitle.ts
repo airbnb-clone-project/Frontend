@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useTempPinStore } from '@/stores/useTempPinStore';
+import { useCallback } from 'react';
 
 // Title 관리 훅
 /**
@@ -7,9 +8,7 @@ import { useCallback, useState } from 'react';
  * @returns titleReset: 핀 제목을 reset하는 함수
  */
 export const useTitle = () => {
-  const [title, setTitle] = useState<string>('');
-
-  const titleReset = () => setTitle('');
+  const { title, setTitle, titleReset } = useTempPinStore();
 
   const titleOnChange = useCallback((text: string) => {
     setTitle(text);

@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
 interface TempPinState {
-  explain: string;
-  setExplain: (text: string) => void;
+  explain: string | null;
+  setExplain: (text: string | null) => void;
   explainReset: () => void;
 
   image: File | null;
@@ -11,12 +11,12 @@ interface TempPinState {
   setImgPreview: (preview: string | null) => void;
   imageReset: () => void;
 
-  link: string;
-  setLink: (text: string) => void;
+  link: string | null;
+  setLink: (text: string | null) => void;
   linkReset: () => void;
 
-  title: string;
-  setTitle: (text: string) => void;
+  title: string | null;
+  setTitle: (text: string | null) => void;
   titleReset: () => void;
 
   isOption: boolean;
@@ -33,8 +33,8 @@ interface TempPinState {
   setTagList: (list: { color: string; value: string }[]) => void;
   tagsReset: () => void;
 
-  boardNo: number;
-  setBoardNo: (boardNo: number) => void;
+  boardNo: number | null;
+  setBoardNo: (boardNo: number | null) => void;
   boardNoReset: () => void;
 
   pinNo: string;

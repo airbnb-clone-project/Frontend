@@ -108,22 +108,30 @@ const PinDraftList = ({
                 togglePinSelection(v.tempPinNo);
                 e.stopPropagation();
               }}
-              className="flex items-center justify-center cursor-pointer m-1 border-2 w-4 h-4 rounded-[4px] peer-checked:bg-[#111] peer-checked:border-[#111] border-gray-input-hover"
+              className="flex items-center justify-center cursor-pointer m-1 border-2 min-w-4 h-4 rounded-[4px] peer-checked:bg-[#111] peer-checked:border-[#111] border-gray-input-hover"
             >
               <CheckIcon size={8} />
             </label>
 
-            <img src={v.imgUrl} className="m-1 rounded-xl w-[72px] h-[72px]" />
+            <img
+              src={v.imgUrl}
+              className="m-1 rounded-xl min-w-[72px] h-[72px]"
+            />
 
-            <span className="text-sm text-gray-input-hover">
-              만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음
-            </span>
+            <div className="flex flex-col w-[154px]">
+              <p className="text-sm break-words line-clamp-3 overflow-hidden text-ellipsis">
+                {v.title}
+              </p>
+              <span className="text-sm text-gray-input-hover">
+                만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음
+              </span>
+            </div>
 
             <TransparentButton
               onClick={(e) => pinOptionToggle(i, e)}
               className={`${
                 activeItem === i ? 'flex' : 'hidden'
-              } a relative group-hover:flex ml-auto w-8 h-8`}
+              } a relative group-hover:flex ml-auto min-w-8 h-8`}
             >
               <ThreeDotIcon />
             </TransparentButton>

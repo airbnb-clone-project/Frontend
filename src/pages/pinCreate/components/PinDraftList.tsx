@@ -7,8 +7,8 @@ import { useEffect, useRef } from 'react';
 
 interface PinDraftListProps {
   pinList: tempPin[];
-  selectPinList: string[];
-  togglePinSelection: (tempPinNo: string) => void;
+  selectPinList: tempPin[];
+  togglePinSelection: (tempPin: tempPin) => void;
   currentPin: tempPin | undefined;
   pinOnClick: (v: tempPin) => void;
   activeItem: number | null;
@@ -81,7 +81,9 @@ const PinDraftList = ({
   return (
     <div className="flex flex-col gap-1">
       {pinList.map((v, i) => {
-        const isSelected = selectPinList.includes(v.tempPinNo);
+        const isSelected = selectPinList
+          .map((value) => value.tempPinNo)
+          .includes(v.tempPinNo);
 
         return (
           <div
@@ -105,7 +107,7 @@ const PinDraftList = ({
             <label
               htmlFor={`pin-${v}`}
               onClick={(e) => {
-                togglePinSelection(v.tempPinNo);
+                togglePinSelection(v);
                 e.stopPropagation();
               }}
               className="flex items-center justify-center cursor-pointer m-1 border-2 min-w-4 h-4 rounded-[4px] peer-checked:bg-[#111] peer-checked:border-[#111] border-gray-input-hover"

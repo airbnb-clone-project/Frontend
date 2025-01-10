@@ -12,14 +12,14 @@ import { useState } from 'react';
  * @returns allPinReset: 현재 선택된 모든 pin을 해제하는 함수
  */
 export const useTempPinList = () => {
-  const [selectPinList, setSelectPinList] = useState<string[]>([]);
+  const [selectPinList, setSelectPinList] = useState<tempPin[]>([]);
   const [currentPin, setCurrentPin] = useState<tempPin>();
 
-  const togglePinSelection = (tempPinNo: string) => {
+  const togglePinSelection = (tempPin: tempPin) => {
     setSelectPinList((prev) =>
-      prev.includes(tempPinNo)
-        ? prev.filter((pin) => pin !== tempPinNo)
-        : [...prev, tempPinNo]
+      prev.includes(tempPin)
+        ? prev.filter((pin) => pin !== tempPin)
+        : [...prev, tempPin]
     );
   };
 

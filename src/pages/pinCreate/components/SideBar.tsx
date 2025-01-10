@@ -14,9 +14,9 @@ import { tempPin } from '@/services/getTempsPinCheck';
 
 interface SideBarProps {
   pinList: tempPin[] | undefined;
-  selectPinList: string[];
+  selectPinList: tempPin[];
   allPinSelect: () => void;
-  togglePinSelection: (tempPinNo: string) => void;
+  togglePinSelection: (tempPin: tempPin) => void;
   currentPin: tempPin | undefined;
   pinOnClick: (tempPinNo: tempPin) => void;
   allPinReset: () => void;
@@ -175,7 +175,7 @@ const SideBar = ({
               {/* 선택한 핀 초안 수정 button */}
               <TransparentButton
                 className="w-10 h-10"
-                onClick={() => console.log()}
+                onClick={() => toggleModal('pinEdit')}
               >
                 <PencilIcon />
               </TransparentButton>

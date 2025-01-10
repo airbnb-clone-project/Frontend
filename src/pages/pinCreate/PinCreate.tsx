@@ -24,6 +24,7 @@ import {
   putTempPinEdit,
   PutTempPinEditParams,
 } from '@/services/putTempPinEdit';
+import TempPinEditModal from '@/components/@Modal/tempPinEdit/TempPinEditModal';
 
 const PinCreate = () => {
   const {
@@ -57,7 +58,7 @@ const PinCreate = () => {
   /** 모든 임시핀을 선택 함수 */
   const allPinSelect = () => {
     if (!pinList) return; // pinList가 undefined인 경우 아무 작업도 하지 않음
-    setSelectPinList(pinList.map((v) => v.tempPinNo)); // pinList를 그대로 설정
+    setSelectPinList(pinList); // pinList를 그대로 설정
   };
 
   const { title, titleOnChange, titleReset } = useTitle();
@@ -261,6 +262,10 @@ const PinCreate = () => {
 
       {/* 핀 초안 삭제 modal */}
       {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
+      {/* 임시핀 수정 modal */}
+      {isModalOpen.pinEdit && (
+        <TempPinEditModal selectPinList={selectPinList} />
+      )}
     </main>
   );
 };

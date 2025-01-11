@@ -20,6 +20,12 @@ import { useLink } from '@/hooks/pin/useLink';
 import { useExplain } from '@/hooks/pin/useExplain';
 import { useQuery } from '@tanstack/react-query';
 import { getTempsPinCheck } from '@/services/getTempsPinCheck';
+// import {
+//   putTempPinEdit,
+//   PutTempPinEditParams,
+// } from '@/services/putTempPinEdit';
+import TempPinEditModal from '@/components/@Modal/tempPinEdit/TempPinEditModal';
+import useTempPinUpdate from '@/hooks/queries/useTempPinUpdate';
 
 const PinCreate = () => {
   const {
@@ -33,29 +39,23 @@ const PinCreate = () => {
 
   const { data: pinList, refetch: tempPinListReFetch } = useQuery({
     queryKey: ['tempPinList'],
-    queryFn: () => getTempsPinCheck('ttaewok'),
+    queryFn: () => getTempsPinCheck('taewoktest'),
   });
+
+  const { mutate: tempPinUpdate } = useTempPinUpdate();
 
   /** 모든 임시핀을 선택 함수 */
   const allPinSelect = () => {
     if (!pinList) return; // pinList가 undefined인 경우 아무 작업도 하지 않음
-    setSelectPinList(pinList.map((v) => v.tempPinNo)); // pinList를 그대로 설정
+    setSelectPinList(pinList); // pinList를 그대로 설정
   };
 
   const { title, titleOnChange, titleReset } = useTitle();
-  const { handleImageUpload, imgPreview, imgReset } = useImageUpload({
+  const { handleImageUpload, imgPreview, imageReset } = useImageUpload({
     tempPinListReFetch,
   });
   const { link, linkOnChange, linkReset } = useLink();
   const { explain, explainOnChange, explainReset, textareaRef } = useExplain();
-
-  /** 핀의 input 내용을 모두 reset하는 함수 */
-  const pinFormReset = () => {
-    titleReset();
-    imgReset();
-    linkReset();
-    explainReset();
-  };
 
   const { tagSearch, tagList, tagSearchOnChange, selectTagDelet, tagReset } =
     useTagSearch();
@@ -81,8 +81,38 @@ const PinCreate = () => {
 
   const { isModalOpen } = useModalStore();
 
-  const scrollRef = useRef<HTMLDivElement | null>(null); // scrollRef의 타입은 HTMLElement | null
+  /** 핀의 input 내용을 모두 reset하는 함수 */
+  const pinFormReset = () => {
+    titleReset();
+    imageReset();
+    linkReset();
+    explainReset();
+    optionReset();
+  };
 
+  // 임시핀 내용 수정 useEffect
+  useEffect(() => {
+    const editData = {
+      boardNo: null,
+      description: explain,
+      title: title,
+      link: link,
+      commentAllowed: isComment,
+    };
+    if (currentPin) tempPinUpdate({ editData, pinNo: currentPin.tempPinNo });
+  }, [explain, title, link, isComment, currentPin, tempPinUpdate]);
+
+  // 현재 선택중인 임시핀에 대한 정보를 업데이트
+  useEffect(() => {
+    if (pinList) {
+      const matchingPins = pinList.filter((pin) =>
+        selectPinList.some((selectPin) => selectPin.tempPinNo === pin.tempPinNo)
+      );
+      setSelectPinList(matchingPins);
+    }
+  }, [pinList]);
+
+  const scrollRef = useRef<HTMLDivElement | null>(null); // scrollRef의 타입은 HTMLElement | null
   useEffect(() => {
     // 스크롤 숨기기
     document.documentElement.style.overflow = 'hidden';
@@ -102,8 +132,17 @@ const PinCreate = () => {
           selectPinList.length > 0 && 'opacity-25 pointer-events-none'
         } flex-grow pb-8 overflow-scroll max-h-[100vh]`}
       >
-        <h1 className="flex items-center h-[74.31px] border-b-[1px] pl-4 text-xl font-semibold">
-          핀 만들기
+        <h1 className="justify-between flex items-center h-[74.31px] border-b-[1px] pl-4 text-xl font-semibold">
+          <span>핀 만들기</span>
+          {imgPreview && (
+            <div className="pr-3">
+              <Button
+                color="red"
+                text="게시"
+                className="w-[64px] h-[48px] text-[16px] "
+              />
+            </div>
+          )}
         </h1>
         <div className="mx-2 min-w-[584px] flex flex-col lg:gap-12 lg:flex-row lg:justify-center">
           <div className="py-4 mt-4 flex flex-col items-center">
@@ -142,20 +181,20 @@ const PinCreate = () => {
                 onChangeFC={titleOnChange}
                 title="제목"
                 placeholder="제목 추가"
-                value={title}
+                value={title || ''}
               />
               {/* 설명 input */}
               <PinExplainInput
                 textareaRef={textareaRef}
                 onChangeFC={explainOnChange}
-                value={explain}
+                value={explain || ''}
               />
               {/* 링크 input */}
               <LabelInput
                 title="링크"
                 placeholder="링크 추가"
                 onChangeFC={linkOnChange}
-                value={link}
+                value={link || ''}
               />
               {/* 보드 선택 컴포넌트 */}
               <BoardSelectBox
@@ -230,6 +269,13 @@ const PinCreate = () => {
 
       {/* 핀 초안 삭제 modal */}
       {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
+      {/* 임시핀 수정 modal */}
+      {isModalOpen.pinEdit && (
+        <TempPinEditModal
+          selectPinList={selectPinList}
+          tempPinUpdate={tempPinUpdate}
+        />
+      )}
     </main>
   );
 };

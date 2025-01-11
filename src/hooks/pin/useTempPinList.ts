@@ -1,4 +1,5 @@
 import { tempPin } from '@/services/getTempsPinCheck';
+import { useTempPinStore } from '@/stores/useTempPinStore';
 import { useState } from 'react';
 
 /**
@@ -11,18 +12,35 @@ import { useState } from 'react';
  * @returns allPinReset: 현재 선택된 모든 pin을 해제하는 함수
  */
 export const useTempPinList = () => {
-  const [selectPinList, setSelectPinList] = useState<string[]>([]);
+  const [selectPinList, setSelectPinList] = useState<tempPin[]>([]);
   const [currentPin, setCurrentPin] = useState<tempPin>();
 
-  const togglePinSelection = (tempPinNo: string) => {
+  const togglePinSelection = (tempPin: tempPin) => {
     setSelectPinList((prev) =>
-      prev.includes(tempPinNo)
-        ? prev.filter((pin) => pin !== tempPinNo)
-        : [...prev, tempPinNo]
+      prev.some((pin) => pin.tempPinNo === tempPin.tempPinNo)
+        ? prev.filter((pin) => pin.tempPinNo !== tempPin.tempPinNo)
+        : [...prev, tempPin]
     );
   };
 
+  const {
+    setBoardNo,
+    setIsComment,
+    setExplain,
+    setLink,
+    setImgPreview,
+    setPinNo,
+    setTitle,
+  } = useTempPinStore();
+
   const pinOnClick = (v: tempPin) => {
+    setBoardNo(v.boardNo);
+    setIsComment(v.commentAllowed);
+    setExplain(v.description);
+    setLink(v.link);
+    setImgPreview(v.imgUrl);
+    setPinNo(v.tempPinNo);
+    setTitle(v.title);
     setCurrentPin(v);
   };
 

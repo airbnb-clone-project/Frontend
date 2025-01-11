@@ -41,6 +41,16 @@ const PinCreate = () => {
     queryFn: () => getTempsPinCheck('taewoktest'),
   });
 
+  // 현재 선택중인 임시핀에 대한 정보를 업데이트
+  useEffect(() => {
+    if (pinList) {
+      const matchingPins = pinList.filter((pin) =>
+        selectPinList.some((selectPin) => selectPin.tempPinNo === pin.tempPinNo)
+      );
+      setSelectPinList(matchingPins);
+    }
+  }, [pinList]);
+
   const queryClient = useQueryClient();
 
   const { mutate: tempPinUpdate } = useMutation({
@@ -264,7 +274,10 @@ const PinCreate = () => {
       {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
       {/* 임시핀 수정 modal */}
       {isModalOpen.pinEdit && (
-        <TempPinEditModal selectPinList={selectPinList} />
+        <TempPinEditModal
+          selectPinList={selectPinList}
+          tempPinUpdate={tempPinUpdate}
+        />
       )}
     </main>
   );

@@ -2,7 +2,7 @@ import ModalLayout from '@/components/@Modal/ModalLayout';
 import Button from '@/components/common/Button';
 import XIcon from '@/components/icons/XIcon';
 import useModalStore from '@/stores/useModalStore';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PinExplainInput from './PinExplainInput';
 import BoardSectionSelect from './BoardSectionSelect';
 import LabelInput from '@/components/common/LabelInput';
@@ -10,15 +10,19 @@ import { tempPin } from '@/services/getTempsPinCheck';
 import DiamondWarning from '@/components/icons/DiamondWarning';
 import TagList from '@/pages/pinCreate/components/TagList';
 import { useTagSearch } from '@/hooks/pin/useTagSearch';
+import { PutTempPinEditParams } from '@/services/putTempPinEdit';
 
 interface TempPinEditModalProps {
   /** 섹션 선택 요소 유무 */
   isSection?: boolean;
   selectPinList: tempPin[];
+  /** 임시핀 업데이트 query 함수 */
+  tempPinUpdate: ({ editData, pinNo }: PutTempPinEditParams) => void;
 }
 const TempPinEditModal = ({
   isSection,
   selectPinList,
+  tempPinUpdate,
 }: TempPinEditModalProps) => {
   // selectPinList의 길이가 1이상인지 확인하는 변수
   const isSelectPinListArray = selectPinList.length > 1;
@@ -35,10 +39,32 @@ const TempPinEditModal = ({
     isSelectPinListArray ? '' : selectPinList[0].link ?? ''
   );
 
+  // 모든 key 값이 같은지 확인하고 공통된 값을 반환하는 함수
+  const getCommonValue = <T extends keyof (typeof selectPinList)[0]>(
+    list: typeof selectPinList,
+    key: T
+  ): string => {
+    if (!list || list.length === 0) return '';
+    const firstValue = list[0][key] ?? '';
+    const isCommon = list.every((item) => item[key] === firstValue);
+    return isCommon ? (firstValue as string) : '';
+  };
+
+  useEffect(() => {
+    setTitle(getCommonValue(selectPinList, 'title'));
+    setExplain(getCommonValue(selectPinList, 'description'));
+    setLink(getCommonValue(selectPinList, 'link'));
+  }, []);
+
   /** 업데이트할 값이 있는지 확인하는 함수 */
-  const hasStateChanged = () => {
+  const hasStateChanged = (): boolean => {
     // 기본적으로 selectPinList가 유효한지 확인
     if (!selectPinList || selectPinList.length === 0) return false;
+
+    // 현재 수정중인 임시핀이 2개 이상일 때
+    if (selectPinList.length > 1) {
+      return !!(explain || title || link);
+    }
 
     const {
       title: pinTitle,
@@ -65,6 +91,31 @@ const TempPinEditModal = ({
   // pin Link input onChange 함수
   const linkOnChange = (text: string) => {
     setLink(text);
+  };
+
+  /** 업데이트 button 클릭시 실행 함수 */
+  const updateBtnOnClick = () => {
+    selectPinList.forEach((pin) => {
+      // 모든 값이 같다면 함수 실행을 막기 위한 조건
+      const isSameAsState =
+        explain === pin.description && title === pin.title && link === pin.link;
+
+      // 모든 값이 같으면 업데이트를 건너뜀
+      if (isSameAsState) {
+        return;
+      }
+
+      const editData = {
+        boardNo: null,
+        description: explain || pin.description,
+        title: title || pin.title,
+        link: link || pin.link,
+        commentAllowed: pin.commentAllowed,
+      };
+
+      tempPinUpdate({ editData, pinNo: pin.tempPinNo });
+    });
+    toggleModal('thisPinEdit');
   };
 
   // textarea ref
@@ -250,6 +301,7 @@ const TempPinEditModal = ({
 
         <div className="px-6 py-6 flex justify-end gap-2 h-[96px]">
           <Button
+            onClick={isChanged ? updateBtnOnClick : undefined}
             text="업데이트"
             color={isChanged ? 'red' : 'gray'}
             className={isChanged ? '' : 'text-gray-400'}

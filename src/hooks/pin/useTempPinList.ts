@@ -17,8 +17,8 @@ export const useTempPinList = () => {
 
   const togglePinSelection = (tempPin: tempPin) => {
     setSelectPinList((prev) =>
-      prev.includes(tempPin)
-        ? prev.filter((pin) => pin !== tempPin)
+      prev.some((pin) => pin.tempPinNo === tempPin.tempPinNo)
+        ? prev.filter((pin) => pin.tempPinNo !== tempPin.tempPinNo)
         : [...prev, tempPin]
     );
   };

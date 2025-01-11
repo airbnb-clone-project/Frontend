@@ -26,6 +26,7 @@ import { getTempsPinCheck } from '@/services/getTempsPinCheck';
 // } from '@/services/putTempPinEdit';
 import TempPinEditModal from '@/components/@Modal/tempPinEdit/TempPinEditModal';
 import useTempPinUpdate from '@/hooks/queries/useTempPinUpdate';
+import usePostPin from '@/hooks/queries/usePostPin';
 
 const PinCreate = () => {
   const {
@@ -51,7 +52,7 @@ const PinCreate = () => {
   };
 
   const { title, titleOnChange, titleReset } = useTitle();
-  const { handleImageUpload, imgPreview, imageReset } = useImageUpload({
+  const { handleImageUpload, imgPreview, image, imageReset } = useImageUpload({
     tempPinListReFetch,
   });
   const { link, linkOnChange, linkReset } = useLink();
@@ -81,6 +82,8 @@ const PinCreate = () => {
 
   const { isModalOpen } = useModalStore();
 
+  const { mutate: postPin } = usePostPin();
+
   /** 핀의 input 내용을 모두 reset하는 함수 */
   const pinFormReset = () => {
     titleReset();
@@ -88,6 +91,34 @@ const PinCreate = () => {
     linkReset();
     explainReset();
     optionReset();
+  };
+
+  /** 게시 버튼 클릭 함수 */
+  const postBtnOnClick = () => {
+    console.log(currentPin);
+    if (currentPin) {
+      const {
+        imageClassification,
+        boardNo,
+        commentAllowed,
+        description,
+        imgUrl,
+        link,
+        title,
+      } = currentPin;
+      const postData = {
+        userNo: 0,
+        imgUrl: imgUrl,
+        imageClassification: imageClassification,
+        title: title,
+        description: description,
+        link: link,
+        boardNo: boardNo,
+        tagNos: [0],
+        commentAllowed: commentAllowed,
+      };
+      postPin(postData);
+    }
   };
 
   // 임시핀 내용 수정 useEffect
@@ -137,6 +168,7 @@ const PinCreate = () => {
           {imgPreview && (
             <div className="pr-3">
               <Button
+                onClick={postBtnOnClick}
                 color="red"
                 text="게시"
                 className="w-[64px] h-[48px] text-[16px] "

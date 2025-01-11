@@ -106,6 +106,7 @@ const SideBar = ({
               </TransparentButton>
             </div>
             <Button
+              onClick={resetBtnOnClick}
               color="gray"
               text="새로 만들기"
               className={`${

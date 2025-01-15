@@ -27,6 +27,7 @@ export const useExplain = () => {
 
   return {
     explain,
+    setExplain,
     explainOnChange,
     textareaRef,
     handleResizeHeight,

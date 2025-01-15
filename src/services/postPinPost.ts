@@ -1,7 +1,6 @@
 import { api } from '.';
 
 export interface postPinPostProps {
-  userNo: number | null;
   imgUrl: string | null;
   imageClassification: string | null;
   title: string | null;

@@ -41,7 +41,7 @@ export const loginUser = async (userData: UserData) => {
     cookies.set('accessToken', accessToken);
 
     getUserProfile().then((res) => {
-      localStorage.setItem('userName', res.firstame);
+      localStorage.setItem('userName', res.firstName);
     });
 
     return res;

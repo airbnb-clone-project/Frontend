@@ -37,7 +37,7 @@ interface TempPinState {
   setBoardNo: (boardNo: number | null) => void;
   boardNoReset: () => void;
 
-  pinNo: string;
+  pinNo: string | null;
   setPinNo: (pinNo: string) => void;
   pinNoReset: () => void;
 }

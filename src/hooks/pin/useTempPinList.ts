@@ -6,24 +6,18 @@ import { useState } from 'react';
  * @returns setPinList: 핀 리스트를 설정하는 함수
  * @returns allPinSelect: 모든 핀을 선택 상태로 만드는 함수
  * @returns togglePinSelection: 특정 핀의 선택 상태를 토글하는 함수
- * @returns currentPin: 현재 선택중인 핀 상태
- * @returns pinOnClick: 핀 초안 item 클릭시 실행 함수
  * @returns allPinReset: 현재 선택된 모든 pin을 해제하는 함수
  */
+
 export const useTempPinList = () => {
-  const [selectPinList, setSelectPinList] = useState<string[]>([]);
-  const [currentPin, setCurrentPin] = useState<tempPin>();
+  const [selectPinList, setSelectPinList] = useState<tempPin[]>([]);
 
-  const togglePinSelection = (tempPinNo: string) => {
+  const togglePinSelection = (tempPin: tempPin) => {
     setSelectPinList((prev) =>
-      prev.includes(tempPinNo)
-        ? prev.filter((pin) => pin !== tempPinNo)
-        : [...prev, tempPinNo]
+      prev.some((pin) => pin.tempPinNo === tempPin.tempPinNo)
+        ? prev.filter((pin) => pin.tempPinNo !== tempPin.tempPinNo)
+        : [...prev, tempPin]
     );
-  };
-
-  const pinOnClick = (v: tempPin) => {
-    setCurrentPin(v);
   };
 
   const allPinReset = () => {
@@ -32,10 +26,8 @@ export const useTempPinList = () => {
 
   return {
     selectPinList,
-    currentPin,
     setSelectPinList,
     togglePinSelection,
-    pinOnClick,
     allPinReset,
   };
 };

@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useTempPinStore } from '@/stores/useTempPinStore';
+import { useCallback } from 'react';
 
 /**
  * @returns isOption : 추가 옵션 설정 활성화 여부 상태
@@ -10,22 +11,32 @@ import { useCallback, useState } from 'react';
  * @returns optionReset : 모든 옵션을 초기 상태로 reset하는 함수
  */
 export const useOptionSettings = () => {
-  const [isOption, setIsOption] = useState(false);
-  const [isComment, setIsComment] = useState<boolean>(true);
-  const [isSimilarProductsVisible, setsSimilarProductsVisible] =
-    useState<boolean>(true);
+  const {
+    isOption,
+    setIsOption,
+    isComment,
+    setIsComment,
+    isSimilarProductsVisible,
+    setSimilarProductsVisible,
+  } = useTempPinStore();
 
   const optionReset = () => {
     setIsOption(false);
     setIsComment(true);
-    setsSimilarProductsVisible(true);
+    setSimilarProductsVisible(true);
   };
 
-  const isOptionToggle = useCallback(() => setIsOption((prev) => !prev), []);
-  const isCommentToggle = useCallback(() => setIsComment((prev) => !prev), []);
+  const isOptionToggle = useCallback(
+    () => setIsOption(!isOption),
+    [isOption, setIsOption]
+  );
+  const isCommentToggle = useCallback(
+    () => setIsComment(!isComment),
+    [setIsComment, isComment]
+  );
   const isSimilarProductsVisibleToggle = useCallback(
-    () => setsSimilarProductsVisible((prev) => !prev),
-    []
+    () => setSimilarProductsVisible(!isSimilarProductsVisible),
+    [setSimilarProductsVisible, isSimilarProductsVisible]
   );
 
   return {

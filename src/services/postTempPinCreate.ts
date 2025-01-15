@@ -4,7 +4,7 @@ import { api } from '.';
 /**
  * @param postPinCreate - 임시핀 생성 api
  */
-export const postPinCreate = async (imgFile: File) => {
+export const postTempPinCreate = async (imgFile: File) => {
   const cookies = new Cookies();
 
   const formData = new FormData();
@@ -17,5 +17,5 @@ export const postPinCreate = async (imgFile: File) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  return data;
+  return data.data;
 };

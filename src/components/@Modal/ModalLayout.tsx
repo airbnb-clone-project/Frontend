@@ -1,30 +1,18 @@
 import { ReactElement, useEffect } from 'react';
 import useModalStore from '../../stores/useModalStore';
 import { twMerge } from 'tailwind-merge';
-import modalName from '@/types/modalName';
 import overlayName from '@/types/overlayName';
-
-// const modalNames: modalName[] = [
-//   'boardDelete',
-//   'boardCoverChange',
-//   'boardCleanup',
-//   'share',
-//   'pinEdit',
-//   'boardEdit',
-//   'pincode',
-//   'filter',
-//   'create',
-// ];
+import modalName from '@/types/modalName';
 
 interface ModalLayoutProps {
-  name: modalName | overlayName; // modalName추가시 useModalStore.tsx에도 추가해야함
+  modalName: modalName | overlayName; // modalName추가시 useModalStore.tsx에도 추가해야함
   children?: ReactElement; // 자식 element
   isBackgroundColor?: boolean; // 배경색 여부
   className?: string;
 }
 
 const ModalLayout = ({
-  name,
+  modalName,
   children,
   isBackgroundColor,
   className,
@@ -45,9 +33,7 @@ const ModalLayout = ({
 
   return (
     <div
-      onClick={() => {
-        toggleModal(name);
-      }}
+      onClick={() => toggleModal(modalName as modalName)}
       className={twMerge(
         `z-[1] fixed top-0 left-0 w-full h-full ${
           isBackgroundColor ? 'bg-[rgba(0,0,0,0.8)] z-50 cursor-zoom-out' : ''

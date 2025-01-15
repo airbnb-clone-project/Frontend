@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from 'react';
+import { useTempPinStore } from '@/stores/useTempPinStore';
+import { useRef, useCallback } from 'react';
 
 /**
  * @returns explain: 핀 설명 state
@@ -8,7 +9,7 @@ import { useState, useRef, useCallback } from 'react';
  * @returns explainReset: 핀 설명을 reset하는 함수
  */
 export const useExplain = () => {
-  const [explain, setExplain] = useState<string>('');
+  const { explain, explainReset, setExplain } = useTempPinStore();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleResizeHeight = () => {
@@ -24,10 +25,9 @@ export const useExplain = () => {
     handleResizeHeight();
   }, []);
 
-  const explainReset = () => setExplain('');
-
   return {
     explain,
+    setExplain,
     explainOnChange,
     textareaRef,
     handleResizeHeight,

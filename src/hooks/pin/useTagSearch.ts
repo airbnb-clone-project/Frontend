@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useTempPinStore } from '@/stores/useTempPinStore';
+import { useCallback } from 'react';
 
 /**
  * @returns tagSearch: 현재 입력 중인 태그 검색어
@@ -9,15 +10,7 @@ import { useCallback, useState } from 'react';
  * @returns tagReset: 선택된 태그를 전체 reset하는 함수
  */
 export const useTagSearch = () => {
-  const [tagSearch, setTagSearch] = useState<string>('');
-  const [tagList, setTagList] = useState<{ color: string; value: string }[]>([
-    { color: '#121111', value: '동물1' },
-    { color: '#121111', value: '동물2' },
-    { color: '#121111', value: '동물3' },
-    { color: '#121111', value: '동물4' },
-    { color: '#121111', value: '동물5' },
-    { color: '#121111', value: '동물6' },
-  ]);
+  const { tagSearch, setTagSearch, tagList, setTagList } = useTempPinStore();
 
   const tagReset = () => {
     setTagList([]);
@@ -42,17 +35,15 @@ export const useTagSearch = () => {
       '#0045DC',
     ];
     if (tagList.length < 10) {
-      setTagList((prev) => [
-        ...prev,
+      setTagList([
+        ...tagList,
         { value: tagStr, color: colors[tagList.length] },
       ]);
     }
   }, []);
 
   const selectTagDelet = useCallback((tagText: string) => {
-    setTagList((prevTagList) =>
-      prevTagList.filter((tag) => tag.value !== tagText)
-    );
+    setTagList(tagList.filter((tag) => tag.value !== tagText));
   }, []);
 
   return {

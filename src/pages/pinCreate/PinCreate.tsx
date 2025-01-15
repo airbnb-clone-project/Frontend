@@ -14,53 +14,40 @@ import { useOptionSettings } from '@/hooks/pin/useOptionSettings';
 import useModalStore from '@/stores/useModalStore';
 import DraftDeleteModal from './components/DraftDeleteModal';
 import { useEffect, useRef } from 'react';
-import { useTitle } from '@/hooks/pin/useTitle';
-import { useImageUpload } from '@/hooks/pin/useImageUpload';
-import { useLink } from '@/hooks/pin/useLink';
 import { useExplain } from '@/hooks/pin/useExplain';
 import { useQuery } from '@tanstack/react-query';
 import { getTempsPinCheck } from '@/services/getTempsPinCheck';
+import TempPinEditModal from '@/components/@Modal/tempPinEdit/TempPinEditModal';
+import useTempPinUpdate from '@/hooks/queries/useTempPinUpdate';
+import usePostPin from '@/hooks/queries/usePostPin';
+import { useCurrentPin } from '@/hooks/pin/useCurrentPin';
 
 const PinCreate = () => {
-  const {
-    selectPinList,
-    currentPin,
-    pinOnClick,
-    togglePinSelection,
-    allPinReset,
-    setSelectPinList,
-  } = useTempPinList();
-
-  const userName = localStorage.getItem('userName') || ''; // 기본값 지정
-
   const { data: pinList, refetch: tempPinListReFetch } = useQuery({
     queryKey: ['tempPinList'],
-    queryFn: () => {
-      return getTempsPinCheck(userName);
-    },
+    queryFn: () => getTempsPinCheck(),
   });
-  console.log(pinList);
+
+  const { selectPinList, togglePinSelection, allPinReset, setSelectPinList } =
+    useTempPinList();
+
+  const {
+    currentPin,
+    currentPinOnChange,
+    pinOnClick,
+    handleImageUpload,
+    currentPinReset,
+  } = useCurrentPin({ tempPinListReFetch });
+
+  const { mutate: tempPinUpdate } = useTempPinUpdate();
 
   /** 모든 임시핀을 선택 함수 */
   const allPinSelect = () => {
     if (!pinList) return; // pinList가 undefined인 경우 아무 작업도 하지 않음
-    setSelectPinList(pinList.map((v) => v.tempPinNo)); // pinList를 그대로 설정
+    setSelectPinList(pinList); // pinList를 그대로 설정
   };
 
-  const { title, titleOnChange, titleReset } = useTitle();
-  const { handleImageUpload, imgPreview, imgReset } = useImageUpload({
-    tempPinListReFetch,
-  });
-  const { link, linkOnChange, linkReset } = useLink();
-  const { explain, explainOnChange, explainReset, textareaRef } = useExplain();
-
-  /** 핀의 input 내용을 모두 reset하는 함수 */
-  const pinFormReset = () => {
-    titleReset();
-    imgReset();
-    linkReset();
-    explainReset();
-  };
+  const { textareaRef } = useExplain();
 
   const { tagSearch, tagList, tagSearchOnChange, selectTagDelet, tagReset } =
     useTagSearch();
@@ -79,15 +66,60 @@ const PinCreate = () => {
     isComment,
     isSimilarProductsVisible,
     isOptionToggle,
-    isCommentToggle,
     isSimilarProductsVisibleToggle,
     optionReset,
   } = useOptionSettings();
 
   const { isModalOpen } = useModalStore();
 
-  const scrollRef = useRef<HTMLDivElement | null>(null); // scrollRef의 타입은 HTMLElement | null
+  const { mutate: postPin } = usePostPin();
 
+  /** 핀의 input 내용을 모두 reset하는 함수 */
+  const pinFormReset = () => {
+    currentPinReset();
+    optionReset();
+  };
+
+  /** 게시 버튼 클릭 함수 */
+  const postBtnOnClick = () => {
+    const postData = {
+      imgUrl: currentPin.imgUrl,
+      imageClassification: currentPin.imageClassification,
+      title: currentPin.title,
+      description: currentPin.description,
+      link: currentPin.link,
+      boardNo: currentPin.boardNo,
+      tagNos: [1],
+      commentAllowed: currentPin.commentAllowed,
+    };
+    postPin(postData);
+  };
+
+  // 임시핀 내용 수정 useEffect
+  useEffect(() => {
+    const editData = {
+      boardNo: null,
+      description: currentPin.description,
+      title: currentPin.title,
+      link: currentPin.link,
+      commentAllowed: currentPin.commentAllowed,
+    };
+
+    if (currentPin.tempPinNo)
+      tempPinUpdate({ editData, pinNo: currentPin.tempPinNo });
+  }, [isComment, currentPin, tempPinUpdate]);
+
+  // 현재 선택중인 임시핀에 대한 정보를 업데이트
+  useEffect(() => {
+    if (pinList) {
+      const matchingPins = pinList.filter((pin) =>
+        selectPinList.some((selectPin) => selectPin.tempPinNo === pin.tempPinNo)
+      );
+      setSelectPinList(matchingPins);
+    }
+  }, [pinList]);
+
+  const scrollRef = useRef<HTMLDivElement | null>(null); // scrollRef의 타입은 HTMLElement | null
   useEffect(() => {
     // 스크롤 숨기기
     document.documentElement.style.overflow = 'hidden';
@@ -107,15 +139,25 @@ const PinCreate = () => {
           selectPinList.length > 0 && 'opacity-25 pointer-events-none'
         } flex-grow pb-8 overflow-scroll max-h-[100vh]`}
       >
-        <h1 className="flex items-center h-[74.31px] border-b-[1px] pl-4 text-xl font-semibold">
-          핀 만들기
+        <h1 className="justify-between flex items-center h-[74.31px] border-b-[1px] pl-4 text-xl font-semibold">
+          <span>핀 만들기</span>
+          {currentPin.imgUrl && (
+            <div className="pr-3">
+              <Button
+                onClick={postBtnOnClick}
+                color="red"
+                text="게시"
+                className="w-[64px] h-[48px] text-[16px] "
+              />
+            </div>
+          )}
         </h1>
         <div className="mx-2 min-w-[584px] flex flex-col lg:gap-12 lg:flex-row lg:justify-center">
           <div className="py-4 mt-4 flex flex-col items-center">
             {/* img file 선택 input */}
-            {imgPreview ? (
+            {currentPin.imgUrl ? (
               <img
-                src={imgPreview}
+                src={currentPin.imgUrl}
                 className="rounded-[32px] max-w-[342px] bg-black"
               />
             ) : (
@@ -137,30 +179,30 @@ const PinCreate = () => {
           <div className="mt-6 flex justify-center lg:flex-grow lg:max-w-[584px]">
             <div
               className={`${
-                !imgPreview && 'opacity-40 pointer-events-none'
+                !currentPin.imgUrl && 'opacity-40 pointer-events-none'
               } w-[98%] max-w-[576px] min-w-[584px] flex flex-col gap-6`}
             >
               {/* imgpreview가 없을 때 input form영역을 덮는 div */}
               <div className="absolute top-0 left-0 bg-[]"></div>
               {/* 제목 input */}
               <LabelInput
-                onChangeFC={titleOnChange}
+                onChangeFC={(v) => currentPinOnChange('title', v)}
                 title="제목"
                 placeholder="제목 추가"
-                value={title}
+                value={currentPin.title || ''}
               />
               {/* 설명 input */}
               <PinExplainInput
                 textareaRef={textareaRef}
-                onChangeFC={explainOnChange}
-                value={explain}
+                onChangeFC={(v) => currentPinOnChange('description', v)}
+                value={currentPin.description || ''}
               />
               {/* 링크 input */}
               <LabelInput
                 title="링크"
                 placeholder="링크 추가"
-                onChangeFC={linkOnChange}
-                value={link}
+                onChangeFC={(v) => currentPinOnChange('link', v)}
+                value={currentPin.link || ''}
               />
               {/* 보드 선택 컴포넌트 */}
               <BoardSelectBox
@@ -202,9 +244,14 @@ const PinCreate = () => {
               <OptionSetting
                 isOption={isOption}
                 isOptionToggle={isOptionToggle}
-                isComment={isComment}
+                isComment={currentPin.commentAllowed}
                 isSimilarProductsVisible={isSimilarProductsVisible}
-                isCommentToggle={isCommentToggle}
+                isCommentToggle={() =>
+                  currentPinOnChange(
+                    'commentAllowed',
+                    !currentPin.commentAllowed
+                  )
+                }
                 isSimilarProductsVisibleToggle={isSimilarProductsVisibleToggle}
               />
               <p className="text-sm text-gray-input-hover">
@@ -234,7 +281,14 @@ const PinCreate = () => {
       />
 
       {/* 핀 초안 삭제 modal */}
-      {isModalOpen.pinDraftDelete && <DraftDeleteModal pinNo={selectPinList} />}
+      {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
+      {/* 임시핀 수정 modal */}
+      {isModalOpen.pinEdit && (
+        <TempPinEditModal
+          selectPinList={selectPinList}
+          tempPinUpdate={tempPinUpdate}
+        />
+      )}
     </main>
   );
 };

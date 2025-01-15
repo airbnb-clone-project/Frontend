@@ -7,8 +7,8 @@ import { useEffect, useRef } from 'react';
 
 interface PinDraftListProps {
   pinList: tempPin[];
-  selectPinList: string[];
-  togglePinSelection: (tempPinNo: string) => void;
+  selectPinList: tempPin[];
+  togglePinSelection: (tempPin: tempPin) => void;
   currentPin: tempPin | undefined;
   pinOnClick: (v: tempPin) => void;
   activeItem: number | null;
@@ -81,7 +81,9 @@ const PinDraftList = ({
   return (
     <div className="flex flex-col gap-1">
       {pinList.map((v, i) => {
-        const isSelected = selectPinList.includes(v.tempPinNo);
+        const isSelected = selectPinList
+          .map((value) => value.tempPinNo)
+          .includes(v.tempPinNo);
 
         return (
           <div
@@ -105,10 +107,10 @@ const PinDraftList = ({
             <label
               htmlFor={`pin-${v}`}
               onClick={(e) => {
-                togglePinSelection(v.tempPinNo);
+                togglePinSelection(v);
                 e.stopPropagation();
               }}
-              className="flex items-center justify-center cursor-pointer m-1 border-2 w-4 h-4 rounded-[4px] peer-checked:bg-[#111] peer-checked:border-[#111] border-gray-input-hover"
+              className="flex items-center justify-center cursor-pointer m-1 border-2 min-w-4 h-4 rounded-[4px] peer-checked:bg-[#111] peer-checked:border-[#111] border-gray-input-hover"
             >
               <CheckIcon size={8} />
             </label>
@@ -120,15 +122,20 @@ const PinDraftList = ({
               />
             </div>
 
-            <span className="text-sm text-gray-input-hover">
-              만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음
-            </span>
+            <div className="flex flex-col w-[154px]">
+              <p className="text-sm break-words line-clamp-3 overflow-hidden text-ellipsis">
+                {v.title}
+              </p>
+              <span className="text-sm text-gray-input-hover">
+                만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음
+              </span>
+            </div>
 
             <TransparentButton
               onClick={(e) => pinOptionToggle(i, e)}
               className={`${
                 activeItem === i ? 'flex' : 'hidden'
-              } a relative group-hover:flex ml-auto w-8 h-8`}
+              } a relative group-hover:flex ml-auto min-w-8 h-8`}
             >
               <ThreeDotIcon />
             </TransparentButton>

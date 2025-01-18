@@ -42,6 +42,7 @@ export const loginUser = async (userData: UserData) => {
 
     getUserProfile().then((res) => {
       localStorage.setItem('userName', res.firstName);
+      localStorage.setItem('userLastName', res.lastName);
     });
 
     return res;

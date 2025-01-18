@@ -13,7 +13,7 @@ import { useTempPinList } from '@/hooks/pin/useTempPinList';
 import { useOptionSettings } from '@/hooks/pin/useOptionSettings';
 import useModalStore from '@/stores/useModalStore';
 import DraftDeleteModal from './components/DraftDeleteModal';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useExplain } from '@/hooks/pin/useExplain';
 import { useQuery } from '@tanstack/react-query';
 import { getTempsPinCheck } from '@/services/getTempsPinCheck';
@@ -21,6 +21,7 @@ import TempPinEditModal from '@/components/@Modal/tempPinEdit/TempPinEditModal';
 import useTempPinUpdate from '@/hooks/queries/useTempPinUpdate';
 import usePostPin from '@/hooks/queries/usePostPin';
 import { useCurrentPin } from '@/hooks/pin/useCurrentPin';
+import useTempPinDelete from '@/hooks/queries/useTempPinDelete';
 
 const PinCreate = () => {
   const { data: pinList, refetch: tempPinListReFetch } = useQuery({
@@ -28,8 +29,11 @@ const PinCreate = () => {
     queryFn: () => getTempsPinCheck(),
   });
 
+  // 현재 활성화된 임시핀 번호 state
+  const [currentTempPinNo, setCurrentTempPinNo] = useState('');
+
   const { selectPinList, togglePinSelection, allPinReset, setSelectPinList } =
-    useTempPinList();
+    useTempPinList(setCurrentTempPinNo);
 
   const {
     currentPin,
@@ -70,7 +74,7 @@ const PinCreate = () => {
     optionReset,
   } = useOptionSettings();
 
-  const { isModalOpen } = useModalStore();
+  const { isModalOpen, toggleModal } = useModalStore();
 
   const { mutate: postPin } = usePostPin();
 
@@ -78,6 +82,30 @@ const PinCreate = () => {
   const pinFormReset = () => {
     currentPinReset();
     optionReset();
+  };
+
+  const { mutate: tempPinDelete } = useTempPinDelete();
+
+  /** 최종 임시핀 삭제 버트 클릭 실행 함수 */
+  const deleteBtnOnClick = () => {
+    const tempPinIds = currentTempPinNo
+      ? [currentTempPinNo]
+      : selectPinList.map((v) => v.tempPinNo || '');
+    tempPinDelete(tempPinIds, {
+      onSuccess: () => {
+        toggleModal('pinDraftDelete');
+      },
+    });
+  };
+
+  /** pin 초안 item의 ...옵션 버튼 클릭시 삭제,복제 modal toggle 함수 */
+  const pinOptionToggle = (
+    tempPinNo: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    if (currentTempPinNo === tempPinNo) setCurrentTempPinNo('');
+    else setCurrentTempPinNo(tempPinNo);
   };
 
   /** 게시 버튼 클릭 함수 */
@@ -278,10 +306,14 @@ const PinCreate = () => {
         boardReset={boardReset}
         tagReset={tagReset}
         optionReset={optionReset}
+        pinOptionToggle={pinOptionToggle}
+        currentTempPinNo={currentTempPinNo}
       />
 
       {/* 핀 초안 삭제 modal */}
-      {isModalOpen.pinDraftDelete && <DraftDeleteModal />}
+      {isModalOpen.pinDraftDelete && (
+        <DraftDeleteModal deleteBtnOnClick={deleteBtnOnClick} />
+      )}
       {/* 임시핀 수정 modal */}
       {isModalOpen.pinEdit && (
         <TempPinEditModal

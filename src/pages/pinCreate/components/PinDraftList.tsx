@@ -11,9 +11,9 @@ interface PinDraftListProps {
   togglePinSelection: (tempPin: tempPin) => void;
   currentPin: tempPin | undefined;
   pinOnClick: (v: tempPin) => void;
-  activeItem: number | null;
+  currentTempPinNo: string | null;
   pinOptionToggle: (
-    index: number,
+    tempPinNo: string,
     event: React.MouseEvent<HTMLButtonElement>
   ) => void;
 }
@@ -24,7 +24,7 @@ const PinDraftList = ({
   pinOnClick,
   selectPinList,
   togglePinSelection,
-  activeItem,
+  currentTempPinNo,
   pinOptionToggle,
 }: PinDraftListProps) => {
   const { toggleModal } = useModalStore();
@@ -34,12 +34,18 @@ const PinDraftList = ({
   // 원하는 요소 외의 클릭을 감지하는 함수
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const modalLayout = document.getElementById('modalLayout');
+
       pinList.forEach((_, index) => {
         const pinRef = refs.current[index];
-        if (pinRef && !pinRef.contains(event.target as Node)) {
-          if (activeItem === index) {
+        if (
+          !(modalLayout && modalLayout.contains(event.target as Node)) &&
+          pinRef &&
+          !pinRef.contains(event.target as Node)
+        ) {
+          if (currentTempPinNo === _.tempPinNo && _.tempPinNo) {
             pinOptionToggle(
-              index,
+              _.tempPinNo,
               event as unknown as React.MouseEvent<HTMLButtonElement>
             );
           }
@@ -52,7 +58,7 @@ const PinDraftList = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [pinList, activeItem, pinOptionToggle]);
+  }, [pinList, currentTempPinNo, pinOptionToggle]);
 
   /** 핀 초안 item의 삭제 버튼 클릭 함수 */
   const deleteBtnOnClick = () => {
@@ -94,7 +100,7 @@ const PinDraftList = ({
                 ? 'py-[7px] px-[7px] box-border border border-black bg-gray-filled-hover'
                 : ''
             } relative group cursor-pointer rounded-lg hover:bg-gray-filled-hover p-2 flex items-center ${
-              activeItem === i ? 'bg-gray-filled-hover' : ''
+              currentTempPinNo === v.tempPinNo ? 'bg-gray-filled-hover' : ''
             }`}
           >
             <input
@@ -115,30 +121,33 @@ const PinDraftList = ({
               <CheckIcon size={8} />
             </label>
 
-            <img
-              src={v.imgUrl}
-              className="m-1 rounded-xl min-w-[72px] h-[72px]"
-            />
+            <div className="bg-[#f5f5f5] rounded-xl m-2">
+              <img
+                src={v.imgUrl || ''}
+                className="rounded-xl w-[72px] h-[72px]"
+              />
+            </div>
 
             <div className="flex flex-col w-[154px]">
               <p className="text-sm break-words line-clamp-3 overflow-hidden text-ellipsis">
                 {v.title}
               </p>
               <span className="text-sm text-gray-input-hover">
-                만료되기까지 {calculateRemainingDays(v.createdAt)}일 남음
+                만료되기까지
+                {v.createdAt && calculateRemainingDays(v.createdAt)}일 남음
               </span>
             </div>
 
             <TransparentButton
-              onClick={(e) => pinOptionToggle(i, e)}
+              onClick={(e) => v.tempPinNo && pinOptionToggle(v.tempPinNo, e)}
               className={`${
-                activeItem === i ? 'flex' : 'hidden'
+                currentTempPinNo === v.tempPinNo ? 'flex' : 'hidden'
               } a relative group-hover:flex ml-auto min-w-8 h-8`}
             >
               <ThreeDotIcon />
             </TransparentButton>
 
-            {activeItem === i && (
+            {currentTempPinNo === v.tempPinNo && (
               <div
                 ref={(el) => (refs.current[i] = el)} // 각 항목에 ref 할당
                 onClick={(e) => e.stopPropagation()}

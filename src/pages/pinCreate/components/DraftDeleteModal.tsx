@@ -2,12 +2,16 @@ import ModalLayout from '@/components/@Modal/ModalLayout';
 import Button from '@/components/common/Button';
 import useModalStore from '@/stores/useModalStore';
 
-const DraftDeleteModal = () => {
+interface DraftDeleteModalProps {
+  deleteBtnOnClick: () => void;
+}
+const DraftDeleteModal = ({ deleteBtnOnClick }: DraftDeleteModalProps) => {
   const { toggleModal } = useModalStore();
 
   return (
     <ModalLayout modalName="pinDraftDelete" isBackgroundColor={true}>
       <div
+        id="modalLayout"
         onClick={(e) => e.stopPropagation()}
         className="cursor-auto max-w-[414px] w-[90vw] bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl"
       >
@@ -27,7 +31,12 @@ const DraftDeleteModal = () => {
               className="py-2 px-3 flex-1"
               onClick={() => toggleModal('pinDraftDelete')}
             />
-            <Button color="red" text="삭제" className="py-2 px-3 flex-1" />
+            <Button
+              onClick={deleteBtnOnClick}
+              color="red"
+              text="삭제"
+              className="py-2 px-3 flex-1"
+            />
           </div>
         </div>
       </div>

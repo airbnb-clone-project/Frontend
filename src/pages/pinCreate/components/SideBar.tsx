@@ -24,6 +24,11 @@ interface SideBarProps {
   boardReset: () => void;
   tagReset: () => void;
   optionReset: () => void;
+  pinOptionToggle: (
+    tempPinNo: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  currentTempPinNo: string;
 }
 
 const SideBar = ({
@@ -38,26 +43,16 @@ const SideBar = ({
   boardReset,
   tagReset,
   optionReset,
+  pinOptionToggle,
+  currentTempPinNo,
 }: SideBarProps) => {
   const { toggleModal } = useModalStore();
 
   // 사이드바 활성화 상태를 관리하는 state
   const [isSideBar, setIsSideBar] = useState<boolean>(false);
-  // 활성화된 핀 항목의 ID를 저장하는 state
-  const [activeItem, setActiveItem] = useState<number | null>(null);
 
   /** 사이드바 활성화 여부 toggle 함수 */
   const handleToggleSideBar = () => setIsSideBar((prev) => !prev);
-
-  /** pin 초안 item의 ...옵션 버튼 클릭시 삭제,복제 modal toggle 함수 */
-  const pinOptionToggle = (
-    index: number,
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.stopPropagation();
-    if (activeItem === index) setActiveItem(null);
-    else setActiveItem(index);
-  };
 
   /** 모두 선택 text 혹은 checkbox 클릭시 실행 함수 */
   const handleAllSelect = () => {
@@ -151,7 +146,7 @@ const SideBar = ({
               pinOnClick={pinOnClick}
               currentPin={currentPin}
               togglePinSelection={togglePinSelection}
-              activeItem={activeItem}
+              currentTempPinNo={currentTempPinNo}
               pinList={pinList}
               pinOptionToggle={pinOptionToggle}
               selectPinList={selectPinList}

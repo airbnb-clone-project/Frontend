@@ -8,3 +8,5 @@ export interface IOverlay {
   handleClick: (key: overlayName) => void;
   handleRef: (node: HTMLDivElement | null) => void;
 }
+
+export type IOverlayHeader = IOverlay & { borderName?: string };

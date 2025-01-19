@@ -1,12 +1,10 @@
-import { IOverlay } from '../../types/overlay';
+import { IOverlayHeader } from '../../types/overlay';
 
 import ModalLayout from '@/components/@Modal/ModalLayout';
 
 import { FaAngleDown } from 'react-icons/fa6';
 import ProfileModal from '../@Modal/profilemodal/ProfileModal';
 import Button from '@/components/common/Button/Button';
-
-type IOverlayHeader = IOverlay & { borderName?: string };
 
 const OverlayHeader = ({
   activeId,

@@ -19,5 +19,5 @@ export interface tempPin {
 export const getTempsPinCheck = async (): Promise<tempPin[]> => {
   const userName = localStorage.getItem('userName');
   const { data } = await api.get(`/api/pins/pin/temps/${userName}/v1`);
-  return data.data;
+  return data.data.reverse();
 };

@@ -1,6 +1,7 @@
 import TransparentButton from '@/components/common/TransparentButton';
 import CheckIcon from '@/components/icons/CheckIcon';
 import ThreeDotIcon from '@/components/icons/ThreeDotIcon';
+import useTempPinCopy from '@/hooks/queries/useTempPinCopy';
 import { tempPin } from '@/services/getTempsPinCheck';
 import useModalStore from '@/stores/useModalStore';
 import { useEffect, useRef } from 'react';
@@ -60,6 +61,16 @@ const PinDraftList = ({
     };
   }, [pinList, currentTempPinNo, pinOptionToggle]);
 
+  const { mutate: tempPinCopy } = useTempPinCopy();
+  /** 핀 초안 item의 복제 버튼 클릭 함수  */
+  const copyBtnOnClick = (
+    tempPinNo: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    tempPinCopy(tempPinNo);
+    pinOptionToggle(tempPinNo, event);
+  };
+
   /** 핀 초안 item의 삭제 버튼 클릭 함수 */
   const deleteBtnOnClick = () => {
     toggleModal('pinDraftDelete');
@@ -93,7 +104,7 @@ const PinDraftList = ({
 
         return (
           <div
-            key={i}
+            key={v.tempPinNo}
             onClick={() => pinOnClick(v)}
             className={`${
               currentPin?.tempPinNo === v.tempPinNo
@@ -153,15 +164,18 @@ const PinDraftList = ({
                 onClick={(e) => e.stopPropagation()}
                 className="shadow-custom-modal z-50 shadow-custom-light flex flex-col absolute right-0 top-3/4 bg-white p-2 rounded-2xl"
               >
-                <span className="font-semibold p-2 rounded-lg hover:bg-gray-filled-hover">
+                <button
+                  onClick={(e) => v.tempPinNo && copyBtnOnClick(v.tempPinNo, e)}
+                  className="font-semibold p-2 rounded-lg hover:bg-gray-filled-hover"
+                >
                   복제
-                </span>
-                <span
+                </button>
+                <button
                   onClick={() => deleteBtnOnClick()}
                   className="font-semibold p-2 rounded-lg hover:bg-gray-filled-hover"
                 >
                   삭제
-                </span>
+                </button>
               </div>
             )}
           </div>

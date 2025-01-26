@@ -5,18 +5,20 @@ export interface PinEditData {
   description: string | null;
   title: string | null;
   link: string | null;
-  commentAllowed: boolean | null;
-}
-
-export interface PutPinEditParams {
-  editData: PinEditData;
-  pinNo: string;
+  isCommentAllowed: boolean;
+  no: number;
 }
 
 /**
  * @param putPinEdit - 핀 정보 수정 api
  */
-export const putPinEdit = async ({ editData, pinNo }: PutPinEditParams) => {
-  const { data } = await api.put(`/api/pins/pin/${pinNo}/v1`, editData);
+export const putPinEdit = async (editData: PinEditData) => {
+  const { data } = await api.put(`/api/pins/pin/${editData.no}/v1`, {
+    title: editData.title,
+    description: editData.description,
+    link: editData.link,
+    boardNo: editData.boardNo,
+    commentAllowed: editData.isCommentAllowed,
+  });
   return data.data;
 };

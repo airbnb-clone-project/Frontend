@@ -2,31 +2,35 @@ import ModalLayout from '@/components/@Modal/ModalLayout';
 import Button from '@/components/common/Button';
 import XIcon from '@/components/icons/XIcon';
 import useModalStore from '@/stores/useModalStore';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PinExplainInput from './PinExplainInput';
 import BoardSectionSelect from './BoardSectionSelect';
 import OptionSetting from './OptionSetting';
 import { useOptionSettings } from '@/hooks/pin/useOptionSettings';
-import { useTitle } from '@/hooks/pin/useTitle';
-import { useExplain } from '@/hooks/pin/useExplain';
 import LabelInput from '@/components/common/LabelInput';
-import { useLink } from '@/hooks/pin/useLink';
+import { myPins } from '@/services/getMyPinsCheck';
+import usePinEdit from '@/hooks/queries/usePinEdit';
+import { PinEditData } from '@/services/putPinEdit';
 
 interface CreatePinEditModalProps {
   /** 섹션 선택 요소 유무 */
   isSection?: boolean;
+  /** 수정할 pin data */
+  currentPinData: PinEditData;
+  currentPinDataOnChange: (
+    key: keyof myPins,
+    value: myPins[keyof myPins]
+  ) => void;
 }
-const CreatePinEditModal = ({ isSection }: CreatePinEditModalProps) => {
-  const { title, titleOnChange } = useTitle();
-  const { textareaRef, explain, explainOnChange } = useExplain();
-  const { link, linkOnChange } = useLink();
-
+const CreatePinEditModal = ({
+  // isSection,
+  currentPinData,
+  currentPinDataOnChange,
+}: CreatePinEditModalProps) => {
   // 추가 옵션 항목 활성화 여부
   const {
     isOption,
     isOptionToggle,
-    isComment,
-    isCommentToggle,
     isSimilarProductsVisible,
     isSimilarProductsVisibleToggle,
   } = useOptionSettings();
@@ -74,6 +78,30 @@ const CreatePinEditModal = ({ isSection }: CreatePinEditModalProps) => {
 
   const { toggleModal } = useModalStore();
 
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const handleResizeHeight = () => {
+    const currentTextarea = textareaRef.current;
+    if (currentTextarea) {
+      currentTextarea.style.height = 'auto'; // height 초기화
+      currentTextarea.style.height = currentTextarea.scrollHeight + 'px';
+    }
+  };
+
+  useEffect(() => {
+    const currentTextarea = textareaRef.current;
+    if (currentTextarea) {
+      // 초기 설정 및 내용 변경 시 높이 조정
+      handleResizeHeight();
+    }
+  }, [currentPinData.description]); // description 변경 시 실행
+
+  const { mutate: pinUpdate } = usePinEdit();
+
+  /** 핀 수정 정보를 저장하는 button 클릭 함수 */
+  const saveBtnOnClick = () => {
+    pinUpdate(currentPinData);
+  };
   return (
     <ModalLayout isBackgroundColor={true} modalName="createPinEdit">
       <div
@@ -101,16 +129,20 @@ const CreatePinEditModal = ({ isSection }: CreatePinEditModalProps) => {
           <div className="py-6 flex-col gap-5">
             {/* 제목 input */}
             <LabelInput
-              onChangeFC={titleOnChange}
+              onChangeFC={(text: string) =>
+                currentPinDataOnChange('title', text)
+              }
               title="제목"
               placeholder="제목 추가"
-              value={title || ''}
+              value={currentPinData.title || ''}
             />
 
             {/* pin 설명 input */}
             <PinExplainInput
-              explain={explain || ''}
-              explainOnChange={explainOnChange}
+              explain={currentPinData.description || ''}
+              explainOnChange={(text: string) =>
+                currentPinDataOnChange('description', text)
+              }
               textarea={textareaRef}
             />
 
@@ -118,8 +150,10 @@ const CreatePinEditModal = ({ isSection }: CreatePinEditModalProps) => {
             <LabelInput
               title="링크"
               placeholder="링크 추가"
-              onChangeFC={linkOnChange}
-              value={link || ''}
+              onChangeFC={(text: string) =>
+                currentPinDataOnChange('link', text)
+              }
+              value={currentPinData.link || ''}
             />
 
             {/* 보드 & 섹션 선택 컴포넌트 */}
@@ -134,15 +168,17 @@ const CreatePinEditModal = ({ isSection }: CreatePinEditModalProps) => {
               sectionSelectModalClose={sectionSelectModalClose}
               boardItemOnClick={boardItemOnClick}
               sectionItemOnClick={sectionItemOnClick}
-              isSection={isSection}
+              // isSection={isSection}
             />
 
             {/* 추가 옵션 설정 영역 */}
             <OptionSetting
               isOption={isOption}
               isOptionToggle={isOptionToggle}
-              isComment={isComment}
-              isCommentToggle={isCommentToggle}
+              isComment={currentPinData.isCommentAllowed}
+              isCommentToggle={() =>
+                currentPinDataOnChange('isCommentAllowed', null)
+              }
               isSimilarProductsVisible={isSimilarProductsVisible}
               isSimilarProductsVisibleToggle={isSimilarProductsVisibleToggle}
             />
@@ -151,7 +187,7 @@ const CreatePinEditModal = ({ isSection }: CreatePinEditModalProps) => {
 
         <div className="px-6 py-6 flex justify-end gap-2 h-[96px]">
           <Button text="삭제" color="gray" />
-          <Button text="저장" color="red" />
+          <Button onClick={saveBtnOnClick} text="저장" color="red" />
         </div>
       </div>
     </ModalLayout>

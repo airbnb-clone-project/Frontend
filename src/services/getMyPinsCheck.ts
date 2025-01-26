@@ -1,9 +1,13 @@
 import { api } from '.';
 
 export interface myPins {
-  no: number;
+  boardNo: number | null;
+  description: string | null;
   imgUrl: string;
-  boardNo: number;
+  isCommentAllowed: boolean;
+  link: string | null;
+  no: number;
+  title: string | null;
 }
 
 /**

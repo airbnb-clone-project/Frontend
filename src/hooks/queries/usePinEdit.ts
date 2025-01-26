@@ -1,4 +1,4 @@
-import { putPinEdit, PutPinEditParams } from '@/services/putPinEdit';
+import { PinEditData, putPinEdit } from '@/services/putPinEdit';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**
@@ -8,8 +8,7 @@ const usePinEdit = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ editData, pinNo }: PutPinEditParams) =>
-      putPinEdit({ editData, pinNo }),
+    mutationFn: (editData: PinEditData) => putPinEdit(editData),
     onSuccess: () => {
       // 성공 시 임시 핀 목록 useQuery 업데이트
       queryClient.invalidateQueries({ queryKey: ['tempPinList'] });

@@ -7,9 +7,3 @@ export interface MenuItem {
   color?: string;
   main: boolean;
 }
-
-export interface IconProps {
-  item: MenuItem;
-  className?: string;
-  index: number;
-}

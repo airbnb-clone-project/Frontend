@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 // import { pin } from '@/services/getPins';
 
 import ShowImages from './source/components/ShowImages';
-import { fetchPins } from './source/__mock__/getPins';
+import { getPins } from './source/__mock__/getPins';
 
 const MainPage = () => {
   const {
@@ -14,7 +14,7 @@ const MainPage = () => {
   } = useQuery<PinListResponse>({
     queryKey: ['pins'],
     // queryFn: () => pin.getPins(),
-    queryFn: () => fetchPins(),
+    queryFn: () => getPins(),
   });
 
   if (isLoading) {

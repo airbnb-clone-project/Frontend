@@ -2,10 +2,10 @@ import { twMerge } from 'tailwind-merge';
 
 interface AppBtnProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClick?: () => void;
   color: 'gray' | 'red' | 'ghost';
-  className?: string;
   type: 'button' | 'submit';
+  onClick?: () => void;
+  className?: string;
 }
 
 const AppBtn = ({ type, children, onClick, className, color }: AppBtnProps) => {

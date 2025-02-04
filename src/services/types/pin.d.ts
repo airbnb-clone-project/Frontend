@@ -5,14 +5,16 @@ interface PinResponse<T> {
 }
 
 interface Pin {
-  userNo: number | null;
-  imageClassification: string;
-  imgUrl: string;
-  link: string;
   pinNo: number;
-  updatedAt: string;
+  imageUrl: string;
+  link: string;
+  userNo: number;
+  imageClassification: string;
   createdAt: string;
+  updatedAt: string;
 }
+
+type PinListResponse = PinResponse<Pin[]>;
 
 interface CreatePin {
   boardNo: number;

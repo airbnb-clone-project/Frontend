@@ -8,6 +8,7 @@ import Main from './pages/main/Main';
 import PinCreate from './pages/pinCreate/PinCreate';
 import Setting from './pages/setting/Setting';
 import ProfileEdit from './pages/profileEdit/ProfileEdit';
+import AccountManagement from './pages/accountManagement/AccountManagement';
 
 export const router = createBrowserRouter([
   {
@@ -28,7 +29,10 @@ export const router = createBrowserRouter([
       {
         path: 'setting',
         element: <Setting />,
-        children: [{ path: '', element: <ProfileEdit /> }],
+        children: [
+          { path: '', element: <ProfileEdit /> },
+          { path: 'accountManagement', element: <AccountManagement /> },
+        ],
       },
     ],
   },

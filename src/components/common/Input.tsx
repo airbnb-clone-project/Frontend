@@ -17,7 +17,7 @@ const Input = ({
   id,
   isEffect,
   ...props
-}: InputProps) => {
+}: InputProps & React.InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <input
       {...props}

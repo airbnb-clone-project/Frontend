@@ -16,7 +16,7 @@ const MenuNav = () => {
 
   const location = useLocation();
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-1/4">
       {menuList.map((v) => (
         <Link
           to={v.url}

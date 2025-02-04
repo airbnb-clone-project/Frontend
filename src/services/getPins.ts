@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+
 import { URL } from './client';
 
 export class PinAPI {
@@ -27,10 +28,10 @@ export class PinAPI {
     }
   }
 
-  async getPins(): Promise<PinResponse<Pin[]>> {
+  async getPins(): Promise<PinListResponse> {
     try {
-      const res = await axios.get(
-        `${this.baseUrl}/api/pins/pin/v1?userNo=1&page=0&pageSize=10`,
+      const { data } = await axios.get(
+        `${this.baseUrl}/api/pins/pin/v1?userNo=2&page=0&pageSize=10`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -38,7 +39,7 @@ export class PinAPI {
         }
       );
 
-      return res.data.data;
+      return data;
     } catch (error) {
       console.error('핀을 불러오는데 실패하였습니다.', error);
       throw new Error('핀 데이터 요청 실패');

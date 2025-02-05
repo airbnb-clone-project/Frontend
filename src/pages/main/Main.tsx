@@ -1,23 +1,43 @@
-import { useEffect, useState } from 'react';
-import { pin } from '@/services/getPins';
-import ShowImages from './components/showimages/ShowImages';
+import { Suspense, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-const Main = () => {
-  const [pinData, setPinData] = useState<PinResponse<Pin[]> | null>(null);
+import { QUERY_KEYS } from '@/constants/queryKey';
+import { getPins } from './source/__mock__/getPins';
 
+import Spinner from '@/components/common/Spinner';
+import MainContainer from './source/container/MainContainer';
+
+const MainPage = () => {
+  const {
+    data: pinData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<PinListResponse>({
+    queryKey: [QUERY_KEYS.PINS],
+    queryFn: () => getPins(),
+  });
+
+  // SEO를 위한 메타 데이터
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await pin.getPins();
-      setPinData(res);
-      console.log(res);
-    };
-    fetchData();
+    document.title = 'Pinterest';
   }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>
-      <ShowImages data={pinData} />
+      <Suspense fallback={<Spinner />}>
+        <MainContainer pinData={pinData} />
+      </Suspense>
     </>
   );
 };
-export default Main;
+
+export default MainPage;

@@ -1,5 +1,5 @@
 import Cookies from 'universal-cookie';
-import { api } from '.';
+import { api } from '..';
 import { getUserProfile } from './getUserProfile';
 interface UserData {
   username: string;

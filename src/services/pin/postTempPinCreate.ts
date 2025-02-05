@@ -1,5 +1,5 @@
 import Cookies from 'universal-cookie';
-import { api } from '.';
+import { api } from '..';
 
 /**
  * @param postPinCreate - 임시핀 생성 api

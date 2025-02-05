@@ -1,7 +1,7 @@
 import {
   putTempPinEdit,
   PutTempPinEditParams,
-} from '@/services/putTempPinEdit';
+} from '@/services/pin/putTempPinEdit';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**

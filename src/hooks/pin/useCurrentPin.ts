@@ -1,7 +1,7 @@
 // Title 관리 훅
 
-import { tempPin } from '@/services/getTempsPinCheck';
-import { postTempPinCreate } from '@/services/postTempPinCreate';
+import { tempPin } from '@/services/pin/getTempsPinCheck';
+import { postTempPinCreate } from '@/services/pin/postTempPinCreate';
 import { useState } from 'react';
 
 /**

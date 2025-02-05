@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { IoMdArrowBack, IoMdMore } from 'react-icons/io';
 import Button from '@/components/common/Button/Button';
-import { chatService } from '@/services/chat';
+import { chatService } from '@/services/chat/chat';
 
 interface Message {
   content: string;

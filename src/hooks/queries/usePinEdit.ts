@@ -1,4 +1,4 @@
-import { PinEditData, putPinEdit } from '@/services/putPinEdit';
+import { PinEditData, putPinEdit } from '@/services/pin/putPinEdit';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**

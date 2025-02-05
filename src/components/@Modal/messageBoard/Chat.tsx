@@ -1,5 +1,5 @@
 // src/components/Chat/ChatComponent.js
-import { enterChatRoom } from '@/services/chat';
+import { enterChatRoom } from '@/services/chat/chat';
 import { useEffect, useState } from 'react';
 
 const ChatComponent = () => {

@@ -5,7 +5,7 @@ import useModalStore from '@/stores/useModalStore';
 import { Link } from 'react-router-dom';
 import CreatePinEditModal from '../../../components/@Modal/createPinEdit/CreatePinEditModal';
 import { useQuery } from '@tanstack/react-query';
-import { getMyPinsCheck, myPins } from '@/services/getMyPinsCheck';
+import { getMyPinsCheck, myPins } from '@/services/pin/getMyPinsCheck';
 import { useState } from 'react';
 
 const Created = () => {

@@ -1,4 +1,4 @@
-import { api } from '.';
+import { api } from '..';
 
 /**
  * @param postTempPinCopy - 임시핀 복제 api

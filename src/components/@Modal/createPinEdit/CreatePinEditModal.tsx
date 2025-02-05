@@ -8,9 +8,9 @@ import BoardSectionSelect from './BoardSectionSelect';
 import OptionSetting from './OptionSetting';
 import { useOptionSettings } from '@/hooks/pin/useOptionSettings';
 import LabelInput from '@/components/common/LabelInput';
-import { myPins } from '@/services/getMyPinsCheck';
+import { myPins } from '@/services/pin/getMyPinsCheck';
 import usePinEdit from '@/hooks/queries/usePinEdit';
-import { PinEditData } from '@/services/putPinEdit';
+import { PinEditData } from '@/services/pin/putPinEdit';
 
 interface CreatePinEditModalProps {
   /** 섹션 선택 요소 유무 */

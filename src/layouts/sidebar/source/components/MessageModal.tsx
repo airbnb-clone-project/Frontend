@@ -5,7 +5,7 @@ import Button from '@/components/common/Button/Button';
 import { IoMdPersonAdd, IoMdArrowBack } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
 // import ChatRoom from './chat/ChatRoom';
-import { chatServiceTest } from '@/services/chatTest';
+import { chatServiceTest } from '@/services/chat/chatTest';
 
 interface MessageModalProps {
   isOpen: boolean;

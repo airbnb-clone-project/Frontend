@@ -1,4 +1,4 @@
-import { api } from '.';
+import { api } from '..';
 
 // img로 임시핀 생성 api
 export const postCreatePin = async (imageFile: string) => {

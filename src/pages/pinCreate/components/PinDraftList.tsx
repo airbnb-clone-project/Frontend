@@ -2,7 +2,7 @@ import TransparentButton from '@/components/common/TransparentButton';
 import CheckIcon from '@/components/icons/CheckIcon';
 import ThreeDotIcon from '@/components/icons/ThreeDotIcon';
 import useTempPinCopy from '@/hooks/queries/useTempPinCopy';
-import { tempPin } from '@/services/getTempsPinCheck';
+import { tempPin } from '@/services/pin/getTempsPinCheck';
 import useModalStore from '@/stores/useModalStore';
 import { useEffect, useRef } from 'react';
 

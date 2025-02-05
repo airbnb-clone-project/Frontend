@@ -1,4 +1,4 @@
-import { api } from '.';
+import { api } from '..';
 
 /**
  * @param deleteTempPin - 임시핀 삭제 api

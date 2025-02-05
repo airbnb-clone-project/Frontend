@@ -1,4 +1,4 @@
-import { postTempPinCopy } from '@/services/postTempPinCopy';
+import { postTempPinCopy } from '@/services/pin/postTempPinCopy';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**

@@ -5,8 +5,9 @@ export const MASONRY_CONFIG = {
 } as const;
 
 export const BREAKPOINTS = {
-  SM: 640,
-  MD: 768,
-  LG: 1024,
-  XL: 1280,
+  350: 2,
+  750: 3,
+  900: 4,
+  1273: 5,
+  1600: 6,
 } as const;

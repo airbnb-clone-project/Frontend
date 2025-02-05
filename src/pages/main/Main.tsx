@@ -1,9 +1,11 @@
+import { Suspense, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-// import { pin } from '@/services/getPins';
-
-import ShowImages from './source/components/ShowImages';
+import { QUERY_KEYS } from '@/constants/queryKey';
 import { getPins } from './source/__mock__/getPins';
+
+import Spinner from '@/components/common/Spinner';
+import MainContainer from './source/container/MainContainer';
 
 const MainPage = () => {
   const {
@@ -12,13 +14,17 @@ const MainPage = () => {
     isError,
     error,
   } = useQuery<PinListResponse>({
-    queryKey: ['pins'],
-    // queryFn: () => pin.getPins(),
+    queryKey: [QUERY_KEYS.PINS],
     queryFn: () => getPins(),
   });
 
+  // SEO를 위한 메타 데이터
+  useEffect(() => {
+    document.title = 'Pinterest';
+  }, []);
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   if (isError) {
@@ -26,9 +32,11 @@ const MainPage = () => {
   }
 
   return (
-    <main>
-      <ShowImages pinData={pinData} />
-    </main>
+    <>
+      <Suspense fallback={<Spinner />}>
+        <MainContainer pinData={pinData} />
+      </Suspense>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
-import Button from '@/components/common/Button/Button';
 import { useState } from 'react';
+
+import Button from '@/components/common/Button/Button';
 
 const BoardRow = ({
   hight,
@@ -32,10 +33,7 @@ const BoardRow = ({
       <div className="font-black flex items-center justify-between w-[255px]">
         {children}
         {save && hoverSection && (
-          <Button
-          // className="flex justify-center items-center min-w-[60px] h-10 px-4 py-3 flex-grow-0 flex-shrink-0 basis-auto"
-          // bgColor="bg-red-500"
-          >
+          <Button>
             <div className="text-center text-white">저장</div>
           </Button>
         )}

@@ -16,7 +16,7 @@ import DraftDeleteModal from './components/DraftDeleteModal';
 import { useEffect, useRef, useState } from 'react';
 import { useExplain } from '@/hooks/pin/useExplain';
 import { useQuery } from '@tanstack/react-query';
-import { getTempsPinCheck } from '@/services/getTempsPinCheck';
+import { getTempsPinCheck } from '@/services/pin/getTempsPinCheck';
 import TempPinEditModal from '@/components/@Modal/tempPinEdit/TempPinEditModal';
 import useTempPinUpdate from '@/hooks/queries/useTempPinUpdate';
 import usePostPin from '@/hooks/queries/usePostPin';

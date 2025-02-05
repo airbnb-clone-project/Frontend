@@ -1,4 +1,4 @@
-import { api } from '.';
+import { api } from '..';
 
 /**
  * @param getUserProfile - 사용자 정보 불러오기 api

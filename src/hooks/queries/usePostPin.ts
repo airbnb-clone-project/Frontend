@@ -1,4 +1,4 @@
-import { postPinPost, postPinPostProps } from '@/services/postPinPost';
+import { postPinPost, postPinPostProps } from '@/services/pin/postPinPost';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**

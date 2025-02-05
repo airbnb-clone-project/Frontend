@@ -1,4 +1,4 @@
-import { tempPin } from '@/services/getTempsPinCheck';
+import { tempPin } from '@/services/pin/getTempsPinCheck';
 import { useState } from 'react';
 
 /**

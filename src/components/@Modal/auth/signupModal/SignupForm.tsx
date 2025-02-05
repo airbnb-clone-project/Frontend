@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorMessage } from '@hookform/error-message';
 
-import { user } from '@/services/getUser';
+import { user } from '@/services/auth/getUser';
 import { SignupFormValues, signupSchema } from '@/utils/schemas/user-schema';
 
 import AppBtn from '@/components/common/AppBtn';

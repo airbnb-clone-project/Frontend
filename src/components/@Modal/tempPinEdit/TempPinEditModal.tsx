@@ -6,11 +6,11 @@ import { useEffect, useRef, useState } from 'react';
 import PinExplainInput from './PinExplainInput';
 import BoardSectionSelect from './BoardSectionSelect';
 import LabelInput from '@/components/common/LabelInput';
-import { tempPin } from '@/services/getTempsPinCheck';
+import { tempPin } from '@/services/pin/getTempsPinCheck';
 import DiamondWarning from '@/components/icons/DiamondWarning';
 import TagList from '@/pages/pinCreate/components/TagList';
 import { useTagSearch } from '@/hooks/pin/useTagSearch';
-import { PutTempPinEditParams } from '@/services/putTempPinEdit';
+import { PutTempPinEditParams } from '@/services/pin/putTempPinEdit';
 
 interface TempPinEditModalProps {
   /** 섹션 선택 요소 유무 */

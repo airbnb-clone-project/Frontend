@@ -1,4 +1,4 @@
-import { api } from '.';
+import { api } from '..';
 
 export interface postPinPostProps {
   imgUrl: string | null;

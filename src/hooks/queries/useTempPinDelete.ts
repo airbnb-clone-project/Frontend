@@ -1,4 +1,4 @@
-import { deleteTempPin } from '@/services/deleteTempPin';
+import { deleteTempPin } from '@/services/pin/deleteTempPin';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 /**

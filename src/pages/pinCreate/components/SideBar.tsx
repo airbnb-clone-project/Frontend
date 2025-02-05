@@ -10,7 +10,7 @@ import PinDraftList from './PinDraftList';
 import TrashIcon from '@/components/icons/TrashIcon';
 import PencilIcon from '@/components/icons/PencilIcon';
 import useModalStore from '@/stores/useModalStore';
-import { tempPin } from '@/services/getTempsPinCheck';
+import { tempPin } from '@/services/pin/getTempsPinCheck';
 
 interface SideBarProps {
   pinList: tempPin[] | undefined;

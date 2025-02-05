@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
-import { URL } from './client';
+import { URL } from '../client';
 
 export class PinAPI {
   private baseUrl: string;

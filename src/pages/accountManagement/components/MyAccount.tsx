@@ -47,7 +47,7 @@ const MyAccount = ({
             value={pw}
             placeholder=""
             type={isPwHide ? '' : 'password'}
-            className=""
+            inputClassName={pw && 'bg-[rgb(232,240,254)]'}
           />
 
           <div

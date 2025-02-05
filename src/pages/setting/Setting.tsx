@@ -6,7 +6,7 @@ const Setting = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="pt-10 px-5 flex" ref={scrollRef}>
+    <div className="pt-10 px-5 flex relative" ref={scrollRef}>
       <MenuNav />
 
       <Outlet />

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 const MenuNav = () => {
   const menuList = [
     { text: '프로필 수정', url: '/setting/' },
-    { text: '계정 관리', url: '' },
+    { text: '계정 관리', url: '/setting/accountManagement' },
     { text: '프로필 공개 여부', url: '' },
     { text: '홈피드 조정', url: '' },
     { text: '소유권이 표시된 계정', url: '' },
@@ -21,11 +21,13 @@ const MenuNav = () => {
         <Link
           to={v.url}
           key={v.text}
-          className={`w-fit inline-flex items-center p-2 font-semibold ${
+          className={`${
             location.pathname === v.url ? 'border-b-4 border-black' : ''
-          }`}
+          } w-fit inline-flex items-center font-semibold `}
         >
-          <span>{v.text}</span>
+          <span className={`p-2 hover:bg-gray-border-hover rounded-lg `}>
+            {v.text}
+          </span>
         </Link>
       ))}
     </div>

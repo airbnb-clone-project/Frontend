@@ -59,7 +59,12 @@ const AccountManagement = () => {
     setPw(pwText);
   };
   const birthOnChange = (birthText: string) => {
-    setBirth(birthText);
+    const date = new Date(birthText);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    setBirth(`${year}.${month}.${day}`);
   };
 
   const [isPwHide, setIsPwHide] = useState<boolean>(true);

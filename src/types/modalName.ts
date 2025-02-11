@@ -1,4 +1,5 @@
 type modalName =
+  | 'pwChange'
   | 'recommendPin'
   | 'profile'
   | 'pinDraftDelete'

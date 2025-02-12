@@ -3,6 +3,7 @@ import LabelInput from '@/components/common/LabelInput';
 import WarningText from '@/components/common/WarningText';
 import PwHideIcon from '@/components/icons/PwHideIcon';
 import PwShowIcon from '@/components/icons/PwShowIcon';
+import useModalStore from '@/stores/useModalStore';
 
 interface MyAccountProps {
   email: string;
@@ -21,6 +22,7 @@ const MyAccount = ({
   pw,
   pwOnChange,
 }: MyAccountProps) => {
+  const { toggleModal } = useModalStore();
   return (
     <div>
       <h2 className="text-xl font-semibold pb-2">내 계정</h2>
@@ -61,7 +63,12 @@ const MyAccount = ({
           </div>
         </div>
 
-        <Button color="gray" text="변경" className="h-full min-w-[68px]" />
+        <Button
+          onClick={() => toggleModal('pwChange')}
+          color="gray"
+          text="변경"
+          className="h-full min-w-[68px]"
+        />
       </div>
 
       {/* Business 계정으로 전환하기 */}

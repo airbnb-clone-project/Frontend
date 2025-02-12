@@ -3,6 +3,8 @@ import { useState } from 'react';
 import MyAccount from './components/MyAccount';
 import PrivacySetting from './components/PrivacySetting';
 import Footer from './components/Footer';
+import useModalStore from '@/stores/useModalStore';
+import PwChangeModal from '@/components/@Modal/pwChange/PwChangeModal';
 
 const AccountManagement = () => {
   const [email, setEmail] = useState<string>('');
@@ -72,6 +74,8 @@ const AccountManagement = () => {
     setIsPwHide(!isPwHide);
   };
 
+  const { isModalOpen } = useModalStore();
+
   return (
     <section className="max-w-[488px] w-full pb-[180px]">
       <div className="pb-10">
@@ -131,6 +135,8 @@ const AccountManagement = () => {
       </div>
 
       <Footer />
+
+      {isModalOpen.pwChange && <PwChangeModal />}
     </section>
   );
 };

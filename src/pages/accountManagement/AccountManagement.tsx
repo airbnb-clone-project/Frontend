@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyAccount from './components/MyAccount';
 import PrivacySetting from './components/PrivacySetting';
 import Footer from './components/Footer';
@@ -7,8 +7,8 @@ import useModalStore from '@/stores/useModalStore';
 import PwChangeModal from '@/components/@Modal/pwChange/PwChangeModal';
 
 const AccountManagement = () => {
-  const [email, setEmail] = useState<string>('');
-  const [pw, setPw] = useState<string>('');
+  const [email, setEmail] = useState<string>('taewok51615@gmail.com');
+  const [pw, setPw] = useState<string>('12345678');
   const [birth, setBirth] = useState<string>('2002.05.16');
   const [sexual, setSexual] = useState<string>('남성');
 
@@ -76,6 +76,38 @@ const AccountManagement = () => {
 
   const { isModalOpen } = useModalStore();
 
+  const [initialValues, setInitialValues] = useState({
+    email: '',
+    pw: '',
+    birth: '',
+    sexual: '',
+    wishSexual: '',
+    location: '',
+    language: '',
+  });
+
+  // react-query로 초기 값을 추후 대체
+  useEffect(() => {
+    setInitialValues({
+      email: 'taewok51615@gmail.com',
+      birth: '2002.05.16',
+      language: '한국어',
+      location: '대한민국',
+      pw: '12345678',
+      sexual: '남성',
+      wishSexual: '',
+    });
+  }, []);
+
+  const isChanged =
+    email !== initialValues.email ||
+    pw !== initialValues.pw ||
+    birth !== initialValues.birth ||
+    sexual !== initialValues.sexual ||
+    wishSexual !== initialValues.wishSexual ||
+    location !== initialValues.location ||
+    language !== initialValues.language;
+
   return (
     <section className="max-w-[488px] w-full pb-[180px]">
       <div className="pb-10">
@@ -134,7 +166,7 @@ const AccountManagement = () => {
         </div>
       </div>
 
-      <Footer />
+      <Footer isChanged={isChanged} />
 
       {isModalOpen.pwChange && <PwChangeModal />}
     </section>

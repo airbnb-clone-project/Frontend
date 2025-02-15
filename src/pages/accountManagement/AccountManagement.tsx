@@ -69,11 +69,6 @@ const AccountManagement = () => {
     setBirth(`${year}.${month}.${day}`);
   };
 
-  const [isPwHide, setIsPwHide] = useState<boolean>(true);
-  const isPwHideToggle = () => {
-    setIsPwHide(!isPwHide);
-  };
-
   const { isModalOpen } = useModalStore();
 
   const [initialValues, setInitialValues] = useState({
@@ -120,8 +115,6 @@ const AccountManagement = () => {
         email={email}
         pw={pw}
         emailOnChange={emailOnChange}
-        isPwHide={isPwHide}
-        isPwHideToggle={isPwHideToggle}
         pwOnChange={pwOnChange}
       />
 

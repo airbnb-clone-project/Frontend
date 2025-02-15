@@ -3,6 +3,7 @@ import LabelInput from '@/components/common/LabelInput';
 import WarningText from '@/components/common/WarningText';
 import PwHideIcon from '@/components/icons/PwHideIcon';
 import PwShowIcon from '@/components/icons/PwShowIcon';
+import { useIsPwHide } from '@/hooks/auth/useIsPwHide';
 import useModalStore from '@/stores/useModalStore';
 
 interface MyAccountProps {
@@ -10,19 +11,17 @@ interface MyAccountProps {
   emailOnChange: (text: string) => void;
   pw: string;
   pwOnChange: (text: string) => void;
-  isPwHide: boolean;
-  isPwHideToggle: () => void;
 }
 
 const MyAccount = ({
   email,
   emailOnChange,
-  isPwHide,
-  isPwHideToggle,
   pw,
   pwOnChange,
 }: MyAccountProps) => {
   const { toggleModal } = useModalStore();
+  const { isPwHide, isPwHideToggle } = useIsPwHide();
+
   return (
     <div>
       <h2 className="text-xl font-semibold pb-2">내 계정</h2>

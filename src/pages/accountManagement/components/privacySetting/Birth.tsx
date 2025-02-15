@@ -55,6 +55,7 @@ const Birth = ({ birth, birthOnChange }: BirthProps) => {
           placeholder=""
           value={birth}
           id="birth-input"
+          readOnly={true}
         />
 
         <span className="absolute top-1/2 -translate-y-1/2 right-5">

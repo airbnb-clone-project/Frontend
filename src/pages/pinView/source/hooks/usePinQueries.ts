@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { mockGetPinDetail } from '../__mock__/mockGetPinDetail';
+import { mockGetPinDetail } from '../../../pinDetail/source/__mock__/mockGetPinDetail';
 
 export const usePinQueries = () => {
   // 핀 상세 조회 쿼리

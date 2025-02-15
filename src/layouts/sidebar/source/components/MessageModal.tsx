@@ -4,8 +4,9 @@ import { FaPencilAlt } from 'react-icons/fa';
 import Button from '@/components/common/Button/Button';
 import { IoMdPersonAdd, IoMdArrowBack } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
+import { stompClient, connect } from '../utils/chat';
+import { createChatRoom } from '../service/chatApi';
 // import ChatRoom from './chat/ChatRoom';
-import { chatServiceTest } from '@/services/chat/chatTest';
 
 interface MessageModalProps {
   isOpen: boolean;
@@ -22,19 +23,69 @@ const MessageModal = ({ isOpen, onClose }: MessageModalProps) => {
   } | null>(null);
 
   useEffect(() => {
-    chatServiceTest();
-  }, []);
+    const connectWebSocket = async () => {
+      if (!stompClient.connected && isOpen) {
+        try {
+          await connect(); // 연결 시도
+
+          console.log('WebSocket connected in Modal');
+        } catch (error) {
+          console.error('WebSocket connection failed in Modal:', error);
+        }
+      }
+    };
+
+    connectWebSocket();
+
+    return () => {
+      if (stompClient.connected) {
+        stompClient.deactivate();
+
+        console.log('WebSocket disconnected in Modal');
+      }
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
-  const handleUserSelect = () => {
-    setSelectedUser({
-      name: '@G1711_',
-      avatar: 'https://picsum.photos/200',
-    });
-    setCurrentView('chatRoom');
-  };
+  const handleUserSelect = async () => {
+    try {
+      // 1. 채팅방 생성 API 호출
+      const chatRoom = await createChatRoom({
+        userId: 1, // 현재 로그인한 사용자 ID
+        targetUserId: 2, // 선택한 사용자 ID
+      });
 
+      // 2. 채팅방 정보 저장
+      setSelectedUser({
+        name: '@G1711_',
+        avatar: 'https://picsum.photos/200',
+      });
+
+      // 3. 채팅방 구독
+      if (stompClient.connected) {
+        stompClient.subscribe(`/queue/chat.${chatRoom.roomId}`, (message) => {
+          console.log('Received message:', JSON.parse(message.body));
+          // 메시지 처리 로직
+        });
+
+        // 4. 입장 메시지 전송
+        stompClient.publish({
+          destination: '/message/chat.enter',
+          body: JSON.stringify({
+            roomId: chatRoom.roomId,
+            userId: 1, // 현재 사용자 ID
+          }),
+        });
+      }
+
+      // 5. 채팅방 화면으로 전환
+      setCurrentView('chatRoom');
+    } catch (error) {
+      console.error('Failed to enter chat room:', error);
+      // 에러 처리 (예: 알림 표시)
+    }
+  };
   const handleBack = () => {
     if (currentView === 'chatRoom') {
       setCurrentView('newMessage');

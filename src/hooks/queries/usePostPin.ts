@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 /**
  * 핀을 게시하는 react-query
  */
+
 const usePostPin = () => {
   const queryClient = useQueryClient();
 

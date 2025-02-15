@@ -8,7 +8,8 @@ import PinCreate from './pages/pinCreate/PinCreate';
 import Setting from './pages/setting/Setting';
 import ProfileEdit from './pages/profileEdit/ProfileEdit';
 import AccountManagement from './pages/accountManagement/AccountManagement';
-import PinViewPage from './pages/pinView';
+
+import PinDetailPage from './pages/pinDetail';
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '/', element: <Main /> },
-      { path: 'pin/:id', element: <PinViewPage /> },
+      { path: 'pin/:id', element: <PinDetailPage /> },
       {
         path: 'mypage',
         element: <Mypage />,

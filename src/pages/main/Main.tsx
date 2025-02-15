@@ -6,6 +6,7 @@ import { getPins } from './source/__mock__/getPins';
 
 import Spinner from '@/components/common/Spinner';
 import MainContainer from './source/container/MainContainer';
+// import { pin } from '@/services/pin/getPins';
 
 const MainPage = () => {
   const {

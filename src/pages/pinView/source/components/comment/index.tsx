@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import CommentOptionBtn from '../buttons/CommentOptionBtn';
-import { dummyComment } from '../../__mock__/dummyComment';
+import { dummyComment } from '../../../../pinDetail/source/constant/dummyComment';
 import { FaChevronDown } from 'react-icons/fa';
 
 const Comment = () => {

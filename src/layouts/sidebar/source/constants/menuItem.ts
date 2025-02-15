@@ -11,6 +11,7 @@ export interface MenuItem {
   clickIcon?: IconType | null;
   color?: string;
   main: boolean;
+  link?: string;
 }
 
 export const MENU_ITEMS: MenuItem[] = [
@@ -19,12 +20,14 @@ export const MENU_ITEMS: MenuItem[] = [
     icon: FaPinterest,
     color: 'red',
     main: true,
+    link: '/',
   },
   {
     label: '만들기',
     icon: FaRegSquarePlus,
     clickIcon: FaSquarePlus,
     main: true,
+    link: '/pincreate',
   },
   {
     label: '업데이트',

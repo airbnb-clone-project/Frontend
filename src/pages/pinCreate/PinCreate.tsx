@@ -120,6 +120,7 @@ const PinCreate = () => {
       tagNos: [1],
       commentAllowed: currentPin.commentAllowed,
     };
+    console.log('postData', postData);
     postPin(postData);
   };
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 export const api = axios.create({
-  baseURL: 'http://34.172.123.179',
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true, // 쿠키 자동 포함
   headers: {
     'Content-type': 'application/json; charset=UTF-8',
@@ -32,7 +32,7 @@ api.interceptors.response.use(
   },
   async (error) => {
     console.error('API 응답 에러:', error);
-    const { config, response } = error;
+    // const { config, response } = error;
 
     // 401 Unauthorized 에러가 발생한 경우
     // if (response?.status === 401) {

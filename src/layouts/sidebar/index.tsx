@@ -3,6 +3,7 @@ import Icon from './source/components/Icon';
 import MessageModal from './source/components/MessageModal';
 import { useMessageModal } from './source/hooks/useMessageModal';
 import { RiSettingsLine, RiSettingsFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const SETTINGS_ITEM: MenuItem = {
   label: '추가 옵션',
@@ -20,12 +21,14 @@ const SideBar = () => {
         <nav className="h-full py-4 flex flex-col justify-between">
           <div className="flex flex-col gap-6">
             {MENU_ITEMS.map((item) => (
-              <Icon
-                key={item.label}
-                item={item}
-                className="w-5 h-5"
-                onClick={item.label === '메시지' ? openModal : undefined}
-              />
+              <Link to={item.link ?? '/'}>
+                <Icon
+                  key={item.label}
+                  item={item}
+                  className="w-5 h-5"
+                  onClick={item.label === '메시지' ? openModal : undefined}
+                />
+              </Link>
             ))}
           </div>
           <Icon item={SETTINGS_ITEM} className="w-6 h-6" />

@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
-import { URL } from '../client';
-
 export class PinAPI {
   private baseUrl: string;
 
@@ -15,11 +13,15 @@ export class PinAPI {
       const cookies = new Cookies();
       const accessToken = cookies.get('accessToken');
 
-      const res = await axios.post(`${this.baseUrl}/api/pins/pin/v1`, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const res = await axios.post(
+        `http://34.172.123.179/api/pins/pin/v1`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       return res;
     } catch (error) {
@@ -47,4 +49,4 @@ export class PinAPI {
   }
 }
 
-export const pin = new PinAPI(URL);
+export const pin = new PinAPI('http://34.172.123.179');

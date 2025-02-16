@@ -5,6 +5,7 @@ import PrivacySetting from './components/PrivacySetting';
 import Footer from './components/Footer';
 import useModalStore from '@/stores/useModalStore';
 import PwChangeModal from '@/components/@Modal/pwChange/PwChangeModal';
+import EmailVerificationModal from '@/components/@Modal/emailVerification/emailVerificationModal';
 
 const AccountManagement = () => {
   const [email, setEmail] = useState<string>('taewok51615@gmail.com');
@@ -69,7 +70,7 @@ const AccountManagement = () => {
     setBirth(`${year}.${month}.${day}`);
   };
 
-  const { isModalOpen } = useModalStore();
+  const { isModalOpen, toggleModal } = useModalStore();
 
   const [initialValues, setInitialValues] = useState({
     email: '',
@@ -80,6 +81,19 @@ const AccountManagement = () => {
     location: '',
     language: '',
   });
+
+  /** 재설정 btn 클릭시 모든 정보를 초기값으로 reset */
+  const resetBtnOnClick = () => {
+    const { birth, email, language, location, pw, sexual, wishSexual } =
+      initialValues;
+    setEmail(email);
+    setBirth(birth);
+    setLanguage(language);
+    setLocation(location);
+    setPw(pw);
+    setSexual(sexual);
+    setWishSexual(wishSexual);
+  };
 
   // react-query로 초기 값을 추후 대체
   useEffect(() => {
@@ -94,17 +108,14 @@ const AccountManagement = () => {
     });
   }, []);
 
-  const isChanged =
-    email !== initialValues.email ||
-    pw !== initialValues.pw ||
-    birth !== initialValues.birth ||
-    sexual !== initialValues.sexual ||
-    wishSexual !== initialValues.wishSexual ||
-    location !== initialValues.location ||
-    language !== initialValues.language;
+  const state = { email, pw, birth, sexual, wishSexual, location, language };
+
+  const isChanged = Object.entries(initialValues).some(
+    ([key, value]) => value !== state[key as keyof typeof state]
+  );
 
   return (
-    <section className="max-w-[488px] w-full pb-[180px]">
+    <section className="relative max-w-[488px] w-full pb-[180px]">
       <div className="pb-10">
         <h1 className="text-[28px] font-semibold">계정 관리</h1>
         <p>개인 정보 또는 계정 유형을 변경합니다.</p>
@@ -159,9 +170,12 @@ const AccountManagement = () => {
         </div>
       </div>
 
-      <Footer isChanged={isChanged} />
+      <Footer isChanged={isChanged} resetBtnOnClick={resetBtnOnClick} />
 
       {isModalOpen.pwChange && <PwChangeModal />}
+      {isModalOpen.emailVerification && (
+        <EmailVerificationModal email={email} />
+      )}
     </section>
   );
 };

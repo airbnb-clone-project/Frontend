@@ -2,11 +2,13 @@ import Button from '@/components/common/Button';
 
 interface FooterProps {
   isChanged: boolean;
+  resetBtnOnClick: () => void;
 }
-const Footer = ({ isChanged }: FooterProps) => {
+const Footer = ({ isChanged, resetBtnOnClick }: FooterProps) => {
   return (
     <footer className="shadow-[0_0_8px_0_rgba(0,0,0,0.1)] fixed bg-white left-0 w-full bottom-0 border-t-2 py-4 px-5 pr-[89px] flex justify-end gap-2">
       <Button
+        onClick={isChanged ? resetBtnOnClick : () => null}
         color="gray"
         text="재설정"
         className={`${isChanged ? '' : 'text-gray-input-hover'}`}

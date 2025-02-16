@@ -1,4 +1,5 @@
 type modalName =
+  | 'emailVerification'
   | 'pwChange'
   | 'recommendPin'
   | 'profile'

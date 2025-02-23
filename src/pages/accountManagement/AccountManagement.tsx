@@ -5,7 +5,7 @@ import PrivacySetting from './components/PrivacySetting';
 import Footer from './components/Footer';
 import useModalStore from '@/stores/useModalStore';
 import PwChangeModal from '@/components/@Modal/pwChange/PwChangeModal';
-import EmailVerificationModal from '@/components/@Modal/emailVerification/emailVerificationModal';
+import EmailVerificationModal from '@/components/@Modal/emailVerification/EmailVerificationModal';
 
 const AccountManagement = () => {
   const [email, setEmail] = useState<string>('taewok51615@gmail.com');
@@ -70,7 +70,7 @@ const AccountManagement = () => {
     setBirth(`${year}.${month}.${day}`);
   };
 
-  const { isModalOpen, toggleModal } = useModalStore();
+  const { isModalOpen } = useModalStore();
 
   const [initialValues, setInitialValues] = useState({
     email: '',

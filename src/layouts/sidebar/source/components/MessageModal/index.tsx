@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { FaPencilAlt } from 'react-icons/fa';
 import Button from '@/components/common/Button/Button';
 import { IoMdPersonAdd, IoMdArrowBack } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
-import { stompClient, connect } from '../utils/chat';
-import { createChatRoom } from '../service/chatApi';
-// import ChatRoom from './chat/ChatRoom';
+// import { stompClient, connect } from '@/layouts/sidebar/source/utils/chat';
+// import { createChatRoom } from '@/layouts/sidebar/source/service/chatApi';
+import { useClickAway } from '@/hooks/useClickAway';
 
 interface MessageModalProps {
   isOpen: boolean;
@@ -16,76 +16,52 @@ interface MessageModalProps {
 type ModalView = 'main' | 'newMessage' | 'chatRoom';
 
 const MessageModal = ({ isOpen, onClose }: MessageModalProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  useClickAway(modalRef, onClose);
   const [currentView, setCurrentView] = useState<ModalView>('main');
   const [selectedUser, setSelectedUser] = useState<{
     name: string;
     avatar: string;
   } | null>(null);
 
-  useEffect(() => {
-    const connectWebSocket = async () => {
-      if (!stompClient.connected && isOpen) {
-        try {
-          await connect(); // 연결 시도
+  // const handleUserSelect = async () => {
+  //   try {
+  //     // 1. 채팅방 생성 API 호출
+  //     const chatRoom = await createChatRoom({
+  //       userId: 1, // 현재 로그인한 사용자 ID
+  //       targetUserId: 2, // 선택한 사용자 ID
+  //     });
 
-          console.log('WebSocket connected in Modal');
-        } catch (error) {
-          console.error('WebSocket connection failed in Modal:', error);
-        }
-      }
-    };
+  //     // 2. 채팅방 정보 저장
+  //     setSelectedUser({
+  //       name: '@G1711_',
+  //       avatar: 'https://picsum.photos/200',
+  //     });
 
-    connectWebSocket();
+  //     // 3. 채팅방 구독
+  //     if (stompClient.connected) {
+  //       stompClient.subscribe(`/queue/chat.${chatRoom.roomId}`, (message) => {
+  //         console.log('Received message:', JSON.parse(message.body));
+  //         // 메시지 처리 로직
+  //       });
 
-    return () => {
-      if (stompClient.connected) {
-        stompClient.deactivate();
+  //       // 4. 입장 메시지 전송
+  //       stompClient.publish({
+  //         destination: '/message/chat.enter',
+  //         body: JSON.stringify({
+  //           roomId: chatRoom.roomId,
+  //           userId: 1, // 현재 사용자 ID
+  //         }),
+  //       });
+  //     }
 
-        console.log('WebSocket disconnected in Modal');
-      }
-    };
-  }, [isOpen]);
-
-  if (!isOpen) return null;
-
-  const handleUserSelect = async () => {
-    try {
-      // 1. 채팅방 생성 API 호출
-      const chatRoom = await createChatRoom({
-        userId: 1, // 현재 로그인한 사용자 ID
-        targetUserId: 2, // 선택한 사용자 ID
-      });
-
-      // 2. 채팅방 정보 저장
-      setSelectedUser({
-        name: '@G1711_',
-        avatar: 'https://picsum.photos/200',
-      });
-
-      // 3. 채팅방 구독
-      if (stompClient.connected) {
-        stompClient.subscribe(`/queue/chat.${chatRoom.roomId}`, (message) => {
-          console.log('Received message:', JSON.parse(message.body));
-          // 메시지 처리 로직
-        });
-
-        // 4. 입장 메시지 전송
-        stompClient.publish({
-          destination: '/message/chat.enter',
-          body: JSON.stringify({
-            roomId: chatRoom.roomId,
-            userId: 1, // 현재 사용자 ID
-          }),
-        });
-      }
-
-      // 5. 채팅방 화면으로 전환
-      setCurrentView('chatRoom');
-    } catch (error) {
-      console.error('Failed to enter chat room:', error);
-      // 에러 처리 (예: 알림 표시)
-    }
-  };
+  //     // 5. 채팅방 화면으로 전환
+  //     setCurrentView('chatRoom');
+  //   } catch (error) {
+  //     console.error('Failed to enter chat room:', error);
+  //     // 에러 처리 (예: 알림 표시)
+  //   }
+  // };
   const handleBack = () => {
     if (currentView === 'chatRoom') {
       setCurrentView('newMessage');
@@ -95,23 +71,19 @@ const MessageModal = ({ isOpen, onClose }: MessageModalProps) => {
     }
   };
 
-  return (
-    <div className="fixed inset-0 flex items-start justify-start z-50">
-      {/* 배경 오버레이 */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50"
-        onClick={onClose}
-      ></div>
+  if (!isOpen) return null;
 
+  return (
+    <div className="fixed left-[84px] top-0 mt-4 mr-2 mb-2 z-[50] flex items-start w-[392px] max-w-[392px]">
       {/* 모달 컨테이너 */}
       <div
-        className="relative ml-24 bg-white w-[380px] h-screen shadow-lg flex flex-col mt-4 mb-2 rounded-2xl overflow-hidden"
+        ref={modalRef}
+        className="w-[380px] bg-white shadow-lg flex flex-col rounded-2xl overflow-hidden"
         style={{
           height: `calc(100vh - 32px)`,
         }}
       >
         {currentView === 'chatRoom' && selectedUser ? (
-          // <ChatRoom onBack={handleBack} user={selectedUser} />
           <div>chatRoom</div>
         ) : (
           <>
@@ -160,7 +132,7 @@ const MessageModal = ({ isOpen, onClose }: MessageModalProps) => {
                   <h2 className="font-semibold mb-2">추천</h2>
                   <div
                     className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
-                    onClick={handleUserSelect}
+                    // onClick={handleUserSelect}
                   >
                     <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
                     <div>

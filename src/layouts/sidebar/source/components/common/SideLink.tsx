@@ -27,7 +27,7 @@ const iconColors = {
 };
 
 const BASE_STYLE =
-  'w-12 h-12 flex justify-center items-center cursor-pointer bg-black bg-opacity-0 hover:bg-opacity-5 rounded-lg';
+  'w-12 h-12 flex justify-center items-center cursor-pointer bg-black bg-opacity-0 hover:bg-opacity-5 rounded-lg cursor-pointer';
 
 const SideLink = ({
   path,

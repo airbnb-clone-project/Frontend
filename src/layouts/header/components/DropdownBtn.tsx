@@ -8,11 +8,13 @@ interface DropdownBtnProps {
 
 const DropdownBtn = ({ onClick }: DropdownBtnProps) => {
   return (
-    <Button>
-      <div
-        className="w-6 h-6 flex justify-center items-center"
-        onClick={onClick}
-      >
+    <Button
+      variant="icon"
+      size="thin"
+      onClick={onClick}
+      className="rounded-full"
+    >
+      <div className="w-6 h-6 flex justify-center items-center">
         <FaAngleDown className="fill-gray-500" />
       </div>
     </Button>

@@ -3,10 +3,12 @@ import { Outlet } from 'react-router-dom';
 import Header from '@/layouts/header';
 import SideBar from '@/layouts/sidebar';
 import HelpBar from '@/layouts/helpbar/HelpBar';
+import AnimatedToast from '@/components/common/AnimatedToast';
 
 const App = () => {
   return (
     <div>
+      <AnimatedToast />
       <Header />
       <SideBar />
       <HelpBar />
